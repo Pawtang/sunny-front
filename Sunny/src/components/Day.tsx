@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react";
 import { useState } from "react";
-import Rating from "../elements/Rating";
+import BooleanRating from "../elements/BooleanRating";
+import NumberRating from "../elements/NumberRating";
+import RangeRating from "../elements/RangeRating";
 
 const Day: FunctionComponent = () => {
   // const [dailyRating, setDailyRating] = useState(0);
@@ -16,9 +18,11 @@ const Day: FunctionComponent = () => {
         {/* <h2>{dailyRating}</h2> */}
       </div>
       <div className="container mx-auto mt-4 max-w-md border-2">
-        <Rating type="range" value="Quality"></Rating>
-        <Rating type="bool" value="Exercise"></Rating>
-        <Rating type="num" value="Sleep"></Rating>
+        <RangeRating value="Quality"></RangeRating>
+        <BooleanRating value="Exercise"></BooleanRating>
+        <NumberRating value="Sleep"></NumberRating>
+        <NumberRating value="Drinks"></NumberRating>
+        <NumberRating value="Miles Run"></NumberRating>
       </div>
     </div>
   );
