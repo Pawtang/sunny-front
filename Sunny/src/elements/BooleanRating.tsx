@@ -17,8 +17,8 @@ const BooleanRating: FunctionComponent<ratingProps> = (props) => {
   const [rating, setRating] = useState(false);
 
   return (
-    <div className="container dayrating mx-auto p-6">
-      <div className="grid grid-cols-3 mx-auto border-2">
+    <div className="container dayrating mx-auto px-6">
+      <div className="grid grid-cols-3 mx-auto p-2">
         <div className="border-1 mx-auto">{value}</div>
         <div className="border-1 mx-auto">
           <input

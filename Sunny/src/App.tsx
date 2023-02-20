@@ -1,15 +1,17 @@
-import React from "react";
+import { Fragment } from "react";
+import { Routes, Route } from "react-router-dom";
 import Day from "./components/Day";
-import { Routes, Route, Link } from "react-router-dom";
+import Home from "./components/Home";
+import Month from "./components/Month";
 
-import "./App.css";
+import "./styles/App.css";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/Day" element={<Day />} />
-      <Route path="/Month" element={<Month />} />
+      <Route path="/day" element={<Day />} />
+      <Route path="/month" element={<Month />} />
     </Routes>
   );
 }

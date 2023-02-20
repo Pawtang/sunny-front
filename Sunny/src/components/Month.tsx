@@ -18,6 +18,11 @@ const Month: FunctionComponent = () => {
       <h1>
         Today is <i>{today.format("MMMM DD, YYYY")}</i>
       </h1>
+      <p>
+        There are {today.daysInMonth()} days in {today.format("MMMM")}
+        .<br />
+        One box represents each day:
+      </p>
     </div>
   );
 };

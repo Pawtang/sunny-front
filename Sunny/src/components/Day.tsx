@@ -1,23 +1,29 @@
 import React, { FunctionComponent } from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import BooleanRating from "../elements/BooleanRating";
 import NumberRating from "../elements/NumberRating";
 import RangeRating from "../elements/RangeRating";
+import dayjs from "dayjs";
+const today = dayjs();
 
 const Day: FunctionComponent = () => {
   // const [dailyRating, setDailyRating] = useState(0);
 
   return (
-    <div className="Day border-2">
-      <div className="container mx-auto p-4 mt-4 border-2">
+    <div className="Day">
+      <div className="container mx-auto p-4 mt-4">
         <div className="mx-auto">
-          <h1 className="text-3xl font-bold underline">Hello Name</h1>
-          <h2>Today is Month Day, Year</h2>
-          <h2>How was your day today?</h2>
+          <h1 className="text-3xl font-bold underline center">Hello, Name</h1>
+          <h2 className="center">
+            Today is <i>{today.format("MMMM DD, YYYY")}</i>
+          </h2>
+          <h2 className="center">
+            <b> How was your day today?</b>
+          </h2>
         </div>
         {/* <h2>{dailyRating}</h2> */}
       </div>
-      <div className="container mx-auto mt-4 max-w-md border-2">
+      <div className="rating-inputs container mx-auto mt-4 max-w-md">
         <RangeRating value="Quality"></RangeRating>
         <BooleanRating value="Exercise"></BooleanRating>
         <NumberRating value="Sleep"></NumberRating>
