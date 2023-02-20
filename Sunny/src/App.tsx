@@ -1,13 +1,16 @@
 import React from "react";
 import Day from "./components/Day";
+import { Routes, Route, Link } from "react-router-dom";
 
 import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <Day></Day>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/Day" element={<Day />} />
+      <Route path="/Month" element={<Month />} />
+    </Routes>
   );
 }
 
