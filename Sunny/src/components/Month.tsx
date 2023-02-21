@@ -23,6 +23,7 @@ const Month: FunctionComponent = () => {
         .<br />
         One box represents each day:
       </p>
+      <div className="grid-col-7">{}</div>
     </div>
   );
 };
