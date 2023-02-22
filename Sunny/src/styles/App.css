@@ -113,7 +113,7 @@ input[type="number"] {
   background-color: rgba(255, 255, 255, 0.2);
   padding: 10px;
   outline: solid 0px rgba(255, 255, 255, 0.4);
-  transition: all 0.3s;
+  transition: all 1s;
   /* Later, the gradient color should change with the time of the day */
 }
 
