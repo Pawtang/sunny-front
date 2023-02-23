@@ -13,8 +13,7 @@ const Day: FunctionComponent = () => {
 
   return (
     <div className="Day h-screen">
-      <div className="container h-96 spacer"></div>
-      <div className="journal max-w-lg mx-auto">
+      <div className="journal align-middle max-w-lg mx-auto">
         <div className="container mx-auto p-4 mt-4 ">
           <div className="mx-auto ">
             <h1 className="text-3xl font-bold underline center ">Hello, Ben</h1>

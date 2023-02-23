@@ -18,7 +18,7 @@ const NumberRating: FunctionComponent<ratingProps> = (props) => {
   const [rating, setRating] = useState(0);
 
   return (
-    <div className="container dayrating mx-auto px-6">
+    <div className="container-fluid dayrating mx-auto px-6">
       <div className="grid grid-cols-3 mx-auto p-2">
         <div className="border-1 mx-auto">{value}</div>
         <div className="border-1 mx-auto">
