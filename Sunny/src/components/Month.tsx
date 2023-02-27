@@ -9,21 +9,19 @@ const Month: FunctionComponent = () => {
   const yearCount = 365;
   const [isMonth, setIsMonth] = useState(true);
   const containerStyle = () => {
-    return isMonth ? "grid-cols-7" : "grid-cols-32";
+    return isMonth ? "grid-cols-7" : "grid-cols-16";
   };
 
   return (
     <div className="Month h-screen">
       <div className="container mx-auto mt-24">
-        <h1>Test Daily Tracker</h1>
-        <p>
-          <i>Today is {today.format("MMMM DD, YYYY")}</i>
-        </p>
-        <p>
+        <h1 className="text-2xl">Today is {today.format("MMMM DD, YYYY")}</h1>
+
+        <h1 className="text-xl">
           There are {today.daysInMonth()} days in {today.format("MMMM")}
           .<br />
           One box represents each day:
-        </p>
+        </h1>
         <div
           className={` container grid place-content-center ${containerStyle()}`}
         >
@@ -34,15 +32,6 @@ const Month: FunctionComponent = () => {
             </div>
           ))}
         </div>
-        <nav>
-          <button
-            onClick={() => {
-              isMonth ? setIsMonth(false) : setIsMonth(true);
-            }}
-          >
-            {isMonth ? "Show Year" : "Show Month"}
-          </button>
-        </nav>
       </div>
     </div>
   );

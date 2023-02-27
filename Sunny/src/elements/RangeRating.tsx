@@ -25,7 +25,7 @@ interface ratingProps {
 
 const RangeRating: FunctionComponent<ratingProps> = (props) => {
   const { value } = props;
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(4);
 
   return (
     <div className="container dayrating mx-auto px-6">

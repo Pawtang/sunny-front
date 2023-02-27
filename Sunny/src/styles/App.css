@@ -125,7 +125,7 @@ input[type="number"] {
   translate: 0 -10px;
 }
 
-.Day {
+/* .Day {
   background-image: linear-gradient(
     to right bottom,
     #e5cd8a,
@@ -134,7 +134,7 @@ input[type="number"] {
     #e99b80,
     #e38c84
   );
-}
+} */
 
 .btn-submit {
   width: 100px;
