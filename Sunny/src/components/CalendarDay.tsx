@@ -17,7 +17,10 @@ const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
     };
     return (
       <Link to="/Day">
-        <div className="dayBox w-12 h-12 m-2 rounded" style={divStyle}>
+        <div
+          className="dayBox w-12 h-12 m-2 rounded bg-white/60 hover:bg-white hover:drop-shadow-md "
+          // style={divStyle}
+        >
           <h1 className="text-large text-center">{dayIndex}</h1>
         </div>
       </Link>

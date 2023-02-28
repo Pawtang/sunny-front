@@ -4,13 +4,14 @@ import BooleanRating from "../elements/BooleanRating";
 import NumberRating from "../elements/NumberRating";
 import RangeRating from "../elements/RangeRating";
 import dayjs, { Dayjs } from "dayjs";
-import Button from "../elements/Button";
+import LinkButton from "../elements/LinkButton";
 const today = dayjs();
 
 const Day: FunctionComponent = () => {
   // const [dailyRating, setDailyRating] = useState(0);
 
   const time = today.format("h:mm A");
+
   // const daytimeGradient = (timestamp: Dayjs) => {
   //   switch (timestamp) {
   //     case (dawn) {
@@ -53,9 +54,14 @@ const Day: FunctionComponent = () => {
             </div>
           </div>
           <div className="rating-inputs container mx-auto mt-4 max-w-lg">
-            <RangeRating value="Quality"></RangeRating>
+            {/* 
+            Need to get values from child components, so need to pass a state setter from THIS scope 
+            However, also need to map both the inputs and the states based on the trackers the user has set up
+            
+            */}
+            <RangeRating value="Quality" maximum={4}></RangeRating>
+            <RangeRating value="Sleep" maximum={12}></RangeRating>
             <BooleanRating value="Exercise"></BooleanRating>
-            <NumberRating value="Sleep"></NumberRating>
             <NumberRating value="Miles Run"></NumberRating>
             <NumberRating value="Minutes Read"></NumberRating>
           </div>
@@ -72,16 +78,16 @@ const Day: FunctionComponent = () => {
           </div>
         </div>
         <div className="container submit mx-auto m-10 mx-auto flex justify-center max-w-sm">
-          <Button
+          <LinkButton
             linkTo="/Month"
             buttonText="Back"
             styleTags="text-center"
-          ></Button>
-          <Button
+          ></LinkButton>
+          <LinkButton
             linkTo=""
             buttonText="Submit"
             styleTags="text-center"
-          ></Button>
+          ></LinkButton>
         </div>
       </div>
     </div>

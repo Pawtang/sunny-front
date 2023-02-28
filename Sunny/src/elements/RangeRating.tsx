@@ -3,29 +3,33 @@ import { useState } from "react";
 import { Interface } from "readline";
 
 const evaluateRating = (value: string, rating: number) => {
-  switch (rating) {
-    case 0:
-      return "Miserable day...";
-    case 1:
-      return "Bad day...";
-    case 2:
-      return "Decent day...";
-    case 3:
-      return "Good day!";
-    case 4:
-      return "Amazing day!";
-    default:
-      return "Rate your day!";
-  }
+  if (value === "Quality") {
+    switch (rating) {
+      case 0:
+        return "Miserable day...";
+      case 1:
+        return "Bad day...";
+      case 2:
+        return "Decent day...";
+      case 3:
+        return "Good day!";
+      case 4:
+        return "Amazing day!";
+      default:
+        return "Rate your day!";
+    }
+  } else if (value === "Sleep") return `${(rating + 1).toString()} hours`;
+  else return (rating + 1).toString();
 };
 
 interface ratingProps {
   value: string;
+  maximum: number;
 }
 
 const RangeRating: FunctionComponent<ratingProps> = (props) => {
-  const { value } = props;
-  const [rating, setRating] = useState(4);
+  const { value, maximum } = props;
+  const [rating, setRating] = useState(maximum);
 
   return (
     <div className="container dayrating mx-auto px-6">
@@ -37,7 +41,7 @@ const RangeRating: FunctionComponent<ratingProps> = (props) => {
             name="day-quality"
             id="day-quality"
             min={0}
-            max={4}
+            max={maximum}
             value={rating}
             onChange={(e) => {
               setRating(e.target.valueAsNumber);

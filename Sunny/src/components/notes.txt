@@ -1,0 +1,13 @@
+Need to use either a context or the App wrapper to maintain a certain amount of data. 
+
+It would probably make sense to pull data one month at a time. 
+
+This would mean the year view faces some difficulties. Could do a little logic to say,
+if you click on a different month, await that month's data from the database.
+
+Why not pull one day at a time?
+> Month view needs information about which days have been filled in, and what their quality score &
+potential big life events are. 
+
+> Possible solution is to request only some data? But consider the format of the back end: a day object is
+pulled to front end in its entirety.

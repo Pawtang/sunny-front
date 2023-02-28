@@ -6,7 +6,7 @@ import Month from "./components/Month";
 
 import "./styles/App.css";
 
-function App() {
+const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -14,6 +14,6 @@ function App() {
       <Route path="/month" element={<Month />} />
     </Routes>
   );
-}
+};
 
 export default App;

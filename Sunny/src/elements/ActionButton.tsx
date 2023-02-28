@@ -4,21 +4,21 @@ import { Link } from "react-router-dom";
 
 interface buttonProps {
   buttonText: string;
-  onClick: string;
+  onClick: any;
   styleTags?: string;
+  // stateSetter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Button: FunctionComponent<buttonProps> = (props) => {
+const ActionButton: FunctionComponent<buttonProps> = (props) => {
   const { buttonText, onClick, styleTags } = props;
   return (
-    <Link to={linkTo}>
-      <button
-        className={`bg-white/70 hover:bg-white active:outline-double text-black font-bold py-2 px-4 mx-2 rounded ${styleTags}`}
-      >
-        {buttonText}
-      </button>
-    </Link>
+    <button
+      className={`bg-white/70 transition-all hover:drop-shadow-md hover:bg-white active:outline-double text-black font-bold py-2 px-4 mx-2 rounded ${styleTags}`}
+      onClick={onClick}
+    >
+      {buttonText}
+    </button>
   );
 };
 
-export default Button;
+export default ActionButton;
