@@ -17,6 +17,7 @@ const BooleanRating: FunctionComponent<ratingProps> = (props) => {
   const [rating, setRating] = useState(false);
 
   return (
+    // Change to a nice toggle pill component
     <div className="container dayrating mx-auto px-6">
       <div className="grid grid-cols-3 mx-auto p-2">
         <div className="border-1 mx-auto">{value}</div>

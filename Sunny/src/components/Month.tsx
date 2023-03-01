@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
+import DummyMonthGen from "./DummyMonthGen";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();

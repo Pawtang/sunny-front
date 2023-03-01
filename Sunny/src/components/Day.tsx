@@ -5,9 +5,15 @@ import NumberRating from "../elements/NumberRating";
 import RangeRating from "../elements/RangeRating";
 import dayjs, { Dayjs } from "dayjs";
 import LinkButton from "../elements/LinkButton";
+import { Interface } from "readline";
 const today = dayjs();
 
-const Day: FunctionComponent = () => {
+interface dayProps {
+  // id: number;
+}
+
+const Day: FunctionComponent<dayProps> = (props) => {
+  // const { id } = props;
   // const [dailyRating, setDailyRating] = useState(0);
 
   const time = today.format("h:mm A");
