@@ -10,8 +10,8 @@ const Home: FunctionComponent = () => {
   return (
     <>
       <Navbar></Navbar>
-      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 container-fluid h-screen w-screen">
-        <div className="flex items-center w-100 h-screen border container-fluid">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 container-fluid h-screen w-screen p-4">
+        <div className="flex items-center w-100 h-screen container-fluid">
           <div className="container flex justify-center mx-auto max-w-xl">
             <div className="container mx-auto text-white">
               <h2 className="text-xl">

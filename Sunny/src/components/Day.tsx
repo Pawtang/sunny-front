@@ -6,6 +6,7 @@ import RangeRating from "../elements/RangeRating";
 import dayjs, { Dayjs } from "dayjs";
 import LinkButton from "../elements/LinkButton";
 import { Interface } from "readline";
+import BackgroundGradient from "../utilities/BackgroundGradient";
 const today = dayjs();
 
 interface dayProps {
@@ -16,32 +17,13 @@ const Day: FunctionComponent<dayProps> = (props) => {
   // const { id } = props;
   // const [dailyRating, setDailyRating] = useState(0);
 
-  const time = today.format("h:mm A");
-
-  // const daytimeGradient = (timestamp: Dayjs) => {
-  //   switch (timestamp) {
-  //     case (dawn) {
-  //       return('bg-gradient-to-b from-sky-200 via-rose-300 to-indigo-900')
-  //     }
-  //     case (sunrise) {
-  //       return('bg-gradient-to-b from-sky-200 via-rose-300 to-indigo-900')
-  //     }
-  //     case (noon) {
-  //       return('bg-gradient-to-b from-sky-200 via-rose-300 to-indigo-900')
-  //     }
-  //     case (sunset) {
-  //       return('bg-gradient-to-b from-sky-200 via-rose-300 to-indigo-900')
-  //     }
-  //     case (dusk) {
-  //       return('bg-gradient-to-b from-sky-200 via-rose-300 to-indigo-900')
-  //     }
-
-  //   }
-  // }
+  const time = parseInt(today.format("h"));
 
   return (
     <div
-      className={`Day h-screen w-screen flex items-center bg-gradient-to-b from-sky-200 via-rose-300 to-indigo-900 `}
+      className={`Day h-screen w-screen flex items-center ${BackgroundGradient(
+        time
+      )}`}
     >
       <div className="container mx-auto">
         <div className="journal max-w-lg mx-auto">
@@ -53,7 +35,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
               <h2 className="center text-2xl">
                 Today is <i>{today.format("MMMM DD, YYYY")}</i>
               </h2>
-              <h2 className="center text-2xl">{time}</h2>
+              <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
               <h2 className="center mt-2">
                 <b> How was your day today?</b>
               </h2>

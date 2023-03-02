@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
-import DummyMonthGen from "./DummyMonthGen";
+import DummyMonthGen from "../utilities/DummyMonthGen";
+import BackgroundGradient from "../utilities/BackgroundGradient";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
@@ -12,11 +13,19 @@ const Month: FunctionComponent = () => {
   const yearCount = 365;
   const [isMonth, setIsMonth] = useState(true);
   const containerStyle = () => {
-    return isMonth ? "grid-cols-7 max-w-sm" : "grid-cols-16 max-w-xxl";
+    return isMonth ? "grid-cols-7" : "grid-cols-16 ";
   };
 
+  const [time, setTime] = useState(12);
+
+  // Useffect to run DummyMonthGen only on mount
+  // const month = [];
+  // useEffect(() => {
+  //   month.push(DummyMonthGen());
+  // }, []);
+
   return (
-    <div className="mt-0 h-screen bg-gradient-to-b from-sky-400 to-rose-200">
+    <div className={`mt-0 transition-colors ${BackgroundGradient(time)}`}>
       <div className="container nav">
         <ActionButton
           // stateSetter={setIsMonth}
@@ -25,9 +34,21 @@ const Month: FunctionComponent = () => {
           styleTags="mt-4"
         ></ActionButton>
         <LinkButton linkTo="/" buttonText="Home"></LinkButton>
+        <div className="mx-4 inline">
+          <input
+            type="range"
+            value={time}
+            min={0}
+            max={24}
+            onChange={(e) => {
+              setTime(e.target.valueAsNumber);
+            }}
+          />
+          <p className="text-white inline mx-4 bold">{time}</p>
+        </div>
       </div>
 
-      <div className="container justify-content mx-auto mt-24">
+      <div className="container justify-content mx-auto mt-4">
         <div className="container justify-content mx-auto max-w-lg">
           <h1 className="text-2xl mx-auto text-center">
             <b>Today is {today.format("MMMM DD, YYYY")}</b>
@@ -41,12 +62,20 @@ const Month: FunctionComponent = () => {
           </h1>
         </div>
         <div
-          className={`mx-auto container grid place-content-center ${containerStyle()}`}
+          className={`mx-auto shadow-lg mt-2 container grid place-content-center rounded bg-white/50 p-4 max-w-2xl ${containerStyle()}`}
         >
           {/* <div className={`dayContainer grid grid-cols-7`}> */}
-          {[...Array(isMonth ? monthCount : 365)].map((value, index) => (
+          {/* {[...Array(isMonth ? monthCount : 365)].map((value, index) => (
             <div id={(index + 1).toString()} key={index}>
               <CalendarDay dayIndex={index} />
+            </div>
+          ))} */}
+          {DummyMonthGen().map((day) => (
+            <div id={day.id.toString()} key={day.id}>
+              <CalendarDay
+                dayIndex={day.id}
+                quality={day.quality}
+              ></CalendarDay>
             </div>
           ))}
         </div>
