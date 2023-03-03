@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { useState, useEffect } from "react";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
@@ -19,10 +19,12 @@ const Month: FunctionComponent = () => {
   const [time, setTime] = useState(12);
 
   // Useffect to run DummyMonthGen only on mount
-  // const month = [];
-  // useEffect(() => {
-  //   month.push(DummyMonthGen());
-  // }, []);
+  let month: { id: number; quality: number; sleep: number; date: Dayjs }[] = [];
+
+  useEffect(() => {
+    month = DummyMonthGen();
+    console.log(month);
+  });
 
   return (
     <div className={`mt-0 transition-colors ${BackgroundGradient(time)}`}>
@@ -70,7 +72,7 @@ const Month: FunctionComponent = () => {
               <CalendarDay dayIndex={index} />
             </div>
           ))} */}
-          {DummyMonthGen().map((day) => (
+          {month.map((day) => (
             <div id={day.id.toString()} key={day.id}>
               <CalendarDay
                 dayIndex={day.id}
