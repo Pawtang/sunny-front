@@ -9,18 +9,18 @@ const evaluateRating = (value: string, rating: boolean) => {
 };
 
 interface ratingProps {
-  value: string;
+  label: string;
 }
 
 const BooleanRating: FunctionComponent<ratingProps> = (props) => {
-  const { value } = props;
+  const { label } = props;
   const [rating, setRating] = useState(false);
 
   return (
     // Change to a nice toggle pill component
     <div className="container dayrating mx-auto px-6">
       <div className="grid grid-cols-3 mx-auto p-2">
-        <div className="border-1 mx-auto">{value}</div>
+        <div className="border-1 mx-auto">{label}</div>
         <div className="border-1 mx-auto">
           <input
             type="checkbox"
@@ -32,7 +32,7 @@ const BooleanRating: FunctionComponent<ratingProps> = (props) => {
             }}
           />
         </div>
-        <div className="border-1 mx-auto">{evaluateRating(value, rating)}</div>
+        <div className="border-1 mx-auto">{evaluateRating(label, rating)}</div>
       </div>
     </div>
   );

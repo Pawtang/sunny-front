@@ -7,6 +7,13 @@ import LinkButton from "../elements/LinkButton";
 import DummyMonthGen from "../utilities/DummyMonthGen";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 
+interface IDay {
+  id: number,
+  quality: number,
+  sleep: number,
+  date: Dayjs
+}
+
 const Month: FunctionComponent = () => {
   const today = dayjs();
   const monthCount = today.daysInMonth();
@@ -17,14 +24,15 @@ const Month: FunctionComponent = () => {
   };
 
   const [time, setTime] = useState(12);
+  const [month, setMonth] = useState<IDay[]|undefined>([]);
 
   // Useffect to run DummyMonthGen only on mount
-  let month: { id: number; quality: number; sleep: number; date: Dayjs }[] = [];
+  // let month: { id: number; quality: number; sleep: number; date: Dayjs }[] = [];
 
   useEffect(() => {
-    month = DummyMonthGen();
+    setMonth(DummyMonthGen());
     console.log(month);
-  });
+  }, []);
 
   return (
     <div className={`mt-0 transition-colors ${BackgroundGradient(time)}`}>
@@ -72,7 +80,7 @@ const Month: FunctionComponent = () => {
               <CalendarDay dayIndex={index} />
             </div>
           ))} */}
-          {month.map((day) => (
+          {month && month.map((day) => (
             <div id={day.id.toString()} key={day.id}>
               <CalendarDay
                 dayIndex={day.id}

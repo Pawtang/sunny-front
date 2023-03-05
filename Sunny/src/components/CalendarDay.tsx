@@ -33,7 +33,7 @@ const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
       })`,
     };
     return (
-      <Link to="/Day">
+      <Link to={`/Day?date=${"03042020"}`} state={{dayabc: "010101"}}>
         <div
           className={`dayBox relative w-16 hover:-translate-y-1 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md`}
           // style={divStyle}

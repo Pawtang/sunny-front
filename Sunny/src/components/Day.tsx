@@ -1,23 +1,38 @@
-import React, { FunctionComponent } from "react";
-// import { useState } from "react";
+import React, { FunctionComponent, useEffect } from "react";
+import { useState } from "react";
 import BooleanRating from "../elements/BooleanRating";
 import NumberRating from "../elements/NumberRating";
 import RangeRating from "../elements/RangeRating";
 import dayjs, { Dayjs } from "dayjs";
 import LinkButton from "../elements/LinkButton";
-import { Interface } from "readline";
 import BackgroundGradient from "../utilities/BackgroundGradient";
+import {mapQueryParamsToObject} from "../utilities/QueryParamsUtils";
+import ActionButton from '../elements/ActionButton';
+import {submitDay} from "../middleware/dayServiceCalls";
+import {useLocation} from "react-router-dom";
 const today = dayjs();
 
 interface dayProps {
   // id: number;
+  date?: string
 }
 
 const Day: FunctionComponent<dayProps> = (props) => {
   // const { id } = props;
-  // const [dailyRating, setDailyRating] = useState(0);
+  const [dayRating, setDayRating] = useState(5);
+  const [notes, setNotes] = useState("");
+  const [attributes, setAttributes] = useState({});
+  const {date="03/05/2020"} = props;
+  const location = useLocation();
+  console.log("location", location);
+  console.log("aa", mapQueryParamsToObject(location.search)) //TODO this is not working rn
+
+  useEffect(() => {
+    console.log("Notes", notes)
+  }, [notes])
 
   const time = parseInt(today.format("h"));
+  console.log("time", time);
 
   return (
     <div
@@ -47,11 +62,14 @@ const Day: FunctionComponent<dayProps> = (props) => {
             However, also need to map both the inputs and the states based on the trackers the user has set up
             
             */}
-            <RangeRating value="Quality" maximum={4}></RangeRating>
-            <RangeRating value="Sleep" maximum={12}></RangeRating>
+            <RangeRating label="Quality"
+                         maximum={5}
+                         onChange={(rating: number) => setDayRating(rating)}
+                         value={dayRating}/>
+            {/* <RangeRating value="Sleep" maximum={12}></RangeRating>
             <BooleanRating value="Exercise"></BooleanRating>
             <NumberRating value="Miles Run"></NumberRating>
-            <NumberRating value="Minutes Read"></NumberRating>
+            <NumberRating value="Minutes Read"></NumberRating> */}
           </div>
           <div className="freetext center mt-4">
             <label htmlFor="journal-entry">
@@ -61,8 +79,12 @@ const Day: FunctionComponent<dayProps> = (props) => {
               className="mt-2 bg-white/50 peer block min-h-3  w-full rounded border-0 py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 "
               id="journal-entry"
               rows={3}
+              onChange={(e) => {
+                setNotes(e.target.value)
+              }}
+              value={notes}
               placeholder="Tell me about your day"
-            ></textarea>
+            />
           </div>
         </div>
         <div className="container submit mx-auto m-10 mx-auto flex justify-center max-w-sm">
@@ -71,11 +93,14 @@ const Day: FunctionComponent<dayProps> = (props) => {
             buttonText="Back"
             styleTags="text-center"
           ></LinkButton>
-          <LinkButton
-            linkTo=""
+          <ActionButton
+            onClick={() => {
+              submitDay({notes, dayRating, attributes, date}, (data: any) => {alert("YAY"); console.log(data)})
+              console.log("abcdefg")
+            }}
             buttonText="Submit"
             styleTags="text-center"
-          ></LinkButton>
+          ></ActionButton>
         </div>
       </div>
     </div>

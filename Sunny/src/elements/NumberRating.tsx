@@ -10,18 +10,18 @@ const evaluateRating = (value: string, rating: number) => {
 };
 
 interface ratingProps {
-  value: string;
+  label: string;
 }
 
 const NumberRating: FunctionComponent<ratingProps> = (props) => {
-  const { value } = props;
+  const { label } = props;
   const [rating, setRating] = useState(0);
 
   return (
     // Need to remove the up/down formatting or just change to text input then use js to only accept numbers
     <div className="container dayrating mx-auto px-6">
       <div className="grid grid-cols-3 mx-auto p-2">
-        <div className="border-1 mx-auto">{value}</div>
+        <div className="border-1 mx-auto">{label}</div>
         <div className="border-1 mx-auto">
           <div className="w-24">
             <input
@@ -36,7 +36,7 @@ const NumberRating: FunctionComponent<ratingProps> = (props) => {
             />
           </div>
         </div>
-        <div className="border-1 mx-auto">{evaluateRating(value, rating)}</div>
+        <div className="border-1 mx-auto">{evaluateRating(label, rating)}</div>
       </div>
     </div>
   );
