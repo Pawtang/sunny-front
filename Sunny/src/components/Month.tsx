@@ -37,7 +37,7 @@ const Month: FunctionComponent = () => {
   return (
     <div
       className={`mt-0 transition-colors`}
-      style={{ backgroundImage: `${BackgroundGradient(time)}` }}
+      style={{ background: BackgroundGradient(time) }}
     >
       <div className="container nav">
         <ActionButton
@@ -77,12 +77,6 @@ const Month: FunctionComponent = () => {
         <div
           className={`mx-auto shadow-lg mt-2 container grid place-content-center rounded bg-white/50 p-4 max-w-2xl ${containerStyle()}`}
         >
-          {/* <div className={`dayContainer grid grid-cols-7`}> */}
-          {/* {[...Array(isMonth ? monthCount : 365)].map((value, index) => (
-            <div id={(index + 1).toString()} key={index}>
-              <CalendarDay dayIndex={index} />
-            </div>
-          ))} */}
           {month &&
             month.map((day) => (
               <div id={day.id.toString()} key={day.id}>

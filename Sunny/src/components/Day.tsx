@@ -88,7 +88,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
             />
           </div>
         </div>
-        <div className="container submit mx-auto m-10 mx-auto flex justify-center max-w-sm">
+        <div className="container submit m-10 mx-auto flex justify-center max-w-sm">
           <LinkButton
             linkTo="/Month"
             buttonText="Back"
