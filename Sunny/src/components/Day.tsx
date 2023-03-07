@@ -6,15 +6,15 @@ import RangeRating from "../elements/RangeRating";
 import dayjs, { Dayjs } from "dayjs";
 import LinkButton from "../elements/LinkButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
-import {mapQueryParamsToObject} from "../utilities/QueryParamsUtils";
-import ActionButton from '../elements/ActionButton';
-import {submitDay} from "../middleware/dayServiceCalls";
-import {useLocation} from "react-router-dom";
+import { mapQueryParamsToObject } from "../utilities/QueryParamsUtils";
+import ActionButton from "../elements/ActionButton";
+import { submitDay } from "../middleware/dayServiceCalls";
+import { useLocation } from "react-router-dom";
 const today = dayjs();
 
 interface dayProps {
   // id: number;
-  date?: string
+  date?: string;
 }
 
 const Day: FunctionComponent<dayProps> = (props) => {
@@ -22,23 +22,22 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const [dayRating, setDayRating] = useState(5);
   const [notes, setNotes] = useState("");
   const [attributes, setAttributes] = useState({});
-  const {date="03/05/2020"} = props;
+  const { date = "03/05/2020" } = props;
   const location = useLocation();
   console.log("location", location);
-  console.log("aa", mapQueryParamsToObject(location.search)) //TODO this is not working rn
+  console.log("aa", mapQueryParamsToObject(location.search)); //TODO this is not working rn
 
   useEffect(() => {
-    console.log("Notes", notes)
-  }, [notes])
+    console.log("Notes", notes);
+  }, [notes]);
 
   const time = parseInt(today.format("h"));
   console.log("time", time);
 
   return (
     <div
-      className={`Day h-screen w-screen flex items-center ${BackgroundGradient(
-        time
-      )}`}
+      className="Day h-screen w-screen flex items-center"
+      style={{ backgroundImage: `${BackgroundGradient(time)}` }}
     >
       <div className="container mx-auto">
         <div className="journal max-w-lg mx-auto">
@@ -62,10 +61,12 @@ const Day: FunctionComponent<dayProps> = (props) => {
             However, also need to map both the inputs and the states based on the trackers the user has set up
             
             */}
-            <RangeRating label="Quality"
-                         maximum={5}
-                         onChange={(rating: number) => setDayRating(rating)}
-                         value={dayRating}/>
+            <RangeRating
+              label="Quality"
+              maximum={5}
+              onChange={(rating: number) => setDayRating(rating)}
+              value={dayRating}
+            />
             {/* <RangeRating value="Sleep" maximum={12}></RangeRating>
             <BooleanRating value="Exercise"></BooleanRating>
             <NumberRating value="Miles Run"></NumberRating>
@@ -80,7 +81,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
               id="journal-entry"
               rows={3}
               onChange={(e) => {
-                setNotes(e.target.value)
+                setNotes(e.target.value);
               }}
               value={notes}
               placeholder="Tell me about your day"
@@ -95,8 +96,11 @@ const Day: FunctionComponent<dayProps> = (props) => {
           ></LinkButton>
           <ActionButton
             onClick={() => {
-              submitDay({notes, dayRating, attributes, date}, (data: any) => {alert("YAY"); console.log(data)})
-              console.log("abcdefg")
+              submitDay({ notes, dayRating, attributes, date }, (data: any) => {
+                alert("YAY");
+                console.log(data);
+              });
+              console.log("abcdefg");
             }}
             buttonText="Submit"
             styleTags="text-center"

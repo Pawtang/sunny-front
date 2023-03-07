@@ -24,27 +24,33 @@ const color = (quality: number) => {
   }
 };
 
+const emojiLibrary = (quality: number) => {
+  if (quality < 2) return "😭";
+  else if (quality < 3) return "🙁";
+  else if (quality < 4) return "😐";
+  else if (quality < 5) return "😊";
+  else return "😄";
+};
+
 const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
   {
     const { dayIndex, quality } = props;
-    const divStyle = {
-      backgroundColor: `rgb(${dayIndex * 0.6 + 50}, ${255 - dayIndex * 0.25}, ${
-        255 - dayIndex * 0.5 + 30
-      })`,
-    };
+    // const divStyle = {
+    //   backgroundColor: `rgb(${dayIndex * 0.6 + 50}, ${255 - dayIndex * 0.25}, ${
+    //     255 - dayIndex * 0.5 + 30
+    //   })`,
+    // };
     return (
-      <Link to={`/Day?date=${"03042020"}`} state={{dayabc: "010101"}}>
+      <Link to={`/Day?date=${"03042020"}`} state={{ dayabc: "010101" }}>
         <div
           className={`dayBox relative w-16 hover:-translate-y-1 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md`}
           // style={divStyle}
         >
           <h1 className="text-large text-center">{dayIndex + 1}</h1>
           {/* <h2 className="text-medium text-center">{quality}</h2> */}
-          <div
-            className={`absolute w-3 h-3 bottom-1 right-1 rounded-full ${color(
-              quality
-            )}`}
-          ></div>
+          <div className={`absolute w-10 h-8 bottom-1 right-1 rounded-full}`}>
+            <span className="text-xl">{emojiLibrary(quality)}</span>
+          </div>
         </div>
       </Link>
     );

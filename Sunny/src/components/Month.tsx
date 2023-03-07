@@ -8,10 +8,10 @@ import DummyMonthGen from "../utilities/DummyMonthGen";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 
 interface IDay {
-  id: number,
-  quality: number,
-  sleep: number,
-  date: Dayjs
+  id: number;
+  quality: number;
+  sleep: number;
+  date: Dayjs;
 }
 
 const Month: FunctionComponent = () => {
@@ -24,7 +24,7 @@ const Month: FunctionComponent = () => {
   };
 
   const [time, setTime] = useState(12);
-  const [month, setMonth] = useState<IDay[]|undefined>([]);
+  const [month, setMonth] = useState<IDay[] | undefined>([]);
 
   // Useffect to run DummyMonthGen only on mount
   // let month: { id: number; quality: number; sleep: number; date: Dayjs }[] = [];
@@ -35,7 +35,10 @@ const Month: FunctionComponent = () => {
   }, []);
 
   return (
-    <div className={`mt-0 transition-colors ${BackgroundGradient(time)}`}>
+    <div
+      className={`mt-0 transition-colors`}
+      style={{ backgroundImage: `${BackgroundGradient(time)}` }}
+    >
       <div className="container nav">
         <ActionButton
           // stateSetter={setIsMonth}
@@ -80,14 +83,15 @@ const Month: FunctionComponent = () => {
               <CalendarDay dayIndex={index} />
             </div>
           ))} */}
-          {month && month.map((day) => (
-            <div id={day.id.toString()} key={day.id}>
-              <CalendarDay
-                dayIndex={day.id}
-                quality={day.quality}
-              ></CalendarDay>
-            </div>
-          ))}
+          {month &&
+            month.map((day) => (
+              <div id={day.id.toString()} key={day.id}>
+                <CalendarDay
+                  dayIndex={day.id}
+                  quality={day.quality}
+                ></CalendarDay>
+              </div>
+            ))}
         </div>
       </div>
     </div>
