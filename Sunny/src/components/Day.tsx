@@ -14,22 +14,25 @@ const today = dayjs();
 
 interface dayProps {
   // id: number;
+  // quality: number;
   date?: string;
 }
 
 const Day: FunctionComponent<dayProps> = (props) => {
-  // const { id } = props;
+  // const { quality } = props;
   const [dayRating, setDayRating] = useState(5);
   const [notes, setNotes] = useState("");
   const [attributes, setAttributes] = useState({});
   const { date = "03/05/2020" } = props;
   const location = useLocation();
   console.log("location", location);
-  console.log("aa", mapQueryParamsToObject(location.search)); //TODO this is not working rn
+  // console.log("aa", mapQueryParamsToObject(location.search)); //TODO this is not working rn
 
   useEffect(() => {
     console.log("Notes", notes);
   }, [notes]);
+
+  useEffect(() => {});
 
   const time = parseInt(today.format("h"));
   console.log("time", time);
@@ -40,7 +43,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
       style={{ backgroundImage: `${BackgroundGradient(time)}` }}
     >
       <div className="container mx-auto">
-        <div className="journal max-w-lg mx-auto">
+        <div className="journal max-w-lg mx-auto shadow-sm hover:shadow-lg">
           <div className="container mx-auto p-4 mt-4 ">
             <div className="mx-auto">
               <h1 className="text-3xl font-bold underline center ">

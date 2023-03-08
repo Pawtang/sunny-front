@@ -31,22 +31,18 @@ const Month: FunctionComponent = () => {
 
   useEffect(() => {
     setMonth(DummyMonthGen());
-    console.log(month);
   }, []);
 
   return (
-    <div
-      className={`mt-0 transition-colors`}
-      style={{ background: BackgroundGradient(time) }}
-    >
+    <div className={`mt-0`} style={{ background: BackgroundGradient(time) }}>
       <div className="container nav">
-        <ActionButton
+        {/* <ActionButton
           // stateSetter={setIsMonth}
           onClick={() => (isMonth ? setIsMonth(false) : setIsMonth(true))}
           buttonText={isMonth ? "Switch to Year" : "Switch to Month"}
           styleTags="mt-4"
-        ></ActionButton>
-        <LinkButton linkTo="/" buttonText="Home"></LinkButton>
+        ></ActionButton> */}
+        <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
         <div className="mx-4 inline">
           <input
             type="range"
@@ -58,10 +54,13 @@ const Month: FunctionComponent = () => {
             }}
           />
           <p className="text-white inline mx-4 bold">{time}</p>
+          {/* <p className="text-black inline mx-4 bold">
+            {BackgroundGradient(time)}
+          </p> */}
         </div>
       </div>
 
-      <div className="container justify-content mx-auto mt-4">
+      <div className="container justify-content mx-auto mt-4 h-screen">
         <div className="container justify-content mx-auto max-w-lg">
           <h1 className="text-2xl mx-auto text-center">
             <b>Today is {today.format("MMMM DD, YYYY")}</b>

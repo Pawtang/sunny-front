@@ -9,20 +9,20 @@ interface calendarDayProps {
   quality: number;
 }
 
-const color = (quality: number) => {
-  switch (quality) {
-    case 1:
-      return "bg-red-300";
-    case 2:
-      return "bg-orange-300";
-    case 3:
-      return "bg-amber-300";
-    case 4:
-      return "bg-lime-300";
-    case 5:
-      return "bg-green-400";
-  }
-};
+// const color = (quality: number) => {
+//   switch (quality) {
+//     case 1:
+//       return "bg-red-300";
+//     case 2:
+//       return "bg-orange-300";
+//     case 3:
+//       return "bg-amber-300";
+//     case 4:
+//       return "bg-lime-300";
+//     case 5:
+//       return "bg-green-400";
+//   }
+// };
 
 const emojiLibrary = (quality: number) => {
   if (quality < 2) return "😭";
@@ -41,9 +41,9 @@ const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
     //   })`,
     // };
     return (
-      <Link to={`/Day?date=${"03042020"}`} state={{ dayabc: "010101" }}>
+      <Link to={`/Day?date=${"03042020"}`} state={{ quality: quality }}>
         <div
-          className={`dayBox relative w-16 hover:-translate-y-1 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md`}
+          className={`dayBox relative w-16 hover:-translate-y-2 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md`}
           // style={divStyle}
         >
           <h1 className="text-large text-center">{dayIndex + 1}</h1>
