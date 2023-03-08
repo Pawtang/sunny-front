@@ -12,6 +12,7 @@ interface IDay {
   quality: number;
   sleep: number;
   date: Dayjs;
+  notes: string;
 }
 
 const Month: FunctionComponent = () => {
@@ -82,6 +83,7 @@ const Month: FunctionComponent = () => {
                 <CalendarDay
                   dayIndex={day.id}
                   quality={day.quality}
+                  notes={day.notes}
                 ></CalendarDay>
               </div>
             ))}

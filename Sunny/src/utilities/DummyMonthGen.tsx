@@ -7,8 +7,13 @@ const DummyMonthGen = () => {
 
   const days = dayjs().daysInMonth();
 
-  const month: { id: number; quality: number; sleep: number; date: Dayjs }[] =
-    [];
+  const month: {
+    id: number;
+    quality: number;
+    sleep: number;
+    date: Dayjs;
+    notes: string;
+  }[] = [];
 
   for (let i = 0; i < days; i++) {
     month.push({
@@ -16,6 +21,7 @@ const DummyMonthGen = () => {
       quality: randomInteger(5),
       sleep: randomInteger(12),
       date: dayjs(`${dayjs().year()}-${dayjs().month()}-${i + 1}`),
+      notes: `today's date is ${dayjs().format("MMMM DD, YYYY")}`,
     });
   }
   return month;

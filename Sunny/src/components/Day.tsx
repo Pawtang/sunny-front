@@ -21,20 +21,22 @@ interface dayProps {
 const Day: FunctionComponent<dayProps> = (props) => {
   // const { quality } = props;
   const [dayRating, setDayRating] = useState(5);
-  const [notes, setNotes] = useState("");
   const [attributes, setAttributes] = useState({});
+  const [notes, setNotes] = useState("");
   const { date = "03/05/2020" } = props;
   const location = useLocation();
   console.log("location", location);
   // console.log("aa", mapQueryParamsToObject(location.search)); //TODO this is not working rn
 
   useEffect(() => {
-    console.log("Notes", notes);
-  }, [notes]);
+    // console.log("Notes", notes);
+    setNotes(location.state.notes);
+    setDayRating(location.state.quality);
+  }, []);
 
   useEffect(() => {});
 
-  const time = parseInt(today.format("h"));
+  const time = parseInt(today.format("hh"));
   console.log("time", time);
 
   return (
@@ -80,7 +82,12 @@ const Day: FunctionComponent<dayProps> = (props) => {
               <b>Anything you want to talk about today?</b>
             </label>
             <textarea
-              className="mt-2 bg-white/50 peer block min-h-3  w-full rounded border-0 py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 "
+              className="text-black mt-2 bg-white/50 peer block min-h-3  w-full 
+              rounded border-0 py-[0.32rem] px-3 leading-[1.6] outline-none transition-all 
+              duration-200 ease-linear focus:placeholder:opacity-100 
+              data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none
+              
+               [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 "
               id="journal-entry"
               rows={3}
               onChange={(e) => {
@@ -103,7 +110,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
                 alert("YAY");
                 console.log(data);
               });
-              console.log("abcdefg");
+              // console.log("abcdefg");
             }}
             buttonText="Submit"
             styleTags="text-center"
