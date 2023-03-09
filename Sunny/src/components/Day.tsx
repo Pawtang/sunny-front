@@ -23,7 +23,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState({});
   const [notes, setNotes] = useState("");
-  const { date = "03/05/2020" } = props;
+  const { date } = props;
   const location = useLocation();
   console.log("location", location);
   // console.log("aa", mapQueryParamsToObject(location.search)); //TODO this is not working rn
@@ -52,11 +52,12 @@ const Day: FunctionComponent<dayProps> = (props) => {
                 Hello, Ben
               </h1>
               <h2 className="center text-2xl">
-                Today is <i>{today.format("MMMM DD, YYYY")}</i>
+                {/* conditional display here, since it should only reference time and today if the date pulled up is today */}
+                Today is {location.state.date}
               </h2>
               <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
               <h2 className="center mt-2">
-                <b> How was your day today?</b>
+                <b> How was your day?</b>
               </h2>
             </div>
           </div>

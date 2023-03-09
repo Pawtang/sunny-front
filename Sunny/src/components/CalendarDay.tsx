@@ -21,10 +21,17 @@ const emojiLibrary = (quality: number) => {
 const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
   {
     const { dayIndex, quality, notes } = props;
+    const month = dayjs().month() + 1;
+    const year = dayjs().year();
+    const day = dayIndex + 1;
     return (
       <Link
-        to={`/Day?date=${"03042020"}`}
-        state={{ quality: quality, notes: notes }}
+        to={`/Day?date=${year}${month}${day}`}
+        state={{
+          quality: quality,
+          notes: notes,
+          date: month.toString() + "/" + day.toString() + "/" + year.toString(),
+        }}
       >
         <div
           className={`dayBox relative w-16 hover:-translate-y-2 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md`}
