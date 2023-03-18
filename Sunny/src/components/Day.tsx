@@ -23,8 +23,9 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState({});
   const [notes, setNotes] = useState("");
-  const { date } = props;
+  // const { date } = props;
   const location = useLocation();
+  const date = location.state.date;
   console.log("location", location);
   // console.log("aa", mapQueryParamsToObject(location.search)); //TODO this is not working rn
 
@@ -51,14 +52,27 @@ const Day: FunctionComponent<dayProps> = (props) => {
               <h1 className="text-3xl font-bold underline center ">
                 Hello, Ben
               </h1>
-              <h2 className="center text-2xl">
-                {/* conditional display here, since it should only reference time and today if the date pulled up is today */}
-                Today is {location.state.date}
-              </h2>
-              <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
-              <h2 className="center mt-2">
-                <b> How was your day?</b>
-              </h2>
+              {today.diff(date, "day") === 0 ? (
+                <>
+                  <h2 className="center text-2xl">
+                    Today is {today.format("MMMM DD, YYYY")}
+                  </h2>
+                  <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
+                  <h2 className="center mt-2">
+                    <b> How was your day?</b>
+                  </h2>
+                </>
+              ) : (
+                <>
+                  <h2 className="center text-2xl">
+                    {dayjs(date).format("MMMM DD, YYYY")}
+                  </h2>
+                  <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
+                  <h2 className="center mt-2">
+                    <b> Edit your journal entry?</b>
+                  </h2>
+                </>
+              )}
             </div>
           </div>
           <div className="rating-inputs container mx-auto mt-4 max-w-lg">
