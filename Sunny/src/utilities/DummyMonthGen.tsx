@@ -11,16 +11,22 @@ const DummyMonthGen = () => {
     id: number;
     quality: number;
     sleep: number;
-    date: Dayjs;
+    date: string;
     notes: string;
   }[] = [];
 
-  for (let i = 0; i < days; i++) {
+  const prefixer = (i: number) => {
+    if (i > 9) {
+      return i.toString();
+    } else return `0${i}`;
+  };
+
+  for (let i = 1; i <= days; i++) {
     month.push({
       id: i,
       quality: randomInteger(5),
       sleep: randomInteger(12),
-      date: dayjs(`${dayjs().year()}-${dayjs().month()}-${i + 1}`),
+      date: `${dayjs().format("YYYY")}${dayjs().format("MM")}${prefixer(i)}`,
       notes: `today's date is ${dayjs().format("MMMM DD, YYYY")}`,
     });
   }

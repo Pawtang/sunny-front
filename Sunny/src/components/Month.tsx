@@ -11,7 +11,7 @@ interface IDay {
   id: number;
   quality: number;
   sleep: number;
-  date: Dayjs;
+  date: string;
   notes: string;
 }
 
