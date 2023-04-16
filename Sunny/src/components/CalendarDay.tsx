@@ -21,9 +21,9 @@ const emojiLibrary = (quality: number) => {
 const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
   {
     const { dayIndex, quality, notes } = props;
-    const month = dayjs().format("MM") + 1;
+    const month = dayjs().format("MM");
     const year = dayjs().year();
-    const day = dayIndex + 1;
+    const day = dayIndex;
     return (
       <Link to={`/Day?date=${year}${month}${day}`}>
         <div

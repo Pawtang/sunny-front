@@ -31,7 +31,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
   console.log(date);
 
   useEffect(() => {
-    console.log(date);
+    console.log(params);
   }, []);
 
   useEffect(() => {});
