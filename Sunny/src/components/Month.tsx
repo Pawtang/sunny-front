@@ -4,16 +4,18 @@ import dayjs, { Dayjs } from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
-import DummyMonthGen from "../utilities/DummyMonthGen";
+import MonthGen from "../utilities/MonthGen";
 import BackgroundGradient from "../utilities/BackgroundGradient";
+import { getMonth } from "../middleware/dayServiceCalls";
+import { IDay } from "../utilities/types";
 
-interface IDay {
-  id: number;
-  quality: number;
-  sleep: number;
-  date: string;
-  notes: string;
-}
+// interface IDay {
+//   id: number;
+//   quality?: number | undefined;
+//   sleep?: number | undefined;
+//   date?: string | undefined;
+//   notes?: string | undefined;
+// }
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
@@ -25,14 +27,13 @@ const Month: FunctionComponent = () => {
   };
 
   const time = parseInt(today.format("hh"));
-  // const [time, setTime] = useState(12);
   const [month, setMonth] = useState<IDay[] | undefined>([]);
 
-  // Useffect to run DummyMonthGen only on mount
-  // let month: { id: number; quality: number; sleep: number; date: Dayjs }[] = [];
-
   useEffect(() => {
-    setMonth(DummyMonthGen());
+    setMonth(MonthGen());
+    getMonth(today.month() + 1, today.year(), (days: IDay[]) => {
+      setMonth(MonthGen(days));
+    });
   }, []);
 
   return (

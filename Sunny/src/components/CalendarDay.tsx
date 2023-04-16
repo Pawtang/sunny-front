@@ -6,16 +6,18 @@ import { Link } from "react-router-dom";
 
 interface calendarDayProps {
   dayIndex: number;
-  quality: number;
-  notes: string;
+  quality?: number;
+  notes?: string;
 }
 
-const emojiLibrary = (quality: number) => {
+const emojiLibrary = (quality: number | undefined) => {
+  quality = quality ?? 10;
   if (quality < 2) return "😭";
   else if (quality < 3) return "🙁";
   else if (quality < 4) return "😐";
   else if (quality < 5) return "😊";
-  else return "😄";
+  else if (quality === 5) return "😊";
+  else return "✏️";
 };
 
 const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
