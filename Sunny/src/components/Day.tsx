@@ -12,6 +12,7 @@ import { submitDay } from "../middleware/dayServiceCalls";
 import { useLocation } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { dayProps } from "../utilities/types";
+import { EmojiLibrary } from "../utilities/EmojiLibrary";
 
 const today = dayjs();
 dayjs.extend(customParseFormat);
@@ -60,9 +61,12 @@ const Day: FunctionComponent<dayProps> = (props) => {
                   </h2>
                 </>
               )}
+              <h2 className="mt-4 center text-3xl">
+                {EmojiLibrary(dayRating)}
+              </h2>
             </div>
           </div>
-          <div className="rating-inputs container mx-auto mt-4 max-w-lg">
+          <div className="rating-inputs container mx-auto max-w-lg">
             {/* 
             Need to get values from child components, so need to pass a state setter from THIS scope 
             However, also need to map both the inputs and the states based on the trackers the user has set up
