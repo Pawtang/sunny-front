@@ -4,16 +4,10 @@ import dayjs, { Dayjs } from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
-import DummyMonthGen from "../utilities/DummyMonthGen";
+import MonthGen from "../utilities/MonthGen";
 import BackgroundGradient from "../utilities/BackgroundGradient";
-
-interface IDay {
-  id: number;
-  quality: number;
-  sleep: number;
-  date: string;
-  notes: string;
-}
+import { getMonth } from "../middleware/dayServiceCalls";
+import { IDay } from "../utilities/types";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
@@ -24,14 +18,14 @@ const Month: FunctionComponent = () => {
     return isMonth ? "grid-cols-7" : "grid-cols-16 ";
   };
 
-  const [time, setTime] = useState(12);
+  const time = parseInt(today.format("hh"));
   const [month, setMonth] = useState<IDay[] | undefined>([]);
 
-  // Useffect to run DummyMonthGen only on mount
-  // let month: { id: number; quality: number; sleep: number; date: Dayjs }[] = [];
-
   useEffect(() => {
-    setMonth(DummyMonthGen());
+    setMonth(MonthGen());
+    getMonth(today.month() + 1, today.year(), (days: IDay[]) => {
+      setMonth(MonthGen(days));
+    });
   }, []);
 
   return (
@@ -44,21 +38,7 @@ const Month: FunctionComponent = () => {
           styleTags="mt-4"
         ></ActionButton> */}
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
-        <div className="mx-4 inline">
-          <input
-            type="range"
-            value={time}
-            min={0}
-            max={24}
-            onChange={(e) => {
-              setTime(e.target.valueAsNumber);
-            }}
-          />
-          <p className="text-white inline mx-4 bold">{time}</p>
-          {/* <p className="text-black inline mx-4 bold">
-            {BackgroundGradient(time)}
-          </p> */}
-        </div>
+        <LinkButton linkTo="" buttonText="📅" styleTags="mt-4"></LinkButton>
       </div>
 
       <div className="container justify-content mx-auto mt-4 h-screen">

@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import { ratingProps } from "../utilities/types";
 
 const evaluateRating = (label: string, rating: number) => {
   if (label === "Quality") {
@@ -17,18 +18,11 @@ const evaluateRating = (label: string, rating: number) => {
         return "Rate your day!";
     }
   } else if (label === "Sleep") {
-    return `${(rating).toString()} hours`;
+    return `${rating.toString()} hours`;
   }
-  
-  return (rating).toString();
-};
 
-interface ratingProps {
-  label: string;
-  value: number;
-  maximum: number;
-  onChange: Function;
-}
+  return rating.toString();
+};
 
 const RangeRating: FunctionComponent<ratingProps> = (props) => {
   const { label, value, maximum, onChange } = props;

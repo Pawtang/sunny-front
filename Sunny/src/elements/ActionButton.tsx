@@ -1,13 +1,7 @@
 import React, { FunctionComponent, FunctionComponentElement } from "react";
 import { Interface } from "readline";
 import { Link } from "react-router-dom";
-
-interface buttonProps {
-  buttonText: string;
-  onClick: any;
-  styleTags?: string;
-  // stateSetter: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { buttonProps } from "../utilities/types";
 
 const ActionButton: FunctionComponent<buttonProps> = (props) => {
   const { buttonText, onClick, styleTags } = props;

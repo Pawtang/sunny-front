@@ -11,14 +11,10 @@ import ActionButton from "../elements/ActionButton";
 import { submitDay } from "../middleware/dayServiceCalls";
 import { useLocation } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { dayProps } from "../utilities/types";
+
 const today = dayjs();
 dayjs.extend(customParseFormat);
-
-interface dayProps {
-  // id: number;
-  // quality: number;
-  date?: string;
-}
 
 const Day: FunctionComponent<dayProps> = (props) => {
   // const { quality } = props;
@@ -28,16 +24,12 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
-  console.log(date);
 
-  useEffect(() => {
-    console.log(date);
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {});
 
   const time = parseInt(today.format("hh"));
-  console.log("time", time);
 
   return (
     <div
@@ -118,9 +110,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
             onClick={() => {
               submitDay({ notes, dayRating, attributes, date }, (data: any) => {
                 alert("YAY");
-                console.log(data);
               });
-              // console.log("abcdefg");
             }}
             buttonText="Submit"
             styleTags="text-center"
