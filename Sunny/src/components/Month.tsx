@@ -9,14 +9,6 @@ import BackgroundGradient from "../utilities/BackgroundGradient";
 import { getMonth } from "../middleware/dayServiceCalls";
 import { IDay } from "../utilities/types";
 
-// interface IDay {
-//   id: number;
-//   quality?: number | undefined;
-//   sleep?: number | undefined;
-//   date?: string | undefined;
-//   notes?: string | undefined;
-// }
-
 const Month: FunctionComponent = () => {
   const today = dayjs();
   const monthCount = today.daysInMonth();

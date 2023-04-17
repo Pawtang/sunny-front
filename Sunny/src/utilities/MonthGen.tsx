@@ -1,12 +1,12 @@
 import dayjs, { Dayjs } from "dayjs";
 import { IDay } from "./types";
 
-const MonthGen = (days: IDay[]) => {
+const MonthGen = (days?: IDay[] | undefined) => {
   // const randomInteger = (n: number) => {
   //   return Math.floor(Math.random() * n + 1);
   // };
 
-  const days = dayjs().daysInMonth();
+  const dayqty = dayjs().daysInMonth();
 
   const month: {
     id: number;
@@ -18,7 +18,7 @@ const MonthGen = (days: IDay[]) => {
   //   } else return `0${i}`;
   // };
 
-  for (let i = 1; i <= days; i++) {
+  for (let i = 1; i <= dayqty; i++) {
     month.push({
       id: i,
     });
