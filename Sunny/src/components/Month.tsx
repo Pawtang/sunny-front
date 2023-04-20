@@ -8,6 +8,7 @@ import MonthGen from "../utilities/MonthGen";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import { getMonth } from "../middleware/dayServiceCalls";
 import { IDay } from "../utilities/types";
+import MonthPickModal from "./MonthPickModal";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
@@ -20,6 +21,7 @@ const Month: FunctionComponent = () => {
 
   const time = parseInt(today.format("hh"));
   const [month, setMonth] = useState<IDay[] | undefined>([]);
+  const [modalVisibility, setModalVisibility] = useState<string>("hidden");
 
   useEffect(() => {
     setMonth(MonthGen());
@@ -38,35 +40,43 @@ const Month: FunctionComponent = () => {
           styleTags="mt-4"
         ></ActionButton> */}
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
-        <LinkButton linkTo="" buttonText="📅" styleTags="mt-4"></LinkButton>
-      </div>
+        <ActionButton
+          onClick={
+            modalVisibility == "hidden"
+              ? setModalVisibility("")
+              : setModalVisibility("hidden")
+          }
+          buttonText="📅"
+        ></ActionButton>
 
-      <div className="container justify-content mx-auto mt-4 h-screen">
-        <div className="container justify-content mx-auto max-w-lg">
-          <h1 className="text-2xl mx-auto text-center">
-            <b>Today is {today.format("MMMM DD, YYYY")}</b>
-          </h1>
-          <h1 className="text-xl text-center">
-            {isMonth
-              ? `There are ${monthCount} days in ${today.format("MMMM")}`
-              : `There are 365 days in most years`}
-            .<br />
-            One box represents each day:
-          </h1>
-        </div>
-        <div
-          className={`mx-auto shadow-lg mt-2 container grid place-content-center rounded bg-white/50 p-4 max-w-2xl ${containerStyle()}`}
-        >
-          {month &&
-            month.map((day) => (
-              <div id={day.id.toString()} key={day.id}>
-                <CalendarDay
-                  dayIndex={day.id}
-                  quality={day.quality}
-                  notes={day.notes}
-                ></CalendarDay>
-              </div>
-            ))}
+        <MonthPickModal visibility />
+        <div className="container justify-content mx-auto mt-4 h-screen">
+          <div className="container justify-content mx-auto max-w-lg">
+            <h1 className="text-2xl mx-auto text-center">
+              <b>Today is {today.format("MMMM DD, YYYY")}</b>
+            </h1>
+            <h1 className="text-xl text-center">
+              {isMonth
+                ? `There are ${monthCount} days in ${today.format("MMMM")}`
+                : `There are 365 days in most years`}
+              .<br />
+              One box represents each day:
+            </h1>
+          </div>
+          <div
+            className={`mx-auto shadow-lg mt-2 container grid place-content-center rounded bg-white/50 p-4 max-w-2xl ${containerStyle()}`}
+          >
+            {month &&
+              month.map((day) => (
+                <div id={day.id.toString()} key={day.id}>
+                  <CalendarDay
+                    dayIndex={day.id}
+                    quality={day.quality}
+                    notes={day.notes}
+                  ></CalendarDay>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
