@@ -32,7 +32,7 @@ const Month: FunctionComponent = () => {
 
   return (
     <div className={`mt-0`} style={{ background: BackgroundGradient(time) }}>
-      <div className="container nav">
+      <div className="container nav z-50">
         {/* <ActionButton
           // stateSetter={setIsMonth}
           onClick={() => (isMonth ? setIsMonth(false) : setIsMonth(true))}
@@ -41,15 +41,21 @@ const Month: FunctionComponent = () => {
         ></ActionButton> */}
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
         <ActionButton
-          onClick={
+          onClick={() => {
             modalVisibility == "hidden"
               ? setModalVisibility("")
-              : setModalVisibility("hidden")
-          }
+              : setModalVisibility("hidden");
+          }}
           buttonText="📅"
+          styleTags="z-50"
         ></ActionButton>
 
-        <MonthPickModal visibility />
+        <MonthPickModal
+          visibility={modalVisibility}
+          onClick={() => {
+            setModalVisibility("hidden");
+          }}
+        />
         <div className="container justify-content mx-auto mt-4 h-screen">
           <div className="container justify-content mx-auto max-w-lg">
             <h1 className="text-2xl mx-auto text-center">
