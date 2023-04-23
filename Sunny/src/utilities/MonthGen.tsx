@@ -17,10 +17,13 @@ const MonthGen = (days?: IDay[] | undefined) => {
   }
 
   if (days) {
-    for (let i = 0; i < days.length; i++) {
+    console.log("Days:", days);
+    for (let i = 1; i <= days.length; i++) {
       const daynumber = dayjs(days[i].date).date();
-      // console.log(days[i]);
-      month[daynumber].quality = days[i].quality;
+      console.log("Daynumber", daynumber);
+      console.log(month);
+      console.log(month[daynumber]);
+      month[daynumber].quality = days[i].dayRating;
     }
   }
   return month;

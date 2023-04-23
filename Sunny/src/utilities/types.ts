@@ -1,6 +1,6 @@
 export interface IDay {
   id: number;
-  quality?: number | undefined;
+  dayRating?: number | undefined;
   sleep?: number | undefined;
   date?: string | undefined;
   notes?: string | undefined;
