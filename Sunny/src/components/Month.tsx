@@ -25,13 +25,13 @@ const Month: FunctionComponent = () => {
     try {
       setMonth(MonthGen());
       await getMonth(today.month() + 1, today.year(), (days: IDay[]) => {
-        console.log(days);
+        // console.log(days);
         setMonth(MonthGen(days));
       });
     } catch (error) {
       console.error(error);
     }
-    console.log(month);
+    // console.log(month);
   };
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Month: FunctionComponent = () => {
               <div id={day.id.toString()} key={day.id}>
                 <CalendarDay
                   dayIndex={day.id}
-                  quality={day.quality}
+                  dayRating={day.dayRating}
                   notes={day.notes}
                 ></CalendarDay>
               </div>

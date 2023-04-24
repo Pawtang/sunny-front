@@ -7,35 +7,48 @@ import { prefixer } from "../utilities/Prefixer";
 
 interface calendarDayProps {
   dayIndex: number;
-  quality?: number;
+  dayRating?: number;
   notes?: string;
 }
 
-const emojiLibrary = (quality: number | undefined) => {
-  quality = quality ?? 10;
-  if (quality < 2) return "😭";
-  else if (quality < 3) return "🙁";
-  else if (quality < 4) return "😐";
-  else if (quality < 5) return "😊";
-  else if (quality === 5) return "😊";
+const today = dayjs();
+
+const CalendarEmoji = (dayRating: number | undefined) => {
+  dayRating = dayRating ?? 0;
+  if (dayRating === 1) return "😭";
+  else if (dayRating === 2) return "🙁";
+  else if (dayRating === 3) return "😐";
+  else if (dayRating === 4) return "😊";
+  else if (dayRating === 5) return "😄";
   else return "✏️";
 };
 
 const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
   {
-    const { dayIndex, quality, notes } = props;
+    const { dayIndex, dayRating, notes } = props;
     const month = dayjs().format("MM");
     const year = dayjs().year();
     const day = prefixer(dayIndex);
+    console
+      .log
+      // dayjs.isSame()
+      // dayjs(`${today.year()}-${today.month()}-${today.date()}`, "YYYY-MM-DD"),
+      // dayjs(`${year}-${month}-${day}`, "YYYY-MM-DD")
+      ();
+    const outlineDetermine = () => {
+      if (dayjs.isSame(`${year}-${month}-${day}`, "date") === true) {
+        return "outline-dotted outline-2 outline-gray-600";
+      }
+    };
     return (
       <Link to={`/Day?date=${year}${month}${day}`}>
         <div
-          className={`dayBox relative w-16 hover:-translate-y-2 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md`}
+          className={`dayBox relative w-16 hover:-translate-y-2 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md ${outlineDetermine()}`}
         >
           <h1 className="text-large text-center">{dayIndex}</h1>
-          {/* <h2 className="text-medium text-center">{quality}</h2> */}
+          {/* <h2 className="text-medium text-center">{dayRating}</h2> */}
           <div className={`absolute w-10 h-8 bottom-1 right-1 rounded-full}`}>
-            <span className="text-xl">{emojiLibrary(quality)}</span>
+            <span className="text-xl">{CalendarEmoji(dayRating)}</span>
           </div>
         </div>
       </Link>

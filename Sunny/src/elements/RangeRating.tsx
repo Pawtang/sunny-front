@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { ratingProps } from "../utilities/types";
 
 const evaluateRating = (label: string, rating: number) => {
-  if (label === "Quality") {
+  if (label === "Day Rating") {
     switch (rating) {
       case 1:
         return "Miserable day...";
@@ -34,8 +34,8 @@ const RangeRating: FunctionComponent<ratingProps> = (props) => {
         <div className="border-1 mx-auto">
           <input
             type="range"
-            name="day-quality"
-            id="day-quality"
+            name="day-dayRating"
+            id="day-dayRating"
             min={1}
             max={maximum}
             value={value}

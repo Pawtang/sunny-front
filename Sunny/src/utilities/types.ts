@@ -8,7 +8,7 @@ export interface IDay {
 
 export interface dayProps {
   // id: number;
-  // quality: number;
+  // dayRating: number;
   date?: string;
 }
 

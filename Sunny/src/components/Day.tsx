@@ -18,7 +18,7 @@ const today = dayjs();
 dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = (props) => {
-  // const { quality } = props;
+  // const { dayRating } = props;
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState({});
   const [notes, setNotes] = useState("");
@@ -73,7 +73,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
             
             */}
             <RangeRating
-              label="Quality"
+              label="Day Rating"
               maximum={5}
               onChange={(rating: number) => setDayRating(rating)}
               value={dayRating}

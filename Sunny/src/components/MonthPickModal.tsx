@@ -30,9 +30,9 @@ const MonthPickModal = (props: { visibility: string; onClick: any }) => {
               <ul>
                 {months.map((month: string) => {
                   return (
-                    <li>
+                    <li key={month}>
                       <ActionButton
-                        onClick={""}
+                        onClick={() => {}}
                         buttonText={month}
                         styleTags="underline my-1 w-40"
                       ></ActionButton>
@@ -45,9 +45,9 @@ const MonthPickModal = (props: { visibility: string; onClick: any }) => {
               <ul>
                 {years.map((year: string) => {
                   return (
-                    <li>
+                    <li key={year}>
                       <ActionButton
-                        onClick={""}
+                        onClick={() => {}}
                         buttonText={year}
                         styleTags="underline my-1 w-40"
                       ></ActionButton>

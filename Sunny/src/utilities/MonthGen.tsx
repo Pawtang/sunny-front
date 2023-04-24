@@ -7,7 +7,7 @@ const MonthGen = (days?: IDay[] | undefined) => {
   // Just an empty array, but in Typescript!
   const month: {
     id: number;
-    quality?: number;
+    dayRating?: number;
   }[] = [];
 
   for (let i = 1; i <= dayqty; i++) {
@@ -17,13 +17,17 @@ const MonthGen = (days?: IDay[] | undefined) => {
   }
 
   if (days) {
-    console.log("Days:", days);
     for (let i = 1; i <= days.length; i++) {
-      const daynumber = dayjs(days[i].date).date();
-      console.log("Daynumber", daynumber);
-      console.log(month);
-      console.log(month[daynumber]);
-      month[daynumber].quality = days[i].dayRating;
+      // -1 to deal with indexing differences
+      const daynumber = dayjs(days[i - 1].date).date() - 1;
+      month[daynumber].dayRating = days[i - 1].dayRating;
+      // console.log("days", days);
+      // console.log("days[i]", days[i]);
+      // console.log("days i-1", days[i - 1]);
+      // console.log("Daynumber", daynumber);
+      // console.log("Month", month);
+      // console.log("Month[daynumber]", month[daynumber]);
+      // month[daynumber];
     }
   }
   return month;
