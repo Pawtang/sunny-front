@@ -36,8 +36,8 @@ const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
       // dayjs(`${year}-${month}-${day}`, "YYYY-MM-DD")
       ();
     const outlineDetermine = () => {
-      if (dayjs.isSame(`${year}-${month}-${day}`, "date") === true) {
-        return "outline-dotted outline-2 outline-gray-600";
+      if (dayjs(`${year}-${month}-${day}`).isSame(dayjs(), "day")) {
+        return "outline outline-2 outline-blue-400 outline-offset-4";
       }
     };
     return (

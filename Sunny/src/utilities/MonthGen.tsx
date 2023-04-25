@@ -21,13 +21,6 @@ const MonthGen = (days?: IDay[] | undefined) => {
       // -1 to deal with indexing differences
       const daynumber = dayjs(days[i - 1].date).date() - 1;
       month[daynumber].dayRating = days[i - 1].dayRating;
-      // console.log("days", days);
-      // console.log("days[i]", days[i]);
-      // console.log("days i-1", days[i - 1]);
-      // console.log("Daynumber", daynumber);
-      // console.log("Month", month);
-      // console.log("Month[daynumber]", month[daynumber]);
-      // month[daynumber];
     }
   }
   return month;
