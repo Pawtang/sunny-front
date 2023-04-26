@@ -8,7 +8,7 @@ import LinkButton from "../elements/LinkButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import { mapQueryParamsToObject } from "../utilities/QueryParamsUtils";
 import ActionButton from "../elements/ActionButton";
-import { submitDay } from "../middleware/dayServiceCalls";
+import { getDayData, submitDay } from "../middleware/dayServiceCalls";
 import { useLocation } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { dayProps } from "../utilities/types";
@@ -28,7 +28,10 @@ const Day: FunctionComponent<dayProps> = (props) => {
 
   useEffect(() => {}, []);
 
-  useEffect(() => {});
+  useEffect(() => {
+    // getDayData(params.date, () => {})
+    getDayData("20230426", () => {})
+  });
 
   const time = parseInt(today.format("hh"));
 

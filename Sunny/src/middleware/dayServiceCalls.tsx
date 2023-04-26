@@ -5,7 +5,7 @@ const MONTH_URL = "http://localhost:8000/month";
 
 export const submitDay = async (body: object, successCallback: Function) => {
   try {
-    const response = await axios.post(DAY_URL, body).then((response) => {
+    await axios.post(DAY_URL, body).then((response) => {
       successCallback && successCallback(response.data);
     });
   } catch (error) {
@@ -13,13 +13,11 @@ export const submitDay = async (body: object, successCallback: Function) => {
   }
 };
 
-export const getDayData = async (dayId: string, successCallback: Function) => {
+export const getDayData = async (date: string, successCallback: Function) => {
   try {
-    const response = await axios
-      .get(`${DAY_URL}?date=${dayId}`)
-      .then((response) => {
-        successCallback && successCallback(response.data);
-      });
+    await axios.get(`${DAY_URL}?date=${date}`).then((response) => {
+      successCallback && successCallback(response.data);
+    });
   } catch (error) {
     console.error(error);
   }
@@ -31,7 +29,7 @@ export const getMonth = async (
   successCallback: Function
 ) => {
   try {
-    const response = await axios
+    await axios
       .get(`${MONTH_URL}?month=${month}&year=${year}`)
       .then((response) => {
         successCallback && successCallback(response.data);
