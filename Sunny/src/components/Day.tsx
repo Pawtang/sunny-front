@@ -113,7 +113,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
           <ActionButton
             onClick={() => {
               submitDay({ notes, dayRating, attributes, date }, (data: any) => {
-                alert("YAY");
+                console.log(data);
               });
             }}
             buttonText="Submit"

@@ -29,26 +29,42 @@ const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
     const month = dayjs().format("MM");
     const year = dayjs().year();
     const day = prefixer(dayIndex);
-    console
-      .log
-      // dayjs.isSame()
-      // dayjs(`${today.year()}-${today.month()}-${today.date()}`, "YYYY-MM-DD"),
-      // dayjs(`${year}-${month}-${day}`, "YYYY-MM-DD")
-      ();
-    const outlineDetermine = () => {
-      if (dayjs(`${year}-${month}-${day}`).isSame(dayjs(), "day")) {
-        return "outline outline-2 outline-blue-400 outline-offset-4";
-      }
+    const date = `${year}-${month}-${day}`;
+
+    const compare = (date: string) => {
+      if (dayjs(date).isSame(dayjs(), "day")) return "same";
+      else if (dayjs(date).isAfter(dayjs(), "day")) return "after";
+      else return "before";
     };
+
+    const conditionalStyling = () => {
+      if (compare(date) === "same") {
+        return "outline outline-2 outline-blue-400 outline-offset-4 bg-white/80 hover:bg-white hover:h-15 hover:-translate-y-2 hover:drop-shadow-md";
+      } else if (compare(date) === "after") {
+        return "bg-gray-200 cursor-default";
+      } else
+        return "bg-white/80 hover:bg-white hover:h-15 hover:-translate-y-2 hover:drop-shadow-md";
+    };
+
     return (
-      <Link to={`/Day?date=${year}${month}${day}`}>
+      <Link
+        to={
+          compare(date) === "before" || compare(date) === "same"
+            ? `/Day?date=${date}`
+            : ""
+        }
+      >
         <div
-          className={`dayBox relative w-16 hover:-translate-y-2 h-16 hover:h-15 bg-white/80 hover:bg-white transition-all m-4 rounded hover:drop-shadow-md ${outlineDetermine()}`}
+          className={`dayBox relative w-16  h-16 transition-all m-4 rounded  ${conditionalStyling()} outline outline-1`}
         >
           <h1 className="text-large text-center">{dayIndex}</h1>
           {/* <h2 className="text-medium text-center">{dayRating}</h2> */}
           <div className={`absolute w-10 h-8 bottom-1 right-1 rounded-full}`}>
-            <span className="text-xl">{CalendarEmoji(dayRating)}</span>
+            <span className="text-xl">
+              {compare(date) === "before" || compare(date) === "same"
+                ? CalendarEmoji(dayRating)
+                : ""}
+            </span>
           </div>
         </div>
       </Link>
