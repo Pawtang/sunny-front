@@ -39,7 +39,10 @@ const Day: FunctionComponent<dayProps> = (props) => {
     >
       <div className="container mx-auto">
         <div className="journal max-w-lg mx-auto shadow-sm hover:shadow-lg">
-          <div className="container mx-auto p-4 mt-4 ">
+          <div className="float-right">
+            <ActionButton buttonText="❌" onClick={() => {}}></ActionButton>
+          </div>
+          <div className="relative float-left container mx-auto p-4 mt-4 ">
             <div className="mx-auto">
               <h1 className="text-3xl font-bold underline center ">
                 Hello, Ben
@@ -104,7 +107,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
             />
           </div>
         </div>
-        <div className="container submit m-10 mx-auto flex justify-center max-w-sm">
+        <div className="m-10 mx-auto flex justify-center max-w-sm">
           <LinkButton
             linkTo="/Month"
             buttonText="Back"
