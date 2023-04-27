@@ -9,8 +9,9 @@ const Navbar: FunctionComponent = () => {
   return (
     <div className="bg-white/0 absolute p-4">
       <nav>
-        <LinkButton linkTo="" buttonText="Login"></LinkButton>
-        <LinkButton linkTo="" buttonText="Signup"></LinkButton>
+        <LinkButton linkTo="/" buttonText="🏠"></LinkButton>
+        <LinkButton linkTo="/login" buttonText="Login"></LinkButton>
+        <LinkButton linkTo="/signup" buttonText="Signup"></LinkButton>
       </nav>
     </div>
   );

@@ -1,3 +1,4 @@
+import ActionButton from "../elements/ActionButton";
 import Navbar from "./Navbar";
 
 const Signup = () => {
@@ -8,7 +9,16 @@ const Signup = () => {
         <div className="flex items-center w-100 h-screen container-fluid">
           <div className="container flex justify-center mx-auto max-w-xl">
             <div className="container mx-auto text-white">
-              <h2>Setup</h2>
+              <form action="">
+                <label htmlFor="email">email</label>
+                <input type="text" id="email" />
+                <label htmlFor="password">password</label>
+                <input type="text" id="password" />
+                <ActionButton
+                  onClick={() => {}}
+                  buttonText="Sign Up"
+                ></ActionButton>
+              </form>
             </div>
           </div>
         </div>

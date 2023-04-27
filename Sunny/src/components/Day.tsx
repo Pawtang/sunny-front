@@ -49,7 +49,9 @@ const Day: FunctionComponent<dayProps> = (props) => {
               </h1>
               {today.diff(date, "day") === 0 ? (
                 <>
-                  <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
+                  <h2 className="center text-2xl">
+                    {dayjs(date).format("MMMM DD, YYYY")}
+                  </h2>
                   <h2 className="center mt-2">
                     <b> How was your day?</b>
                   </h2>

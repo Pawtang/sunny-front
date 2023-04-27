@@ -1,4 +1,5 @@
 import Navbar from "./Navbar";
+import ActionButton from "../elements/ActionButton";
 
 const Login = () => {
   return (
@@ -8,7 +9,16 @@ const Login = () => {
         <div className="flex items-center w-100 h-screen container-fluid">
           <div className="container flex justify-center mx-auto max-w-xl">
             <div className="container mx-auto text-white">
-              <h2>Setup</h2>
+              <form action="">
+                <label htmlFor="email">email</label>
+                <input type="text" id="email" />
+                <label htmlFor="password">password</label>
+                <input type="text" id="password" />
+                <ActionButton
+                  onClick={() => {}}
+                  buttonText="Log In"
+                ></ActionButton>
+              </form>
             </div>
           </div>
         </div>
