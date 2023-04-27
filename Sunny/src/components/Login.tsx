@@ -1,6 +1,6 @@
 import Navbar from "./Navbar";
 
-const Setup = () => {
+const Login = () => {
   return (
     <>
       <Navbar></Navbar>
@@ -17,4 +17,4 @@ const Setup = () => {
   );
 };
 
-export default Setup;
+export default Login;
