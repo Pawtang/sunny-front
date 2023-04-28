@@ -5,23 +5,45 @@ const Login = () => {
   return (
     <>
       <Navbar></Navbar>
-      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 container-fluid h-screen w-screen p-4">
-        <div className="flex items-center w-100 h-screen container-fluid">
-          <div className="container flex justify-center mx-auto max-w-xl">
-            <div className="container mx-auto text-white">
-              <form action="">
-                <label htmlFor="email">email</label>
-                <input type="text" id="email" />
-                <label htmlFor="password">password</label>
-                <input type="text" id="password" />
-                <ActionButton
-                  onClick={() => {}}
-                  buttonText="Log In"
-                ></ActionButton>
-              </form>
-            </div>
+      <div
+        className={`bg-gradient-to-r from-cyan-500 to-blue-500 min-h-screen flex items-center justify-center`}
+      >
+        <form className="bg-white/20 hover:bg-white/30 transition-all p-6 rounded-lg shadow-md max-w-md hover:-translate-y-1 duration-200 ease-linear">
+          <h2 className="text-3xl font-bold mb-6 text-center">Log In</h2>
+
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block font-semibold text-gray-700 mb-2"
+            >
+              Email
+            </label>
+            <input
+              type="text"
+              id="email"
+              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              placeholder="Enter your email address"
+            />
           </div>
-        </div>
+          <div className="mb-6">
+            <label htmlFor="password" className="block font-semibold 0 mb-2">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              placeholder="Enter your password"
+            />
+          </div>
+          <div className="flex justify-center">
+            <ActionButton
+              onClick={() => {}}
+              buttonText="Log In"
+              styleTags="w-96 mt-4"
+            ></ActionButton>
+          </div>
+        </form>
       </div>
     </>
   );

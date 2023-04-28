@@ -12,6 +12,7 @@ const Navbar: FunctionComponent = () => {
         <LinkButton linkTo="/" buttonText="🏠"></LinkButton>
         <LinkButton linkTo="/login" buttonText="Login"></LinkButton>
         <LinkButton linkTo="/signup" buttonText="Signup"></LinkButton>
+        <LinkButton linkTo="/setup" buttonText="Setup"></LinkButton>
       </nav>
     </div>
   );

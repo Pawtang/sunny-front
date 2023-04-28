@@ -1,38 +1,62 @@
-interface Coords {
-  time: number;
-  value: number;
-}
+const generateGradient = (time: number) => {
+  const gradients: Record<string, number[][]> = {
+    Dawn: [
+      [255, 180, 162],
+      [242, 221, 221],
+      [166, 223, 243],
+    ],
+    Rise: [
+      [166, 223, 243],
+      [242, 221, 221],
+      [255, 180, 162],
+    ],
+    Noon: [
+      [255, 180, 162],
+      [242, 221, 221],
+      [166, 223, 243],
+    ],
+    Set: [
+      [166, 223, 243],
+      [242, 221, 221],
+      [255, 180, 162],
+    ],
+    Dusk: [
+      [255, 180, 162],
+      [242, 221, 221],
+      [166, 223, 243],
+    ],
+    Night: [
+      [166, 223, 243],
+      [0, 0, 64],
+      [0, 0, 0],
+    ],
+  };
 
-interface CubicCurve {
-  coefficients: number[];
-  evaluate: (time: number) => number;
-}
+  const keys = Object.keys(gradients);
+  const index = (time / 24) * keys.length;
+  const startIndex = Math.floor(index) % keys.length;
+  const endIndex = (startIndex + 1) % keys.length;
 
-const interpolateRGB = (time: number) => {
-  const rgbValues: number[][] = [
-    [255, 15, 30],
-    [90, 90, 155],
-    [30, 40, 50],
-    [50, 150, 50],
-    [255, 255, 100],
-    [255, 255, 255],
-  ];
+  const startGradient = gradients[keys[startIndex]];
+  const endGradient = gradients[keys[endIndex]];
 
-  const segmentSize: number = 240; // 1440 / 6 = 240
-  const segmentIndex: number = Math.floor(time / segmentSize);
-  const segmentStart: number = segmentIndex * segmentSize;
-  const segmentEnd: number = (segmentIndex + 1) * segmentSize;
+  const t = index - startIndex;
+  const cubic = (a: number, b: number, c: number, d: number) => (t: number) => {
+    return a + b * t + c * t * t + d * t * t * t;
+  };
 
-  const x1: number = segmentStart;
-  const x2: number = segmentEnd;
-  const y1: number[] = rgbValues[segmentIndex];
-  const y2: number[] = rgbValues[segmentIndex + 1];
+  const interpolatedGradient = startGradient.map((startValues, i) => {
+    const endValues = endGradient[i];
+    const [r1, g1, b1] = startValues;
+    const [r2, g2, b2] = endValues;
+    const r = cubic(r1, r2 - r1, 0, 0)(t);
+    const g = cubic(g1, g2 - g1, 0, 0)(t);
+    const b = cubic(b1, b2 - b1, 0, 0)(t);
+    return `linear-gradient(rgba)`;
+    // return [r, g, b];
+  });
 
-  const r: number = ((time - x1) * (y2[0] - y1[0])) / (x2 - x1) + y1[0];
-  const g: number = ((time - x1) * (y2[1] - y1[1])) / (x2 - x1) + y1[1];
-  const b: number = ((time - x1) * (y2[2] - y1[2])) / (x2 - x1) + y1[2];
-
-  return [r, g, b];
+  return interpolatedGradient;
 };
 
-export default interpolateRGB;
+export default generateGradient;
