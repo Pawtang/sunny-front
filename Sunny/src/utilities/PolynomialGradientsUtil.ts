@@ -45,6 +45,8 @@ const generateGradient = (time: number) => {
     return a + b * t + c * t * t + d * t * t * t;
   };
 
+  const output: string[] = [];
+
   const interpolatedGradient = startGradient.map((startValues, i) => {
     const endValues = endGradient[i];
     const [r1, g1, b1] = startValues;
@@ -52,11 +54,15 @@ const generateGradient = (time: number) => {
     const r = cubic(r1, r2 - r1, 0, 0)(t);
     const g = cubic(g1, g2 - g1, 0, 0)(t);
     const b = cubic(b1, b2 - b1, 0, 0)(t);
-    return `linear-gradient(rgba)`;
-    // return [r, g, b];
+    output.push(r.toString());
+    output.push(g.toString());
+    output.push(b.toString());
   });
-
-  return interpolatedGradient;
+  // console.log(interpolatedGradient);
+  return `linear-gradient(
+    rgba(${output[0]},${output[1]},${output[2]},0.7),
+  rgba(${output[3]},${output[4]},${output[5]},0.7),
+    rgba(${output[6]},${output[7]},${output[8]},0.7)`;
 };
 
 export default generateGradient;

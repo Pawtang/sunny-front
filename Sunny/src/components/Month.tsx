@@ -9,6 +9,7 @@ import BackgroundGradient from "../utilities/BackgroundGradient";
 import { getMonth } from "../middleware/dayServiceCalls";
 import { IDay } from "../utilities/types";
 import MonthPickModal from "./MonthPickModal";
+import generateGradient from "../utilities/PolynomialGradientsUtil";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
@@ -38,8 +39,14 @@ const Month: FunctionComponent = () => {
     loadMonth();
   }, []);
 
+  useEffect(() => {
+    generateGradient(dayjs().second());
+  }, [dayjs().second()]);
+
+  const grad = generateGradient(dayjs().second());
+
   return (
-    <div className={`mt-0`} style={{ background: BackgroundGradient(time) }}>
+    <div className={`mt-0`} style={{ background: grad }}>
       <div className="container nav z-50">
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
         <ActionButton
