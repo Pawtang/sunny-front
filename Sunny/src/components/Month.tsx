@@ -18,7 +18,8 @@ const Month: FunctionComponent = () => {
     return "grid-cols-7";
   };
 
-  const time = parseInt(today.format("hh"));
+  const time = 11;
+  // const time = today.hour();
   const [month, setMonth] = useState<IDay[] | undefined>([]);
   const [modalVisibility, setModalVisibility] = useState<string>("hidden");
 
@@ -37,13 +38,15 @@ const Month: FunctionComponent = () => {
 
   useEffect(() => {
     loadMonth();
+    console.log(time);
+    console.log(grad);
   }, []);
 
-  useEffect(() => {
-    generateGradient(dayjs().second());
-  }, [dayjs().second()]);
+  // useEffect(() => {
+  //   generateGradient(dayjs().second());
+  // }, [dayjs().second()]);
 
-  const grad = generateGradient(dayjs().second());
+  const grad = generateGradient(time);
 
   return (
     <div className={`mt-0`} style={{ background: grad }}>

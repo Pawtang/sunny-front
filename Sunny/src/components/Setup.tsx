@@ -15,7 +15,7 @@ const Setup = () => {
 
           <div className="grid grid-cols-2 gap-4" id="setup">
             <div className="flex items-center">
-              <h2 className="text-l">Attribute 1:</h2>
+              <h2 className="text-l">A ttribute 1:</h2>
             </div>
 
             <div className="flex items-center">
