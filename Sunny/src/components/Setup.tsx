@@ -1,7 +1,27 @@
 import Navbar from "./Navbar";
 import ActionButton from "../elements/ActionButton";
+import { attributeObject } from "../utilities/types";
+import { useState } from "react";
 
 const Setup = () => {
+  const [attributes, setAttributes] = useState<attributeObject>({});
+  const [attributeName, setAttributeName] = useState<string>("");
+  const [attributeType, setAttributeType] = useState<string>("");
+
+  const attributesList = () => {
+    return attributes && Object.entries(attributes);
+  };
+
+  const assignType = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAttributeType(e.currentTarget.value);
+  };
+
+  const writeAttribute = () => {
+    setAttributes({ ...attributes, [attributeName]: attributeType });
+    setAttributeType("");
+    setAttributeName("");
+  };
+
   return (
     <>
       <Navbar></Navbar>
@@ -13,46 +33,70 @@ const Setup = () => {
             Set Up Your Tracking
           </h2>
 
-          <div className="grid grid-cols-2 gap-4" id="setup">
-            <div className="flex items-center">
-              <h2 className="text-l">A ttribute 1:</h2>
-            </div>
-
-            <div className="flex items-center">
-              <div>
-                <label htmlFor="yes-no-checkbox" className="mr-4 font-bold">
-                  Yes/No:
-                </label>
-                <input
-                  id="yes-no-checkbox"
-                  type="checkbox"
-                  className="form-checkbox"
-                />
-              </div>
-              <div>
-                <label htmlFor="yes-no-checkbox" className="mr-4 font-bold">
-                  Yes/No:
-                </label>
-                <input
-                  id="yes-no-checkbox"
-                  type="checkbox"
-                  className="form-checkbox"
-                />
-              </div>
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="name"
+              className="block font-semibold text-gray-700 mb-2"
+            >
+              Attribute Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              placeholder="What do you want to track?"
+              value={attributeName}
+              onChange={(e) => setAttributeName(e.currentTarget.value)}
+            />
           </div>
+          <div className="mb-6">
+            <label>
+              <input
+                type="radio"
+                name="option"
+                value="number"
+                checked={attributeType === "number"}
+                onChange={(e) => assignType(e)}
+              />
+              Number
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="option"
+                value="boolean"
+                checked={attributeType === "boolean"}
+                onChange={(e) => assignType(e)}
+              />
+              True/False
+            </label>
+          </div>
+
+          {attributesList() &&
+            attributesList().map((attribute) => {
+              return (
+                <>
+                  <p>{`${attribute[0]}: ${attribute[1]}`}</p>
+                </>
+              );
+            })}
+
           <div className="flex justify-center">
             <ActionButton
-              onClick={() => {}}
-              buttonText="Add Another"
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                e.preventDefault();
+                writeAttribute();
+              }}
+              buttonText="Add Attribute"
               styleTags="w-96 mt-4"
             ></ActionButton>
           </div>
-
           <div className="flex justify-center">
             <ActionButton
-              onClick={() => {}}
-              buttonText="Log In"
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                e.preventDefault();
+              }}
+              buttonText="Save List"
               styleTags="w-96 mt-4"
             ></ActionButton>
           </div>

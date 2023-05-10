@@ -57,6 +57,7 @@ const generateGradient = (time: number) => {
     output.push(r.toString());
     output.push(g.toString());
     output.push(b.toString());
+    console.log(time, r, g, b);
   });
   // console.log(interpolatedGradient);
   return `linear-gradient(

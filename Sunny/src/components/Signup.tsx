@@ -32,6 +32,34 @@ const Signup = () => {
           </div>
           <div className="mb-4">
             <label
+              htmlFor="firstname"
+              className="block font-semibold text-gray-700 mb-2"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              id="firstname"
+              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              placeholder="First name"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="lastname"
+              className="block font-semibold text-gray-700 mb-2"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lastname"
+              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              placeholder="Last name"
+            />
+          </div>
+          <div className="mb-4">
+            <label
               htmlFor="email"
               className="block font-semibold text-gray-700 mb-2"
             >
@@ -62,13 +90,13 @@ const Signup = () => {
               styleTags="w-96"
             ></ActionButton>
           </div>
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <ActionButton
               onClick={() => {}}
               buttonText="Log In"
               styleTags="w-96 mt-4"
             ></ActionButton>
-          </div>
+          </div> */}
         </form>
       </div>
     </>

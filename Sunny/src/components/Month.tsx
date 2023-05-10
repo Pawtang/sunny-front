@@ -18,7 +18,7 @@ const Month: FunctionComponent = () => {
     return "grid-cols-7";
   };
 
-  const time = 11;
+  // const time = 11;
   // const time = today.hour();
   const [month, setMonth] = useState<IDay[] | undefined>([]);
   const [modalVisibility, setModalVisibility] = useState<string>("hidden");
@@ -46,6 +46,7 @@ const Month: FunctionComponent = () => {
   //   generateGradient(dayjs().second());
   // }, [dayjs().second()]);
 
+  const [time, setTime] = useState(12);
   const grad = generateGradient(time);
 
   return (
@@ -61,6 +62,18 @@ const Month: FunctionComponent = () => {
           buttonText="📅"
           styleTags="z-50"
         ></ActionButton>
+      </div>
+
+      <div className="mx-4 inline">
+        <input
+          type="range"
+          value={time}
+          min={0}
+          max={23}
+          onChange={(e) => {
+            setTime(e.target.valueAsNumber);
+          }}
+        />
       </div>
 
       <MonthPickModal

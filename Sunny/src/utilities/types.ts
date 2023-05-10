@@ -25,3 +25,7 @@ export interface ratingProps {
   maximum: number;
   onChange: Function;
 }
+
+export interface attributeObject {
+  [key: string]: string;
+}
