@@ -1,5 +1,6 @@
 import ActionButton from "../elements/ActionButton";
 import Navbar from "./Navbar";
+import { signup } from "../middleware/userServiceCalls";
 // import { useState } from "react";
 
 // const [bg, setBg] = useState(0);
@@ -15,9 +16,9 @@ const Signup = () => {
     <>
       <Navbar></Navbar>
       <div
-        className={`bg-gradient-to-r from-cyan-500 to-blue-500 min-h-screen flex items-center justify-center`}
+        className={`bg-gradient-to-r from-cyan-500 to-blue-500 min-h-screen flex items-center justify-center text-lg`}
       >
-        <form className="bg-white/20 hover:bg-white/30 transition-all p-6 rounded-lg shadow-md max-w-md hover:-translate-y-1 duration-200 ease-linear">
+        <form className="bg-white/50 hover:bg-white/60 transition-all p-6 rounded-lg shadow-md max-w-md hover:-translate-y-1 duration-200 ease-linear">
           <h2 className="text-3xl font-bold mb-6 text-center">Sign Up</h2>
           <div className="p-4">
             <p>Sunny is totes free to use.</p>
