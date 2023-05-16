@@ -10,7 +10,8 @@ export const signup = async (body: object, successCallback: Function) => {
   } catch (error) {
     console.error("error", error);
   }
-  
+};
+
 export const login = async (body: object, successCallback: Function) => {
   try {
     const response = await axios.post(USER_URL, body).then((response) => {
