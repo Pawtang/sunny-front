@@ -22,6 +22,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState({});
   const [notes, setNotes] = useState("");
+  const [isEditing, setIsEditing] = useState(true);
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
@@ -30,7 +31,14 @@ const Day: FunctionComponent<dayProps> = (props) => {
 
   useEffect(() => {
     // getDayData(params.date, () => {})
-    getDayData("20230426", () => {})
+    getDayData(params.date, (data: any) => {
+      console.log(data);
+      if (data) {
+        setDayRating(data.dayRating);
+        setNotes(data.notes);
+        setIsEditing(false);
+      }
+    })
   });
 
   const time = parseInt(today.format("hh"));
@@ -47,6 +55,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
               <h1 className="text-3xl font-bold underline center ">
                 Hello, Ben
               </h1>
+              <h1>{`Is Editing: ${isEditing}`}</h1>
               {today.diff(date, "day") === 0 ? (
                 <>
                   <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
