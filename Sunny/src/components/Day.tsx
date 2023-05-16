@@ -8,7 +8,7 @@ import LinkButton from "../elements/LinkButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import { mapQueryParamsToObject } from "../utilities/QueryParamsUtils";
 import ActionButton from "../elements/ActionButton";
-import { submitDay } from "../middleware/dayServiceCalls";
+import { getDayData, submitDay } from "../middleware/dayServiceCalls";
 import { useLocation } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { dayProps } from "../utilities/types";
@@ -22,13 +22,24 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState({});
   const [notes, setNotes] = useState("");
+  const [isEditing, setIsEditing] = useState(true);
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
 
   useEffect(() => {}, []);
 
-  useEffect(() => {});
+  useEffect(() => {
+    // getDayData(params.date, () => {})
+    getDayData(params.date, (data: any) => {
+      console.log(data);
+      if (data) {
+        setDayRating(data.dayRating);
+        setNotes(data.notes);
+        setIsEditing(false);
+      }
+    })
+  });
 
   const time = parseInt(today.format("hh"));
 
@@ -44,6 +55,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
               <h1 className="text-3xl font-bold underline center ">
                 Hello, Ben
               </h1>
+              <h1>{`Is Editing: ${isEditing}`}</h1>
               {today.diff(date, "day") === 0 ? (
                 <>
                   <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
