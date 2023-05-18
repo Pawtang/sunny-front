@@ -27,10 +27,11 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   useEffect(() => {
     // getDayData(params.date, () => {})
+    console.log("reached");
     getDayData(params.date, (data: any) => {
       console.log(data);
       if (data) {
@@ -38,8 +39,8 @@ const Day: FunctionComponent<dayProps> = (props) => {
         setNotes(data.notes);
         setIsEditing(false);
       }
-    })
-  });
+    });
+  }, []);
 
   const time = parseInt(today.format("hh"));
 

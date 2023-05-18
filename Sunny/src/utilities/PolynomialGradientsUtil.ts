@@ -1,14 +1,14 @@
 const generateGradient = (time: number) => {
   const gradients: Record<string, number[][]> = {
     Dawn: [
-      [0, 146, 211], // Blue
+      [196, 169, 233], // Blue
       [255, 192, 203], // Pink
       [255, 255, 153], // Yellow
     ],
     Rise: [
-      [255, 0, 0], // Red
-      [255, 192, 203], // Pink
-      [255, 255, 153], // Yellow
+      [110, 182, 228], // Blue
+      [199, 252, 254], // Light Blue
+      [255, 168, 46], // Orange
     ],
     Noon: [
       [0, 191, 255], // Blue
@@ -57,13 +57,14 @@ const generateGradient = (time: number) => {
     output.push(r.toString());
     output.push(g.toString());
     output.push(b.toString());
-    console.log(time, r, g, b);
+    // console.log(time, r, g, b);
   });
   // console.log(interpolatedGradient);
-  return `linear-gradient(
-    rgba(${output[0]},${output[1]},${output[2]},0.7),
-  rgba(${output[3]},${output[4]},${output[5]},0.7),
-    rgba(${output[6]},${output[7]},${output[8]},0.7)`;
+  return "linear-gradient(152deg, rgba(110,182,228,1) 0%, rgba(199,252,254,1) 50%, rgba(255,240,136,1) 100%)";
+  //  `linear-gradient(
+  //   rgba(${output[0]},${output[1]},${output[2]},0.7),
+  // rgba(${output[3]},${output[4]},${output[5]},0.7),
+  //   rgba(${output[6]},${output[7]},${output[8]},0.7)`;
 };
 
 export default generateGradient;

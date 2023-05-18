@@ -36,8 +36,8 @@ const Month: FunctionComponent = () => {
 
   useEffect(() => {
     loadMonth();
-    console.log(time);
-    console.log(grad);
+    // console.log(time);
+    // console.log(grad);
   }, []);
 
   // useEffect(() => {
