@@ -4,20 +4,26 @@ import { attributeObject } from "../utilities/types";
 import { useState } from "react";
 import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
-// import { submitAttributes } from "../middleware/setupServiceCalls";
-// import { getAttributesForUser } from "../middleware/setupServiceCalls";
+import { submitAttributes } from "../middleware/setupServiceCalls";
+
+const hoursSleptObject: attributeObject = {name: "Hours Slept", type: "number"};
+const milesRunObject: attributeObject = {name: "Miles Run", type: "number"};
+const minutesReadObject: attributeObject = {name: "Minutes Read", type: "number"};
+const wentToGymObject: attributeObject = {name: "Went to Gym", type: "boolean"};
+const drinksHadObject: attributeObject = {name: "Drinks Had", type: "number"};
 
 const Setup = () => {
-  const [attributes, setAttributes] = useState<attributeObject>({});
+  const [attributes, setAttributes] = useState<attributeObject[]>([]);
+  const [hoursSlept, setHoursSlept] = useState<boolean>(false);
+  const [milesRun, setMilesRun] = useState<boolean>(false);
+  const [minutesRead, setMinutesRead] = useState<boolean>(false);
+  const [wentToGym, setWentToGym] = useState<boolean>(false);
+  const [drinksHad, setDrinksHad] = useState<boolean>(false);
   const [attributeName, setAttributeName] = useState<string>("");
   const [attributeType, setAttributeType] = useState<string>("number");
   // need to add a way to add checked attributes and radio attributes to a single list. change wording.
   const [checkedAttributes, setCheckedAttributes] = useState<string>("");
   // const [trackedAttributes, setTrackedAttributes] = useState;
-
-  const attributesList = () => {
-    return attributes && Object.entries(attributes);
-  };
 
   const assignType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAttributeType(e.currentTarget.value);
@@ -26,15 +32,26 @@ const Setup = () => {
   const writeAttribute = () => {
     if (!attributeName || !attributeType) return;
     {
-      setAttributes({ ...attributes, [attributeName]: attributeType });
+      setAttributes([...attributes, {name: attributeName, type: attributeType}]);
     }
     setAttributeType("number");
     setAttributeName("");
   };
 
   const commitAttributes = () => {
-    //add all attributes to "you are tracking" list upon save
-    return;
+    const commonAttributes = [
+      hoursSlept && hoursSleptObject,
+      milesRun && milesRunObject,
+      minutesRead && minutesReadObject,
+      wentToGym && wentToGymObject,
+      drinksHad && drinksHadObject
+    ];
+
+    const toSubmit = [...commonAttributes, ...attributes].filter(val =>  val);
+    console.log("TO SUBMIT", toSubmit);
+    submitAttributes({attributes: toSubmit}, (data: any) => {
+      console.log(data);
+    })
   };
 
   return (
@@ -58,33 +75,42 @@ const Setup = () => {
               <b>Common Attributes</b>
             </h2>
             <CheckItem
-              name="sleep"
-              id="check-sleep"
+              // name="sleep"
+              // id="check-sleep"
               label="Hours Slept"
+              checked={hoursSlept}
+              onClick={() => setHoursSlept(!hoursSlept)}
             ></CheckItem>
-
             <CheckItem
-              name="miles-run"
-              id="check-miles-run"
+              // name="miles-run"
+              // id="check-miles-run"
               label="Miles Run"
+              checked={milesRun}
+              onClick={() => setMilesRun(!milesRun)}
             ></CheckItem>
 
             <CheckItem
-              name="minutes-read"
-              id="check-minutes-read"
+              // name="minutes-read"
+              // id="check-minutes-read"
               label="Minutes Read"
+              checked={minutesRead}
+              onClick={() => setMinutesRead(!minutesRead)}
             ></CheckItem>
 
             <CheckItem
-              name="gym"
-              id="check-gym"
+              // name="gym"
+              // id="check-gym"
               label="Went to Gym"
+              checked={wentToGym}
+              onClick={() => setWentToGym(!wentToGym)}
             ></CheckItem>
 
             <CheckItem
-              name="drinks"
-              id="check-drinks"
+              // name="drinks"
+              // id="check-drinks"
               label="Drinks Had"
+              checked={drinksHad}
+              onClick={() => setDrinksHad(!drinksHad)}
             ></CheckItem>
           </div>
           {/* Custom tracking */}
@@ -133,11 +159,10 @@ const Setup = () => {
             </div>
           </div>
 
-          {attributesList() &&
-            attributesList().map((attribute) => {
+          {attributes.map((attribute) => {
               return (
                 <>
-                  <p>{`${attribute[0]}: ${attribute[1]}`}</p>
+                  <p>{`${attribute.name}: ${attribute.type}`}</p>
                 </>
               );
             })}

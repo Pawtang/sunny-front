@@ -18,7 +18,7 @@ const today = dayjs();
 dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = (props) => {
-  // const { dayRating } = props;
+  const [id, setId] = useState(null);
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState({});
   const [notes, setNotes] = useState("");
@@ -26,18 +26,16 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
-
-  // useEffect(() => {}, []);
+  console.log(typeof dayjs(date).format("MMMM DD, YYYY"));
 
   useEffect(() => {
-    // getDayData(params.date, () => {})
-    console.log("reached");
     getDayData(params.date, (data: any) => {
       console.log(data);
       if (data) {
         setDayRating(data.dayRating);
         setNotes(data.notes);
         setIsEditing(false);
+        setId(data._id)
       }
     });
   }, []);
@@ -59,7 +57,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
               <h1 className="text-3xl font-bold underline center ">
                 Hello, Ben
               </h1>
-              <h1>{`Is Editing: ${isEditing}`}</h1>
+              {isEditing && <h1>This item contains unsaved changes</h1>}
               {today.diff(date, "day") === 0 ? (
                 <>
                   <h2 className="center text-2xl">
@@ -130,8 +128,12 @@ const Day: FunctionComponent<dayProps> = (props) => {
           ></LinkButton>
           <ActionButton
             onClick={() => {
-              submitDay({ notes, dayRating, attributes, date }, (data: any) => {
-                console.log(data);
+              submitDay({ id, notes, dayRating, attributes, date: dayjs(date).format("YYYY-MM-DD")}, (data: any) => {
+                const {_id, notes, dayRating } = data;
+                setId(_id);
+                setNotes(notes);
+                setDayRating(dayRating);
+                setIsEditing(false);
               });
             }}
             buttonText="Submit"
