@@ -27,10 +27,11 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   useEffect(() => {
     // getDayData(params.date, () => {})
+    console.log("reached");
     getDayData(params.date, (data: any) => {
       console.log(data);
       if (data) {
@@ -38,8 +39,8 @@ const Day: FunctionComponent<dayProps> = (props) => {
         setNotes(data.notes);
         setIsEditing(false);
       }
-    })
-  });
+    });
+  }, []);
 
   const time = parseInt(today.format("hh"));
 
@@ -50,7 +51,10 @@ const Day: FunctionComponent<dayProps> = (props) => {
     >
       <div className="container mx-auto">
         <div className="journal max-w-lg mx-auto shadow-sm hover:shadow-lg">
-          <div className="container mx-auto p-4 mt-4 ">
+          <div className="float-right">
+            <ActionButton buttonText="❌" onClick={() => {}}></ActionButton>
+          </div>
+          <div className="relative float-left container mx-auto p-4 mt-4 ">
             <div className="mx-auto">
               <h1 className="text-3xl font-bold underline center ">
                 Hello, Ben
@@ -58,7 +62,9 @@ const Day: FunctionComponent<dayProps> = (props) => {
               <h1>{`Is Editing: ${isEditing}`}</h1>
               {today.diff(date, "day") === 0 ? (
                 <>
-                  <h2 className="center text-2xl">{today.format("h:mm A")}</h2>
+                  <h2 className="center text-2xl">
+                    {dayjs(date).format("MMMM DD, YYYY")}
+                  </h2>
                   <h2 className="center mt-2">
                     <b> How was your day?</b>
                   </h2>
@@ -116,7 +122,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
             />
           </div>
         </div>
-        <div className="container submit m-10 mx-auto flex justify-center max-w-sm">
+        <div className="m-10 mx-auto flex justify-center max-w-sm">
           <LinkButton
             linkTo="/Month"
             buttonText="Back"
@@ -125,7 +131,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
           <ActionButton
             onClick={() => {
               submitDay({ notes, dayRating, attributes, date }, (data: any) => {
-                alert("YAY");
+                console.log(data);
               });
             }}
             buttonText="Submit"

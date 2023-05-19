@@ -19,9 +19,27 @@ export interface buttonProps {
   // stateSetter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+export interface checkProps {
+  name: string;
+  id: string;
+  label: string;
+}
+
+export interface radioProps {
+  name: string;
+  value: string;
+  label: string;
+  onChange: Function;
+  attributeType: string;
+}
+
 export interface ratingProps {
   label: string;
   value: number;
   maximum: number;
   onChange: Function;
+}
+
+export interface attributeObject {
+  [key: string]: string;
 }

@@ -9,6 +9,7 @@ import BackgroundGradient from "../utilities/BackgroundGradient";
 import { getMonth } from "../middleware/dayServiceCalls";
 import { IDay } from "../utilities/types";
 import MonthPickModal from "./MonthPickModal";
+import generateGradient from "../utilities/PolynomialGradientsUtil";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
@@ -17,7 +18,8 @@ const Month: FunctionComponent = () => {
     return "grid-cols-7";
   };
 
-  const time = parseInt(today.format("hh"));
+  // const time = 11;
+  // const time = today.hour();
   const [month, setMonth] = useState<IDay[] | undefined>([]);
   const [modalVisibility, setModalVisibility] = useState<string>("hidden");
 
@@ -34,10 +36,19 @@ const Month: FunctionComponent = () => {
 
   useEffect(() => {
     loadMonth();
+    // console.log(time);
+    // console.log(grad);
   }, []);
 
+  // useEffect(() => {
+  //   generateGradient(dayjs().second());
+  // }, [dayjs().second()]);
+
+  const [time, setTime] = useState(12);
+  const grad = generateGradient(time);
+
   return (
-    <div className={`mt-0`} style={{ background: BackgroundGradient(time) }}>
+    <div className={`mt-0`} style={{ background: grad }}>
       <div className="container nav z-50">
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
         <ActionButton
@@ -49,6 +60,18 @@ const Month: FunctionComponent = () => {
           buttonText="📅"
           styleTags="z-50"
         ></ActionButton>
+      </div>
+
+      <div className="mx-4 inline">
+        <input
+          type="range"
+          value={time}
+          min={0}
+          max={23}
+          onChange={(e) => {
+            setTime(e.target.valueAsNumber);
+          }}
+        />
       </div>
 
       <MonthPickModal

@@ -3,10 +3,17 @@ import React, { FunctionComponent } from "react";
 import { Fragment } from "react";
 import LinkButton from "../elements/LinkButton";
 import Navbar from "./Navbar";
+import dayjs from "dayjs";
+import { prefixer } from "../utilities/Prefixer";
 // import Month from "./Month";
 // import Day from "./Day";
 
+const date = `${dayjs().year()}-${prefixer(dayjs().month() + 1)}-${prefixer(
+  dayjs().date()
+)}`;
+
 const Home: FunctionComponent = () => {
+  console.log(date);
   return (
     <>
       <Navbar></Navbar>
@@ -25,7 +32,7 @@ const Home: FunctionComponent = () => {
                   styleTags="mx-auto"
                 ></LinkButton>
                 <LinkButton
-                  linkTo="/Day"
+                  linkTo={`/Day?date=${date}`}
                   buttonText="Today's journal"
                   styleTags="ml-4"
                 ></LinkButton>
