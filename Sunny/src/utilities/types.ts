@@ -42,8 +42,14 @@ export interface ratingProps {
   onChange: Function;
 }
 
+export interface numberRatingProps {
+  label: string;
+  value: number;
+  onChange: Function;
+}
+
 export interface attributeObject {
   name: string;
   type: string;
-  value?: string;
+  value?: number;
 }

@@ -1,21 +1,10 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { useState } from "react";
-import { Interface } from "readline";
+// import { Interface } from "readline";
+import { numberRatingProps } from "../utilities/types";
 
-const evaluateRating = (value: string, rating: number) => {
-  if (value === "Sleep") {
-    return `${rating} hours`;
-  }
-  return value;
-};
-
-interface ratingProps {
-  label: string;
-}
-
-const NumberRating: FunctionComponent<ratingProps> = (props) => {
-  const { label } = props;
-  const [rating, setRating] = useState(0);
+const NumberRating: FunctionComponent<numberRatingProps> = (props) => {
+  const { label, value, onChange } = props;
 
   return (
     <div className="container dayrating mx-auto px-6">
@@ -27,15 +16,15 @@ const NumberRating: FunctionComponent<ratingProps> = (props) => {
               type="number"
               name="inputNum"
               id="inputNum"
-              value={rating}
+              value={value}
               onChange={(e) => {
-                setRating(e.target.valueAsNumber);
+                onChange(e.target.valueAsNumber);
               }}
               className="border-1 w-24 mx-auto num-input appearance-none background:white rounded-md m-0 text-center "
             />
           </div>
         </div>
-        <div className="border-1 mx-auto">{evaluateRating(label, rating)}</div>
+        <div className="border-1 mx-auto">{label}</div>
       </div>
     </div>
   );

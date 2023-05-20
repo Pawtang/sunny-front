@@ -25,7 +25,7 @@ export const login = async (body: object, successCallback: Function) => {
 };
 
 export const getAttributesForUser = async (
-  // userid: string,
+  userid: string,
   successCallback: Function
 ) => {
   try {

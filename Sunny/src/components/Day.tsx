@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect } from "react";
+import { Fragment } from "react";
 import { useState } from "react";
 import BooleanRating from "../elements/BooleanRating";
 import NumberRating from "../elements/NumberRating";
@@ -20,24 +21,26 @@ const today = dayjs();
 dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = (props) => {
+  const [loadedDayObject, setLoadedDayObject] = useState({});
   const [id, setId] = useState(null);
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
   const [notes, setNotes] = useState("");
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [dayExists, setDayExists] = useState(false);
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
-  console.log(typeof dayjs(date).format("MMMM DD, YYYY"));
+  // console.log(typeof dayjs(date).format("MMMM DD, YYYY"));
 
   useEffect(() => {
     getAttributesForUser("646808d38d816587d6ec320e", (data: any) => {
-      // console.log(data);
       setAttributes(data);
     });
     getDayData(params.date, (data: any) => {
-      // console.log(data);
+      setLoadedDayObject(data);
       if (data) {
+        setDayExists(true);
         setDayRating(data.dayRating);
         setNotes(data.notes);
         // setIsEditing(false);
@@ -54,16 +57,25 @@ const Day: FunctionComponent<dayProps> = (props) => {
       style={{ backgroundImage: `${BackgroundGradient(time)}` }}
     >
       <div className="container mx-auto">
-        <div className="journal max-w-lg mx-auto shadow-sm hover:shadow-lg">
+        <div
+          className={`journal max-w-lg mx-auto shadow-sm hover:shadow-lg ${
+            isEditing ? "" : ""
+          }`}
+        >
           <div className="float-right">
-            <ActionButton buttonText="❌" onClick={() => {}}></ActionButton>
+            <ActionButton
+              buttonText="❌"
+              onClick={() => {
+                setIsEditing(!isEditing);
+              }}
+            ></ActionButton>
           </div>
           <div className="relative float-left container mx-auto p-4 mt-4 ">
             <div className="mx-auto">
               <h1 className="text-3xl font-bold underline center ">
                 Hello, Ben
               </h1>
-              {isEditing && <h1>This item contains unsaved changes</h1>}
+
               {today.diff(date, "day") === 0 ? (
                 <>
                   <h2 className="center text-2xl">
@@ -92,14 +104,34 @@ const Day: FunctionComponent<dayProps> = (props) => {
             <RangeRating
               label="Day Rating"
               maximum={5}
-              onChange={(rating: number) => setDayRating(rating)}
+              onChange={(rating: number) => {
+                setDayRating(rating);
+                setIsEditing(true);
+              }}
               value={dayRating}
             />
-            {attributes.map((attribute) =>
+            {attributes.map((attribute, index: number) =>
               attribute.type === "number" ? (
-                <NumberRating label={attribute.name}></NumberRating>
+                <Fragment key={index}>
+                  <NumberRating
+                    label={attribute.name}
+                    value={attribute.value ? attribute.value : 0}
+                    onChange={(rating: number) => {
+                      const updatedAttributes = [...attributes]; // Create a shallow copy of the attributes array
+                      updatedAttributes[index] = {
+                        ...attribute,
+                        value: rating,
+                      }; // Update the specific item at the given index
+                      console.log(updatedAttributes, attributes);
+                      setAttributes(updatedAttributes);
+                      setIsEditing(true);
+                    }}
+                  ></NumberRating>
+                </Fragment>
               ) : (
-                <BooleanRating label={attribute.name}></BooleanRating>
+                <Fragment key={index}>
+                  <BooleanRating label={attribute.name}></BooleanRating>
+                </Fragment>
               )
             )}
             {/* <RangeRating value="Sleep" maximum={12}></RangeRating>
@@ -122,6 +154,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
               rows={3}
               onChange={(e) => {
                 setNotes(e.target.value);
+                setIsEditing(true);
               }}
               value={notes}
               placeholder="Tell me about your day"
@@ -153,8 +186,10 @@ const Day: FunctionComponent<dayProps> = (props) => {
                 }
               );
             }}
-            buttonText="Submit"
-            styleTags="text-center"
+            buttonText={`${dayExists ? "Save Changes" : "Submit"}`}
+            styleTags={`text-center ${
+              isEditing ? "bg-blue-500 text-white" : ""
+            }`}
           ></ActionButton>
         </div>
       </div>
