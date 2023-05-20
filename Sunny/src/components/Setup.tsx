@@ -1,16 +1,25 @@
 import Navbar from "./Navbar";
 import ActionButton from "../elements/ActionButton";
 import { attributeObject } from "../utilities/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
 import { submitAttributes } from "../middleware/setupServiceCalls";
 
-const hoursSleptObject: attributeObject = {name: "Hours Slept", type: "number"};
-const milesRunObject: attributeObject = {name: "Miles Run", type: "number"};
-const minutesReadObject: attributeObject = {name: "Minutes Read", type: "number"};
-const wentToGymObject: attributeObject = {name: "Went to Gym", type: "boolean"};
-const drinksHadObject: attributeObject = {name: "Drinks Had", type: "number"};
+const hoursSleptObject: attributeObject = {
+  name: "Hours Slept",
+  type: "number",
+};
+const milesRunObject: attributeObject = { name: "Miles Run", type: "number" };
+const minutesReadObject: attributeObject = {
+  name: "Minutes Read",
+  type: "number",
+};
+const wentToGymObject: attributeObject = {
+  name: "Went to Gym",
+  type: "boolean",
+};
+const drinksHadObject: attributeObject = { name: "Drinks Had", type: "number" };
 
 const Setup = () => {
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
@@ -20,10 +29,8 @@ const Setup = () => {
   const [wentToGym, setWentToGym] = useState<boolean>(false);
   const [drinksHad, setDrinksHad] = useState<boolean>(false);
   const [attributeName, setAttributeName] = useState<string>("");
-  const [attributeType, setAttributeType] = useState<string>("number");
-  // need to add a way to add checked attributes and radio attributes to a single list. change wording.
+  const [attributeType, setAttributeType] = useState<string>("");
   const [checkedAttributes, setCheckedAttributes] = useState<string>("");
-  // const [trackedAttributes, setTrackedAttributes] = useState;
 
   const assignType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAttributeType(e.currentTarget.value);
@@ -32,9 +39,12 @@ const Setup = () => {
   const writeAttribute = () => {
     if (!attributeName || !attributeType) return;
     {
-      setAttributes([...attributes, {name: attributeName, type: attributeType}]);
+      setAttributes([
+        ...attributes,
+        { name: attributeName, type: attributeType },
+      ]);
     }
-    setAttributeType("number");
+    // setAttributeType("number");
     setAttributeName("");
   };
 
@@ -44,14 +54,14 @@ const Setup = () => {
       milesRun && milesRunObject,
       minutesRead && minutesReadObject,
       wentToGym && wentToGymObject,
-      drinksHad && drinksHadObject
+      drinksHad && drinksHadObject,
     ];
 
-    const toSubmit = [...commonAttributes, ...attributes].filter(val =>  val);
+    const toSubmit = [...commonAttributes, ...attributes].filter((val) => val);
     console.log("TO SUBMIT", toSubmit);
-    submitAttributes({attributes: toSubmit}, (data: any) => {
+    submitAttributes({ attributes: toSubmit }, (data: any) => {
       console.log(data);
-    })
+    });
   };
 
   return (
@@ -140,9 +150,10 @@ const Setup = () => {
                 name="option"
                 value="number"
                 label="Number"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  assignType(e)
-                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  console.log(e);
+                  assignType(e);
+                }}
                 attributeType={attributeType}
               ></RadioItem>
             </div>
@@ -151,21 +162,22 @@ const Setup = () => {
                 name="option"
                 value="boolean"
                 label="True/False"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  assignType(e)
-                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  console.log(e);
+                  assignType(e);
+                }}
                 attributeType={attributeType}
               ></RadioItem>
             </div>
           </div>
 
           {attributes.map((attribute) => {
-              return (
-                <>
-                  <p>{`${attribute.name}: ${attribute.type}`}</p>
-                </>
-              );
-            })}
+            return (
+              <>
+                <p>{`${attribute.name}: ${attribute.type}`}</p>
+              </>
+            );
+          })}
 
           <div className="flex justify-center">
             <ActionButton

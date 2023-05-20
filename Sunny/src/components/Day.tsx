@@ -13,6 +13,8 @@ import { useLocation } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { dayProps } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
+import { getAttributesForUser } from "../middleware/setupServiceCalls";
+import { attributeObject } from "../utilities/types";
 
 const today = dayjs();
 dayjs.extend(customParseFormat);
@@ -20,7 +22,7 @@ dayjs.extend(customParseFormat);
 const Day: FunctionComponent<dayProps> = (props) => {
   const [id, setId] = useState(null);
   const [dayRating, setDayRating] = useState(5);
-  const [attributes, setAttributes] = useState({});
+  const [attributes, setAttributes] = useState<attributeObject[]>([]);
   const [notes, setNotes] = useState("");
   const [isEditing, setIsEditing] = useState(true);
   const location = useLocation();
@@ -29,13 +31,17 @@ const Day: FunctionComponent<dayProps> = (props) => {
   console.log(typeof dayjs(date).format("MMMM DD, YYYY"));
 
   useEffect(() => {
+    getAttributesForUser("646808d38d816587d6ec320e", (data: any) => {
+      // console.log(data);
+      setAttributes(data);
+    });
     getDayData(params.date, (data: any) => {
-      console.log(data);
+      // console.log(data);
       if (data) {
         setDayRating(data.dayRating);
         setNotes(data.notes);
-        setIsEditing(false);
-        setId(data._id)
+        // setIsEditing(false);
+        setId(data._id);
       }
     });
   }, []);
@@ -83,17 +89,19 @@ const Day: FunctionComponent<dayProps> = (props) => {
             </div>
           </div>
           <div className="rating-inputs container mx-auto max-w-lg">
-            {/* 
-            Need to get values from child components, so need to pass a state setter from THIS scope 
-            However, also need to map both the inputs and the states based on the trackers the user has set up
-            
-            */}
             <RangeRating
               label="Day Rating"
               maximum={5}
               onChange={(rating: number) => setDayRating(rating)}
               value={dayRating}
             />
+            {attributes.map((attribute) =>
+              attribute.type === "number" ? (
+                <NumberRating label={attribute.name}></NumberRating>
+              ) : (
+                <BooleanRating label={attribute.name}></BooleanRating>
+              )
+            )}
             {/* <RangeRating value="Sleep" maximum={12}></RangeRating>
             <BooleanRating value="Exercise"></BooleanRating>
             <NumberRating value="Miles Run"></NumberRating>
@@ -128,13 +136,22 @@ const Day: FunctionComponent<dayProps> = (props) => {
           ></LinkButton>
           <ActionButton
             onClick={() => {
-              submitDay({ id, notes, dayRating, attributes, date: dayjs(date).format("YYYY-MM-DD")}, (data: any) => {
-                const {_id, notes, dayRating } = data;
-                setId(_id);
-                setNotes(notes);
-                setDayRating(dayRating);
-                setIsEditing(false);
-              });
+              submitDay(
+                {
+                  id,
+                  notes,
+                  dayRating,
+                  attributes,
+                  date: dayjs(date).format("YYYY-MM-DD"),
+                },
+                (data: any) => {
+                  const { _id, notes, dayRating } = data;
+                  setId(_id);
+                  setNotes(notes);
+                  setDayRating(dayRating);
+                  setIsEditing(false);
+                }
+              );
             }}
             buttonText="Submit"
             styleTags="text-center"

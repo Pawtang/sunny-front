@@ -54,9 +54,25 @@ input[type="range"]::-webkit-slider-thumb:active {
   transition: 0.2s all;
 }
 
-.num-input {
+/* input[type="number"] {
+  background-color: rgb(245, 245, 245);
+  border-radius: 3px;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
   text-align: center;
   outline: solid 2px black;
+} */
+
+@layer base {
+  input[type="number"].appearance-none::-webkit-inner-spin-button,
+  input[type="number"].appearance-none::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"].appearance-none {
+    -moz-appearance: textfield;
+  }
 }
 
 .center {
@@ -97,11 +113,6 @@ input[type="range"]::-webkit-slider-thumb:active {
 input::-webkit-outer-spin-linkbutton,
 input::-webkit-inner-spin-linkbutton {
   appearance: none;
-}
-
-input[type="number"] {
-  background-color: rgb(245, 245, 245);
-  border-radius: 3px;
 }
 
 .rating-inputs {
