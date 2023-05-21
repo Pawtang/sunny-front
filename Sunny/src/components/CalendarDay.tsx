@@ -55,7 +55,7 @@ const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
         }
       >
         <div
-          className={`dayBox relative w-16  h-16 transition-all m-4 rounded  ${conditionalStyling()} outline outline-1`}
+          className={` relative w-16  h-16 transition-all m-4 rounded  ${conditionalStyling()} outline outline-1`}
         >
           <h1 className="text-large text-center">{dayIndex}</h1>
           {/* <h2 className="text-medium text-center">{dayRating}</h2> */}

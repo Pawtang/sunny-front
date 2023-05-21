@@ -12,26 +12,24 @@ import ActionButton from "../elements/ActionButton";
 import { getDayData, submitDay } from "../middleware/dayServiceCalls";
 import { useLocation } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { dayProps } from "../utilities/types";
+import { attributeObject, dayObject, dayProps } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
-import { attributeObject } from "../utilities/types";
 
 const today = dayjs();
 dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = (props) => {
-  const [loadedDayObject, setLoadedDayObject] = useState({});
-  const [id, setId] = useState(null);
+  const [loadedDayObject, setLoadedDayObject] = useState<dayObject>({});
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
   const [notes, setNotes] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [dayExists, setDayExists] = useState(false);
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
-  // console.log(typeof dayjs(date).format("MMMM DD, YYYY"));
+
+  const dayExists = () => loadedDayObject && loadedDayObject._id;
 
   useEffect(() => {
     getAttributesForUser("646808d38d816587d6ec320e", (data: any) => {
@@ -40,11 +38,8 @@ const Day: FunctionComponent<dayProps> = (props) => {
     getDayData(params.date, (data: any) => {
       setLoadedDayObject(data);
       if (data) {
-        setDayExists(true);
         setDayRating(data.dayRating);
         setNotes(data.notes);
-        // setIsEditing(false);
-        setId(data._id);
       }
     });
   }, []);
@@ -126,6 +121,40 @@ const Day: FunctionComponent<dayProps> = (props) => {
                       setAttributes(updatedAttributes);
                       setIsEditing(true);
                     }}
+                    increment={() => {
+                      const updatedAttributes = [...attributes]; // Create a shallow copy of the attributes array
+                      if (attribute.value) {
+                        updatedAttributes[index] = {
+                          ...attribute,
+                          value: attribute.value + 1,
+                        };
+                      } else {
+                        updatedAttributes[index] = {
+                          ...attribute,
+                          value: 1,
+                        };
+                      }
+
+                      setAttributes(updatedAttributes);
+                      setIsEditing(true);
+                    }}
+                    decrement={() => {
+                      const updatedAttributes = [...attributes]; // Create a shallow copy of the attributes array
+                      if (attribute.value && attribute.value > 0) {
+                        updatedAttributes[index] = {
+                          ...attribute,
+                          value: attribute.value - 1,
+                        };
+                      } else {
+                        updatedAttributes[index] = {
+                          ...attribute,
+                          value: 0,
+                        };
+                      }
+
+                      setAttributes(updatedAttributes);
+                      setIsEditing(true);
+                    }}
                   ></NumberRating>
                 </Fragment>
               ) : (
@@ -134,10 +163,6 @@ const Day: FunctionComponent<dayProps> = (props) => {
                 </Fragment>
               )
             )}
-            {/* <RangeRating value="Sleep" maximum={12}></RangeRating>
-            <BooleanRating value="Exercise"></BooleanRating>
-            <NumberRating value="Miles Run"></NumberRating>
-            <NumberRating value="Minutes Read"></NumberRating> */}
           </div>
           <div className="freetext center mt-4">
             <label htmlFor="journal-entry">
@@ -169,26 +194,26 @@ const Day: FunctionComponent<dayProps> = (props) => {
           ></LinkButton>
           <ActionButton
             onClick={() => {
-              submitDay(
-                {
-                  id,
-                  notes,
-                  dayRating,
-                  attributes,
-                  date: dayjs(date).format("YYYY-MM-DD"),
-                },
-                (data: any) => {
-                  const { _id, notes, dayRating } = data;
-                  setId(_id);
-                  setNotes(notes);
-                  setDayRating(dayRating);
-                  setIsEditing(false);
-                }
-              );
+              const dayToSubmit =
+                loadedDayObject && loadedDayObject._id
+                  ? { ...loadedDayObject, notes, dayRating, attributes }
+                  : {
+                      notes,
+                      dayRating,
+                      attributes,
+                      date: dayjs(date).format("YYYY-MM-DD"),
+                    };
+              submitDay(dayToSubmit, (data: any) => {
+                const { notes, dayRating } = data;
+                setLoadedDayObject(data);
+                setNotes(notes);
+                setDayRating(dayRating);
+                setIsEditing(false);
+              });
             }}
-            buttonText={`${dayExists ? "Save Changes" : "Submit"}`}
+            buttonText={`${dayExists() ? "Save Changes" : "Submit"}`}
             styleTags={`text-center ${
-              isEditing ? "bg-blue-500 text-white" : ""
+              isEditing ? "!bg-blue-500 text-white" : ""
             }`}
           ></ActionButton>
         </div>
