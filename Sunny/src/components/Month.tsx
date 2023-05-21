@@ -8,8 +8,9 @@ import MonthGen from "../utilities/MonthGen";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import { getMonth } from "../middleware/dayServiceCalls";
 import { IDay } from "../utilities/types";
-import MonthPickModal from "./MonthPickModal";
+import MonthPicker from "./MonthPicker";
 import generateGradient from "../utilities/PolynomialGradientsUtil";
+import Modal from "./Modal";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
@@ -18,10 +19,8 @@ const Month: FunctionComponent = () => {
     return "grid-cols-7";
   };
 
-  // const time = 11;
-  // const time = today.hour();
   const [month, setMonth] = useState<IDay[] | undefined>([]);
-  const [modalVisibility, setModalVisibility] = useState<string>("hidden");
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   const loadMonth = async () => {
     try {
@@ -53,9 +52,7 @@ const Month: FunctionComponent = () => {
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
         <ActionButton
           onClick={() => {
-            modalVisibility === "hidden"
-              ? setModalVisibility("")
-              : setModalVisibility("hidden");
+            setModalVisibility(!modalVisibility);
           }}
           buttonText="📅"
           styleTags="z-50"
@@ -74,12 +71,13 @@ const Month: FunctionComponent = () => {
         />
       </div>
 
-      <MonthPickModal
-        visibility={modalVisibility}
+      <Modal
         onClick={() => {
-          setModalVisibility("hidden");
+          setModalVisibility(!modalVisibility);
         }}
-      />
+        visible={modalVisibility}
+        content={<MonthPicker onClick={() => {}}></MonthPicker>}
+      ></Modal>
 
       <div className="container justify-content mx-auto mt-4 h-screen">
         <div className="container justify-content mx-auto max-w-lg">

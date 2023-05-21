@@ -32,7 +32,7 @@ export interface radioProps {
   value: string;
   label: string;
   onChange: Function;
-  attributeType: string;
+  isChecked: boolean;
 }
 
 export interface ratingProps {
@@ -45,6 +45,8 @@ export interface ratingProps {
 export interface numberRatingProps {
   label: string;
   value: number;
+  increment: Function;
+  decrement: Function;
   onChange: Function;
 }
 
@@ -52,4 +54,11 @@ export interface attributeObject {
   name: string;
   type: string;
   value?: number;
+}
+
+export interface dayObject {
+  _id?: string;
+  name?: string;
+  notes?: string;
+  attributes?: attributeObject[];
 }
