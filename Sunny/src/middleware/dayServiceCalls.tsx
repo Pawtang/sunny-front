@@ -4,6 +4,7 @@ const DAY_URL = "http://localhost:8000/day";
 const MONTH_URL = "http://localhost:8000/month";
 
 export const submitDay = async (body: object, successCallback: Function) => {
+  console.log("body", body);
   try {
     await axios.post(DAY_URL, body).then((response) => {
       successCallback && successCallback(response.data);

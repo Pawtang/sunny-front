@@ -1,6 +1,7 @@
 import ActionButton from "../elements/ActionButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import dayjs from "dayjs";
+import { Fragment } from "react";
 
 const MonthPickModal = (props: { visibility: string; onClick: any }) => {
   const { visibility, onClick } = props;
@@ -39,9 +40,9 @@ const MonthPickModal = (props: { visibility: string; onClick: any }) => {
             {/* Months */}
             <div className="overflow-scroll overflow-x-hidden flex justify-center max-h-96">
               <ul>
-                {months.map((month: string) => {
+                {months.map((month: string, index: number) => {
                   return (
-                    <div className="pt-0.5">
+                    <div className="pt-0.5" key={index}>
                       <li key={month}>
                         <ActionButton
                           onClick={() => {}}
@@ -57,9 +58,9 @@ const MonthPickModal = (props: { visibility: string; onClick: any }) => {
             {/* Years */}
             <div className="overflow-scroll overflow-x-hidden flex justify-center max-h-96">
               <ul>
-                {years.map((year: string) => {
+                {years.map((year: string, index: number) => {
                   return (
-                    <div className="pt-0.5">
+                    <div className="pt-0.5" key={index}>
                       <li key={year}>
                         <ActionButton
                           onClick={() => {}}

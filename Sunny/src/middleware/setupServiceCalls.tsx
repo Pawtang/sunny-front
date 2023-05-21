@@ -1,7 +1,7 @@
 import axios from "axios";
 import { attributeObject } from "../utilities/types";
 
-const SETUP_URL = "http://localhost:8000/setup";
+const SETUP_URL = "http://localhost:8000/attributes";
 
 // const attributesList = (attributes: attributeObject) => {
 //     return attributes && Object.entries(attributes);

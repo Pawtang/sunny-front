@@ -20,9 +20,11 @@ export interface buttonProps {
 }
 
 export interface checkProps {
-  name: string;
-  id: string;
+  // name: string;
+  // id: string;
   label: string;
+  checked: boolean;
+  onClick: Function;
 }
 
 export interface radioProps {
@@ -40,6 +42,14 @@ export interface ratingProps {
   onChange: Function;
 }
 
+export interface numberRatingProps {
+  label: string;
+  value: number;
+  onChange: Function;
+}
+
 export interface attributeObject {
-  [key: string]: string;
+  name: string;
+  type: string;
+  value?: number;
 }
