@@ -72,6 +72,7 @@ const Month: FunctionComponent = () => {
       </div>
 
       <Modal
+        id="modalContainer"
         onClick={() => {
           setModalVisibility(!modalVisibility);
         }}

@@ -1,11 +1,16 @@
-const Modal = (props: { visible: boolean; onClick: any; content?: any }) => {
-  const { visible, onClick, content } = props;
+const Modal = (props: {
+  id: string;
+  visible: boolean;
+  onClick: any;
+  content?: any;
+}) => {
+  const { id, visible, onClick, content } = props;
   if (!visible) return null;
   return (
     <div
-      id="modalContainer"
+      id={id}
       onClick={(e) => {
-        if ((e.target as HTMLInputElement).id === "modalContainer") {
+        if ((e.target as HTMLInputElement).id === id) {
           onClick(e);
         }
       }}
