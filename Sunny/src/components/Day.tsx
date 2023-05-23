@@ -21,7 +21,7 @@ import ConfirmActionModal from "./ConfirmActionModal";
 const today = dayjs();
 dayjs.extend(customParseFormat);
 
-const Day: FunctionComponent<dayProps> = (props) => {
+const Day: FunctionComponent<dayProps> = () => {
   const [eraseModalVisibility, setEraseModalVisibility] = useState(false);
   const [overwriteModalVisibility, setOverwriteModalVisibility] =
     useState(false);
@@ -37,7 +37,8 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
   useEffect(() => {
-    getAttributesForUser("646808d38d816587d6ec320e", (data: any) => {
+    getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
+      console.log(data);
       setAttributes(data);
     });
     getDayData(params.date, (data: any) => {

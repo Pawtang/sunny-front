@@ -62,3 +62,16 @@ export interface dayObject {
   notes?: string;
   attributes?: attributeObject[];
 }
+
+export interface modalProps {
+  id: string;
+  visible: boolean;
+  onClick: any;
+  content?: any;
+}
+
+export interface confirmActionModalProps {
+  onClickConfirm: Function;
+  onClickCancel: Function;
+  modalText: string;
+}

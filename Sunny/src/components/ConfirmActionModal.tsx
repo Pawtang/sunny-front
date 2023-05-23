@@ -1,11 +1,11 @@
+import { FunctionComponent } from "react";
+import { confirmActionModalProps } from "../utilities/types";
 import ActionButton from "../elements/ActionButton";
 import { Fragment } from "react";
 
-const ConfirmActionModal = (props: {
-  onClickConfirm: Function;
-  onClickCancel: Function;
-  modalText: string;
-}) => {
+const ConfirmActionModal: FunctionComponent<confirmActionModalProps> = (
+  props
+) => {
   const { onClickConfirm, onClickCancel, modalText } = props;
   return (
     <div className="p-4">

@@ -1,9 +1,7 @@
-const Modal = (props: {
-  id: string;
-  visible: boolean;
-  onClick: any;
-  content?: any;
-}) => {
+import { FunctionComponent } from "react";
+import { modalProps } from "../utilities/types";
+
+const Modal: FunctionComponent<modalProps> = (props) => {
   const { id, visible, onClick, content } = props;
   if (!visible) return null;
   return (
