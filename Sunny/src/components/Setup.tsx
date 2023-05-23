@@ -69,6 +69,7 @@ const Setup = () => {
   };
 
   const commitAttributes = () => {
+    //check if boolean set to true (from user checkmark or from load attributes) and commit if so
     const commonAttributes = [
       hoursSlept && hoursSleptObject,
       milesRun && milesRunObject,
