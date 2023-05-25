@@ -76,3 +76,11 @@ export interface confirmActionModalProps {
   modalText: string;
   buttonText: string;
 }
+
+export interface monthPickerProps {
+  onClick: any;
+  setMonth: Function;
+  setYear: Function;
+  selectedMonth: string;
+  selectedYear: string;
+}

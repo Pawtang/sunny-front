@@ -55,7 +55,7 @@ const Day: FunctionComponent<dayProps> = () => {
   const time = parseInt(today.format("hh"));
 
   const handleSubmitDay = () => {
-    // alert(dayExists());
+    alert("submitted");
     const dayToSubmit =
       loadedDayObject && loadedDayObject._id
         ? { ...loadedDayObject, notes, dayRating, attributes }
@@ -256,7 +256,7 @@ const Day: FunctionComponent<dayProps> = () => {
           ></LinkButton>
           <ActionButton
             onClick={() => {
-              dayExists() && isEditing
+              dayExists()
                 ? setOverwriteModalVisibility(!overwriteModalVisibility)
                 : handleSubmitDay();
             }}
