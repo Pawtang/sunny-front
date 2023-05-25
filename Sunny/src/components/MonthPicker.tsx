@@ -1,10 +1,11 @@
 import ActionButton from "../elements/ActionButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import dayjs from "dayjs";
-import { Fragment } from "react";
+import { Fragment, FunctionComponent } from "react";
+import { monthPickerProps } from "../utilities/types";
 
-const MonthPicker = (props: { onClick: any }) => {
-  const { onClick } = props;
+const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
+  const { onClick, setMonth, setYear, selectedMonth, selectedYear } = props;
   const months = [
     "January",
     "February",
@@ -27,10 +28,9 @@ const MonthPicker = (props: { onClick: any }) => {
     return list;
   };
   const years = yearlist();
-  // ["2020", "2021", "2022"];
+
   return (
     <>
-      {/* Should be able to close by clicking off -- add action to document body? */}
       <div className="p-5 items-center ">
         <div className="columns-2">
           {/* Months */}
@@ -41,9 +41,15 @@ const MonthPicker = (props: { onClick: any }) => {
                   <div className="pt-0.5" key={index}>
                     <li key={month}>
                       <ActionButton
-                        onClick={() => {}}
+                        onClick={() => {
+                          setMonth(month);
+                        }}
                         buttonText={month}
-                        styleTags="my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all outline-1 outline-offset-2 outline-gray-400"
+                        styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
+                          selectedMonth === month
+                            ? "bg-blue-200 !active:bg-blue-300"
+                            : ""
+                        }`}
                       ></ActionButton>
                     </li>
                   </div>
@@ -59,9 +65,15 @@ const MonthPicker = (props: { onClick: any }) => {
                   <div className="pt-0.5" key={index}>
                     <li key={year}>
                       <ActionButton
-                        onClick={() => {}}
+                        onClick={() => {
+                          setYear(year);
+                        }}
                         buttonText={year}
-                        styleTags="my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all outline-1 outline-offset-2 outline-gray-400"
+                        styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
+                          selectedYear === year
+                            ? "bg-blue-200 !active:bg-blue-300"
+                            : ""
+                        }`}
                       ></ActionButton>
                     </li>
                   </div>
@@ -73,7 +85,7 @@ const MonthPicker = (props: { onClick: any }) => {
         <div className="flex justify-center w-100 mt-10">
           <ActionButton
             onClick={onClick}
-            buttonText="OK"
+            buttonText="Set Month"
             styleTags="mx-auto w-40 border"
           />
         </div>

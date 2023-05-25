@@ -15,11 +15,17 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { attributeObject, dayObject, dayProps } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
+import Modal from "./Modal";
+import ConfirmActionModal from "./ConfirmActionModal";
+// import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
 
 const today = dayjs();
 dayjs.extend(customParseFormat);
 
-const Day: FunctionComponent<dayProps> = (props) => {
+const Day: FunctionComponent<dayProps> = () => {
+  const [eraseModalVisibility, setEraseModalVisibility] = useState(false);
+  const [overwriteModalVisibility, setOverwriteModalVisibility] =
+    useState(false);
   const [loadedDayObject, setLoadedDayObject] = useState<dayObject>({});
   const [dayRating, setDayRating] = useState(5);
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
@@ -32,13 +38,15 @@ const Day: FunctionComponent<dayProps> = (props) => {
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
   useEffect(() => {
-    getAttributesForUser("646808d38d816587d6ec320e", (data: any) => {
+    getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
+      console.log(data);
       setAttributes(data);
     });
     getDayData(params.date, (data: any) => {
       setLoadedDayObject(data);
       if (data) {
         setDayRating(data.dayRating);
+        setAttributes(data.attributes);
         setNotes(data.notes);
       }
     });
@@ -46,11 +54,65 @@ const Day: FunctionComponent<dayProps> = (props) => {
 
   const time = parseInt(today.format("hh"));
 
+  const handleSubmitDay = () => {
+    alert("submitted");
+    const dayToSubmit =
+      loadedDayObject && loadedDayObject._id
+        ? { ...loadedDayObject, notes, dayRating, attributes }
+        : {
+            notes,
+            dayRating,
+            attributes,
+            date: dayjs(date).format("YYYY-MM-DD"),
+          };
+    submitDay(dayToSubmit, (data: any) => {
+      const { notes, dayRating } = data;
+      setLoadedDayObject(data);
+      setNotes(notes);
+      setDayRating(dayRating);
+      setIsEditing(false);
+    });
+  };
+
   return (
     <div
       className="Day h-screen w-screen flex items-center"
       style={{ backgroundImage: `${BackgroundGradient(time)}` }}
     >
+      <Modal
+        id="confirmOverwriteModal"
+        onClick={() => {
+          setOverwriteModalVisibility(!overwriteModalVisibility);
+        }}
+        visible={overwriteModalVisibility}
+        content={
+          <ConfirmActionModal
+            onClickConfirm={() => {
+              handleSubmitDay();
+            }}
+            onClickCancel={() => {}}
+            modalText="Save changes to this day?"
+            buttonText="Save"
+          ></ConfirmActionModal>
+        }
+      ></Modal>
+
+      <Modal
+        id="confirmCancelModal"
+        onClick={() => {
+          setEraseModalVisibility(!eraseModalVisibility);
+        }}
+        visible={eraseModalVisibility}
+        content={
+          <ConfirmActionModal
+            onClickConfirm={() => {}}
+            onClickCancel={() => {}}
+            modalText="Are you sure you want to delete this day's data and start over?"
+            buttonText="🗑 Delete"
+          ></ConfirmActionModal>
+        }
+      ></Modal>
+
       <div className="container mx-auto">
         <div
           className={`journal max-w-lg mx-auto shadow-sm hover:shadow-lg ${
@@ -61,7 +123,7 @@ const Day: FunctionComponent<dayProps> = (props) => {
             <ActionButton
               buttonText="❌"
               onClick={() => {
-                setIsEditing(!isEditing);
+                setEraseModalVisibility(!eraseModalVisibility);
               }}
             ></ActionButton>
           </div>
@@ -194,22 +256,9 @@ const Day: FunctionComponent<dayProps> = (props) => {
           ></LinkButton>
           <ActionButton
             onClick={() => {
-              const dayToSubmit =
-                loadedDayObject && loadedDayObject._id
-                  ? { ...loadedDayObject, notes, dayRating, attributes }
-                  : {
-                      notes,
-                      dayRating,
-                      attributes,
-                      date: dayjs(date).format("YYYY-MM-DD"),
-                    };
-              submitDay(dayToSubmit, (data: any) => {
-                const { notes, dayRating } = data;
-                setLoadedDayObject(data);
-                setNotes(notes);
-                setDayRating(dayRating);
-                setIsEditing(false);
-              });
+              dayExists()
+                ? setOverwriteModalVisibility(!overwriteModalVisibility)
+                : handleSubmitDay();
             }}
             buttonText={`${dayExists() ? "Save Changes" : "Submit"}`}
             styleTags={`text-center ${

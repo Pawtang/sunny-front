@@ -20,6 +20,8 @@ const Month: FunctionComponent = () => {
   };
 
   const [month, setMonth] = useState<IDay[] | undefined>([]);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [modalVisibility, setModalVisibility] = useState(false);
 
   const loadMonth = async () => {
@@ -35,20 +37,19 @@ const Month: FunctionComponent = () => {
 
   useEffect(() => {
     loadMonth();
-    // console.log(time);
-    // console.log(grad);
   }, []);
 
-  // useEffect(() => {
-  //   generateGradient(dayjs().second());
-  // }, [dayjs().second()]);
+  useEffect(() => {
+    console.log(selectedMonth);
+    console.log(selectedYear);
+  }, [selectedMonth, selectedYear]);
 
   const [time, setTime] = useState(12);
   const grad = generateGradient(time);
 
   return (
-    <div className={`mt-0`} style={{ background: grad }}>
-      <div className="container nav z-50">
+    <div className="h-screen" style={{ background: grad }}>
+      <div className="container-fluid nav z-50">
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
         <ActionButton
           onClick={() => {
@@ -72,14 +73,25 @@ const Month: FunctionComponent = () => {
       </div>
 
       <Modal
+        id="modalContainer"
         onClick={() => {
           setModalVisibility(!modalVisibility);
         }}
         visible={modalVisibility}
-        content={<MonthPicker onClick={() => {}}></MonthPicker>}
+        content={
+          <MonthPicker
+            onClick={() => {
+              setModalVisibility(!modalVisibility);
+            }}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            setMonth={setSelectedMonth}
+            setYear={setSelectedYear}
+          ></MonthPicker>
+        }
       ></Modal>
 
-      <div className="container justify-content mx-auto mt-4 h-screen">
+      <div className="container justify-content mx-auto mt-4 h-100">
         <div className="container justify-content mx-auto max-w-lg">
           <h1 className="text-2xl mx-auto text-center">
             <b>Today is {today.format("MMMM DD, YYYY")}</b>
