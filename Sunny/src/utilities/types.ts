@@ -74,4 +74,5 @@ export interface confirmActionModalProps {
   onClickConfirm: Function;
   onClickCancel: Function;
   modalText: string;
+  buttonText: string;
 }

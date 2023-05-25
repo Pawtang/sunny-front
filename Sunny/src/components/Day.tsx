@@ -17,6 +17,7 @@ import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
+// import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
 
 const today = dayjs();
 dayjs.extend(customParseFormat);
@@ -45,6 +46,7 @@ const Day: FunctionComponent<dayProps> = () => {
       setLoadedDayObject(data);
       if (data) {
         setDayRating(data.dayRating);
+        setAttributes(data.attributes);
         setNotes(data.notes);
       }
     });
@@ -53,7 +55,7 @@ const Day: FunctionComponent<dayProps> = () => {
   const time = parseInt(today.format("hh"));
 
   const handleSubmitDay = () => {
-    alert(dayExists());
+    // alert(dayExists());
     const dayToSubmit =
       loadedDayObject && loadedDayObject._id
         ? { ...loadedDayObject, notes, dayRating, attributes }
@@ -90,6 +92,7 @@ const Day: FunctionComponent<dayProps> = () => {
             }}
             onClickCancel={() => {}}
             modalText="Save changes to this day?"
+            buttonText="Save"
           ></ConfirmActionModal>
         }
       ></Modal>
@@ -104,7 +107,8 @@ const Day: FunctionComponent<dayProps> = () => {
           <ConfirmActionModal
             onClickConfirm={() => {}}
             onClickCancel={() => {}}
-            modalText="Are you sure you want to erase this day's data and start over?"
+            modalText="Are you sure you want to delete this day's data and start over?"
+            buttonText="🗑 Delete"
           ></ConfirmActionModal>
         }
       ></Modal>

@@ -7,7 +7,7 @@ const ActionButton: FunctionComponent<buttonProps> = (props) => {
   const { buttonText, onClick, styleTags } = props;
   return (
     <button
-      className={`bg-white/70 transition-all hover:drop-shadow-md hover:bg-white active:outline-double text-black font-bold py-2 px-4 mx-2 rounded ${styleTags}`}
+      className={`bg-white/70 transition-all ease-out duration-200 hover:drop-shadow-md hover:bg-white active:outline-double text-black font-bold py-2 px-4 mx-2 rounded ${styleTags}`}
       onClick={onClick}
     >
       {buttonText}

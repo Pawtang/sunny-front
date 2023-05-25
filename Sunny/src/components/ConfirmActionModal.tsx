@@ -6,7 +6,7 @@ import { Fragment } from "react";
 const ConfirmActionModal: FunctionComponent<confirmActionModalProps> = (
   props
 ) => {
-  const { onClickConfirm, onClickCancel, modalText } = props;
+  const { onClickConfirm, onClickCancel, modalText, buttonText } = props;
   return (
     <div className="p-4">
       <h2 className="text-xl">
@@ -17,18 +17,18 @@ const ConfirmActionModal: FunctionComponent<confirmActionModalProps> = (
       </div>
       <div className="flex justify-center">
         <ActionButton
-          buttonText="Confirm"
+          buttonText={buttonText}
           onClick={(e: React.MouseEvent<HTMLElement>) => {
             onClickConfirm(e);
           }}
-          styleTags="outline outline-2 outline-black-400 outline-offset-2 text-black-400 hover:outline-offset-0 hover:outline-green-400 transition-all "
+          styleTags="bg-red-400 hover:bg-red-300"
         />
         <ActionButton
           buttonText="Cancel"
           onClick={(e: React.MouseEvent<HTMLElement>) => {
             onClickCancel(e);
           }}
-          styleTags="outline outline-2 outline-black-400 outline-offset-2 text-black-400 hover:outline-offset-0 hover:outline-red-400 transition-all  "
+          styleTags=""
         />
       </div>
     </div>
