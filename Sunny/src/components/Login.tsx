@@ -19,10 +19,11 @@ const Login = () => {
               Email
             </label>
             <input
-              type="text"
+              type="email"
               id="email"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
-              placeholder="Enter your email address"
+              placeholder="📧 Enter your email address"
+              autoComplete="email"
             />
           </div>
           <div className="mb-6">
@@ -33,7 +34,8 @@ const Login = () => {
               type="password"
               id="password"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
-              placeholder="Enter your password"
+              placeholder="🔑 Enter your password"
+              autoComplete="password"
             />
           </div>
           <div className="flex justify-center">
