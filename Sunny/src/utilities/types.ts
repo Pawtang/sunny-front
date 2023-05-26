@@ -78,7 +78,7 @@ export interface confirmActionModalProps {
 }
 
 export interface monthPickerProps {
-  onClick: any;
+  closeModal: Function;
   setMonth: Function;
   setYear: Function;
   selectedMonth: string;
