@@ -40,6 +40,10 @@ const Signup = () => {
               id="firstname"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
               placeholder="😎 First name"
+              value={firstName}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setFirstName(e.currentTarget.value);
+              }}
             />
           </div>
           <div className="mb-4">
@@ -54,6 +58,10 @@ const Signup = () => {
               id="lastname"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
               placeholder="😍 Last name"
+              value={lastName}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setLastName(e.currentTarget.value);
+              }}
             />
           </div>
           <div className="mb-4">
@@ -69,6 +77,10 @@ const Signup = () => {
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
               placeholder="📧 Enter your email address"
               autoComplete="email"
+              value={email}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setEmail(e.currentTarget.value);
+              }}
             />
           </div>
 
