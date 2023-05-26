@@ -1,6 +1,8 @@
 import ActionButton from "../elements/ActionButton";
 import Navbar from "./Navbar";
-import { signup } from "../middleware/userServiceCalls";
+// import { signup } from "../middleware/userServiceCalls";
+import { useState } from "react";
+
 // import { useState } from "react";
 
 // const [bg, setBg] = useState(0);
@@ -12,6 +14,11 @@ import { signup } from "../middleware/userServiceCalls";
 // };
 
 const Signup = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   return (
     <>
       <Navbar></Navbar>
@@ -20,17 +27,7 @@ const Signup = () => {
       >
         <form className="bg-white/50 hover:bg-white/60 transition-all p-6 rounded-lg shadow-md max-w-md hover:-translate-y-1 duration-200 ease-linear">
           <h2 className="text-3xl font-bold mb-6 text-center">Sign Up</h2>
-          <div className="p-4">
-            <p>Sunny is totes free to use.</p>
-            <br />
-            <p>
-              We love security, and we respect yours. We'll never share your
-              email, and we'll only reach out if its super important, like a
-              security thing.
-            </p>
-            <br />
-            <p>Take care of yourself! We hope this app helps you do so.</p>
-          </div>
+
           <div className="mb-4">
             <label
               htmlFor="firstname"
@@ -39,10 +36,10 @@ const Signup = () => {
               First Name
             </label>
             <input
-              type="text"
+              type="name"
               id="firstname"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
-              placeholder="First name"
+              placeholder="😎 First name"
             />
           </div>
           <div className="mb-4">
@@ -53,10 +50,10 @@ const Signup = () => {
               Last Name
             </label>
             <input
-              type="text"
+              type="name"
               id="lastname"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
-              placeholder="Last name"
+              placeholder="😍 Last name"
             />
           </div>
           <div className="mb-4">
@@ -67,13 +64,15 @@ const Signup = () => {
               Email
             </label>
             <input
-              type="text"
+              type="email"
               id="email"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
-              placeholder="Enter your email address"
+              placeholder="📧 Enter your email address"
+              autoComplete="email"
             />
           </div>
-          <div className="mb-6">
+
+          <div className="mb-2">
             <label htmlFor="password" className="block font-semibold 0 mb-2">
               Password
             </label>
@@ -81,7 +80,27 @@ const Signup = () => {
               type="password"
               id="password"
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
-              placeholder="Enter your password"
+              placeholder="🔑 Enter your password"
+              pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$"
+            />
+            <div className="w-full h-2 mt-2 rounded-lg  bg-gray-200">
+              <div className="h-full bg-green-500 w-6/12"></div>
+            </div>
+            Weak
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="confirm-password"
+              className="block font-semibold 0 mb-2"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              placeholder="🔑 Confirm password"
+              autoComplete="new-password"
             />
           </div>
           <div className="flex justify-center">
