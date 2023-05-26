@@ -39,11 +39,6 @@ const Month: FunctionComponent = () => {
     loadMonth();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedMonth);
-    console.log(selectedYear);
-  }, [selectedMonth, selectedYear]);
-
   const [time, setTime] = useState(12);
   const grad = generateGradient(time);
 
@@ -80,7 +75,7 @@ const Month: FunctionComponent = () => {
         visible={modalVisibility}
         content={
           <MonthPicker
-            onClick={() => {
+            closeModal={() => {
               setModalVisibility(!modalVisibility);
             }}
             selectedMonth={selectedMonth}

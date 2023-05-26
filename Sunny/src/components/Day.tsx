@@ -9,7 +9,11 @@ import LinkButton from "../elements/LinkButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import { mapQueryParamsToObject } from "../utilities/QueryParamsUtils";
 import ActionButton from "../elements/ActionButton";
-import { getDayData, submitDay } from "../middleware/dayServiceCalls";
+import {
+  deleteDay,
+  getDayData,
+  submitDay,
+} from "../middleware/dayServiceCalls";
 import { useLocation } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { attributeObject, dayObject, dayProps } from "../utilities/types";
@@ -37,12 +41,9 @@ const Day: FunctionComponent<dayProps> = () => {
 
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
-  useEffect(() => {
-    getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
-      console.log(data);
-      setAttributes(data);
-    });
+  const loadDay = () => {
     getDayData(params.date, (data: any) => {
+      console.log(data);
       setLoadedDayObject(data);
       if (data) {
         setDayRating(data.dayRating);
@@ -50,12 +51,20 @@ const Day: FunctionComponent<dayProps> = () => {
         setNotes(data.notes);
       }
     });
+  };
+
+  useEffect(() => {
+    getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
+      console.log(data);
+      setAttributes(data);
+    });
+    loadDay();
   }, []);
 
   const time = parseInt(today.format("hh"));
 
   const handleSubmitDay = () => {
-    alert("submitted");
+    // alert("submitted");
     const dayToSubmit =
       loadedDayObject && loadedDayObject._id
         ? { ...loadedDayObject, notes, dayRating, attributes }
@@ -74,6 +83,13 @@ const Day: FunctionComponent<dayProps> = () => {
     });
   };
 
+  const handleDeleteDay = () => {
+    deleteDay(params.date, (data: any) => {
+      console.log("deleted");
+    });
+    loadDay();
+  };
+
   return (
     <div
       className="Day h-screen w-screen flex items-center"
@@ -89,8 +105,11 @@ const Day: FunctionComponent<dayProps> = () => {
           <ConfirmActionModal
             onClickConfirm={() => {
               handleSubmitDay();
+              setOverwriteModalVisibility(!overwriteModalVisibility);
             }}
-            onClickCancel={() => {}}
+            onClickCancel={() => {
+              setOverwriteModalVisibility(!overwriteModalVisibility);
+            }}
             modalText="Save changes to this day?"
             buttonText="Save"
           ></ConfirmActionModal>
@@ -105,7 +124,9 @@ const Day: FunctionComponent<dayProps> = () => {
         visible={eraseModalVisibility}
         content={
           <ConfirmActionModal
-            onClickConfirm={() => {}}
+            onClickConfirm={() => {
+              handleDeleteDay();
+            }}
             onClickCancel={() => {}}
             modalText="Are you sure you want to delete this day's data and start over?"
             buttonText="🗑 Delete"

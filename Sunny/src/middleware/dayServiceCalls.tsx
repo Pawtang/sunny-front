@@ -14,6 +14,16 @@ export const submitDay = async (body: object, successCallback: Function) => {
   }
 };
 
+export const deleteDay = async (date: string, successCallback: Function) => {
+  try {
+    await axios.delete(`${DAY_URL}?date=${date}`).then((response) => {
+      successCallback && successCallback(response.data);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getDayData = async (date: string, successCallback: Function) => {
   try {
     await axios.get(`${DAY_URL}?date=${date}`).then((response) => {
