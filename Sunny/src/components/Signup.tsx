@@ -1,17 +1,26 @@
 import ActionButton from "../elements/ActionButton";
 import Navbar from "./Navbar";
 // import { signup } from "../middleware/userServiceCalls";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  numberRegex,
+  symbolRegex,
+  lowercaseRegex,
+  uppercaseRegex,
+} from "../utilities/regexStrings";
 
-// import { useState } from "react";
+const pwStrength = (password: string) => {
+  if (password === "") return "w-0";
+  const number = numberRegex.test(password) ? 2 : 0;
+  const lowercase = lowercaseRegex.test(password) ? 2 : 0;
+  const uppercase = uppercaseRegex.test(password) ? 2 : 0;
+  const symbol = symbolRegex.test(password) ? 2 : 0;
+  const length = password.length > 7 ? 2 : 0;
 
-// const [bg, setBg] = useState(0);
-
-// const Gradients = (select: number) => {
-//   if ((select = 0)) {
-//     return `from-cyan-500 to-blue-500`;
-//   } else return ``;
-// };
+  const total: number = number + lowercase + uppercase + symbol + length;
+  if (total >= 12) return "w-full";
+  return `w-${total}/12`;
+};
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -19,6 +28,14 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const pwStyle = pwStrength(password);
+
+  useEffect(() => {
+    // console.log("pwStrength", pwStrength(password));
+    console.log(symbolRegex.test(password));
+  }, [password, confirmPassword]);
+
   return (
     <>
       <Navbar></Navbar>
@@ -91,14 +108,61 @@ const Signup = () => {
             <input
               type="password"
               id="password"
-              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              className={`rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2`}
               placeholder="🔑 Enter your password"
-              pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$"
+              autoComplete="new-password"
+              // pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$"
+              value={password}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setPassword(e.currentTarget.value);
+              }}
             />
+            <p className="mt-1">
+              <span
+                id="uppercase"
+                className={`text-sm p-1 rounded-md mx-1 ${
+                  uppercaseRegex.test(password) ? "bg-green-200" : "bg-red-200"
+                }`}
+              >
+                Capital
+              </span>
+              <span
+                id="lowercase"
+                className={`text-sm p-1 rounded-md mx-1 ${
+                  lowercaseRegex.test(password) ? "bg-green-200" : "bg-red-200"
+                }`}
+              >
+                Lowercase
+              </span>
+
+              <span
+                id="number"
+                className={`text-sm p-1 rounded-md mx-1 ${
+                  numberRegex.test(password) ? "bg-green-200" : "bg-red-200"
+                }`}
+              >
+                Number
+              </span>
+              <span
+                id="symbol"
+                className={`text-sm p-1 rounded-md mx-1 ${
+                  symbolRegex.test(password) ? "bg-green-200" : "bg-red-200"
+                }`}
+              >
+                Symbol
+              </span>
+              <span
+                id="length"
+                className={`text-sm p-1 rounded-md mx-1 ${
+                  password.length > 7 ? "bg-green-200" : "bg-red-200"
+                }`}
+              >
+                Length
+              </span>
+            </p>
             <div className="w-full h-2 mt-2 rounded-lg  bg-gray-200">
-              <div className="h-full bg-green-500 w-6/12"></div>
+              <div className={`h-full bg-green-500 ${pwStyle}`}></div>
             </div>
-            Weak
           </div>
           <div className="mb-6">
             <label
@@ -110,9 +174,17 @@ const Signup = () => {
             <input
               type="password"
               id="password"
-              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              className={`rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2 ${
+                password === confirmPassword
+                  ? "!outline-green-400 outline-4"
+                  : confirmPassword.length > 0 && "!outline-red-400 !outline-4"
+              }`}
               placeholder="🔑 Confirm password"
               autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setConfirmPassword(e.currentTarget.value);
+              }}
             />
           </div>
           <div className="flex justify-center">
