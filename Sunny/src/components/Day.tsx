@@ -44,11 +44,8 @@ const Day: FunctionComponent<dayProps> = () => {
 
   const loadDay = () => {
     getDayData(params.date, (data: any) => {
-      console.log("getDayData: ", data);
+      // console.log("getDayData: ", data);
       setLoadedDayObject(data);
-      console.log("loadedDayObject: ", loadedDayObject);
-      console.log("what is this?", loadedDayObject && loadedDayObject._id);
-      console.log("ID", loadedDayObject._id);
       if (data) {
         setDayRating(data.dayRating);
         setAttributes(data.attributes);
@@ -59,7 +56,7 @@ const Day: FunctionComponent<dayProps> = () => {
 
   useEffect(() => {
     getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
-      console.log("getAttributes, ", data);
+      // console.log("getAttributes, ", data);
       setAttributes(data);
     });
     loadDay();
@@ -130,7 +127,9 @@ const Day: FunctionComponent<dayProps> = () => {
             onClickConfirm={() => {
               handleDeleteDay();
             }}
-            onClickCancel={() => {}}
+            onClickCancel={() => {
+              setEraseModalVisibility(!eraseModalVisibility);
+            }}
             modalText="Are you sure you want to delete this day's data and start over?"
             buttonText="🗑 Delete"
           ></ConfirmActionModal>
@@ -145,10 +144,11 @@ const Day: FunctionComponent<dayProps> = () => {
         >
           <div className="float-right">
             <ActionButton
-              buttonText="❌"
+              buttonText="🗑"
               onClick={() => {
                 setEraseModalVisibility(!eraseModalVisibility);
               }}
+              styleTags="!bg-red-400 !hover:bg-red-200"
             ></ActionButton>
           </div>
           <div className="relative float-left container mx-auto p-4 mt-4 ">
@@ -195,6 +195,7 @@ const Day: FunctionComponent<dayProps> = () => {
               attribute.type === "number" ? (
                 <Fragment key={index}>
                   <NumberRating
+                    index={index}
                     label={attribute.name}
                     value={attribute.value ? attribute.value : 0}
                     onChange={(rating: number) => {
@@ -245,7 +246,25 @@ const Day: FunctionComponent<dayProps> = () => {
                 </Fragment>
               ) : (
                 <Fragment key={index}>
-                  <BooleanRating label={attribute.name}></BooleanRating>
+                  <BooleanRating
+                    index={index}
+                    label={attribute.name}
+                    checked={attribute.value ? attribute.value : 0}
+                    onChange={() => {
+                      const updatedAttributes = [...attributes]; // Create a shallow copy of the attributes array
+
+                      updatedAttributes[index].value === undefined &&
+                        (updatedAttributes[index].value = 0);
+                      if (updatedAttributes[index].value === 0)
+                        updatedAttributes[index].value = 1;
+                      else if (updatedAttributes[index].value === 1)
+                        updatedAttributes[index].value = 0;
+                      console.log(updatedAttributes[index]);
+                      console.log(updatedAttributes);
+                      setAttributes(updatedAttributes);
+                      setIsEditing(true);
+                    }}
+                  ></BooleanRating>
                 </Fragment>
               )
             )}

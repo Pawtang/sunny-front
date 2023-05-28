@@ -42,7 +42,15 @@ export interface ratingProps {
   onChange: Function;
 }
 
+export interface booleanToggleProps {
+  index: number;
+  label: string;
+  checked: number;
+  onChange: Function;
+}
+
 export interface numberRatingProps {
+  index: number;
   label: string;
   value: number;
   increment: Function;
