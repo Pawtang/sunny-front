@@ -2,7 +2,7 @@ import axios from "axios";
 
 const USER_URL = "http://localhost:8000/user";
 
-const dummyUserID = "646808d38d816587d6ec320e";
+const dummyUserID = "6472b291d7f1f3ab8aa92110";
 
 export const signup = async (body: object, successCallback: Function) => {
   try {

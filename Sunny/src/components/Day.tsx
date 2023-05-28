@@ -39,12 +39,16 @@ const Day: FunctionComponent<dayProps> = () => {
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
 
+  // is this the problem?
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
   const loadDay = () => {
     getDayData(params.date, (data: any) => {
-      console.log(data);
+      console.log("getDayData: ", data);
       setLoadedDayObject(data);
+      console.log("loadedDayObject: ", loadedDayObject);
+      console.log("what is this?", loadedDayObject && loadedDayObject._id);
+      console.log("ID", loadedDayObject._id);
       if (data) {
         setDayRating(data.dayRating);
         setAttributes(data.attributes);
@@ -55,7 +59,7 @@ const Day: FunctionComponent<dayProps> = () => {
 
   useEffect(() => {
     getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
-      console.log(data);
+      console.log("getAttributes, ", data);
       setAttributes(data);
     });
     loadDay();
@@ -64,7 +68,6 @@ const Day: FunctionComponent<dayProps> = () => {
   const time = parseInt(today.format("hh"));
 
   const handleSubmitDay = () => {
-    // alert("submitted");
     const dayToSubmit =
       loadedDayObject && loadedDayObject._id
         ? { ...loadedDayObject, notes, dayRating, attributes }
