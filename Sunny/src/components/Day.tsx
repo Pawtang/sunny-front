@@ -41,32 +41,40 @@ const Day: FunctionComponent<dayProps> = () => {
 
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
+  const sortAttributes = (data: Array<attributeObject>) => {
+    const sortedData = data.sort((a: any, b: any) => {
+      if (a.type < b.type) {
+        return 1;
+      }
+      if (a.type > b.type) {
+        return -1;
+      }
+      return 0;
+    });
+    return sortedData;
+  };
+
   const loadDay = () => {
     getDayData(params.date, (data: any) => {
       console.log(data);
-      setLoadedDayObject(data);
+      // setLoadedDayObject(data);
       if (data) {
         setDayRating(data.dayRating);
-        setAttributes(data.attributes);
+        setAttributes(sortAttributes(data.attributes));
         setNotes(data.notes);
       }
     });
   };
 
   useEffect(() => {
-    getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
-      const sortedData = data.sort((a: any, b: any) => {
-        if (a.type < b.type) {
-          return 1;
-        }
-        if (a.type > b.type) {
-          return -1;
-        }
-        return 0;
-      });
-      console.log(sortedData);
-      setAttributes(sortedData);
-    });
+    getAttributesForUser(
+      "646a4e835e9049b898c0a2f2",
+      (data: Array<attributeObject>) => {
+        const sortedData = sortAttributes(data);
+        console.log(sortedData);
+        setAttributes(sortedData);
+      }
+    );
     loadDay();
   }, []);
 
