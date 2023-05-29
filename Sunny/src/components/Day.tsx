@@ -55,8 +55,17 @@ const Day: FunctionComponent<dayProps> = () => {
 
   useEffect(() => {
     getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
-      console.log(data);
-      setAttributes(data);
+      const sortedData = data.sort((a: any, b: any) => {
+        if (a.type < b.type) {
+          return 1;
+        }
+        if (a.type > b.type) {
+          return -1;
+        }
+        return 0;
+      });
+      console.log(sortedData);
+      setAttributes(sortedData);
     });
     loadDay();
   }, []);
