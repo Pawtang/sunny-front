@@ -61,14 +61,14 @@ const Day: FunctionComponent<dayProps> = () => {
       setLoadedDayObject(dayData);
       if (dayData) {
         setDayRating(dayData.dayRating);
-        setAttributes(dayData.attributes);
+        setAttributes(sortAttributes(dayData.attributes));
         setNotes(dayData.notes);
       } else {
         getAttributesForUser(
           "646a4e835e9049b898c0a2f2",
-          (data: Array<attributeObject>) => {
-            const sortedData = sortAttributes(data);
-            console.log(sortedData);
+          (attributeData: Array<attributeObject>) => {
+            const sortedData = sortAttributes(attributeData);
+            // console.log(sortedData);
             setAttributes(sortedData);
           }
         );
@@ -150,6 +150,7 @@ const Day: FunctionComponent<dayProps> = () => {
             }}
             modalText="Are you sure you want to delete this day's data and start over?"
             buttonText="🗑 Delete"
+            buttonType="danger"
           ></ConfirmActionModal>
         }
       ></Modal>
@@ -317,14 +318,13 @@ const Day: FunctionComponent<dayProps> = () => {
           ></LinkButton>
           <ActionButton
             onClick={() => {
-              dayExists()
+              isEditing && dayExists()
                 ? setOverwriteModalVisibility(!overwriteModalVisibility)
                 : handleSubmitDay();
             }}
             buttonText={`${dayExists() ? "Save Changes" : "Submit"}`}
-            styleTags={`text-center ${
-              isEditing ? "!bg-blue-500 text-white" : ""
-            }`}
+            styleTags={`text-center`}
+            buttonType={isEditing ? "confirm" : "disabled"}
           ></ActionButton>
         </div>
       </div>

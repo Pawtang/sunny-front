@@ -2,14 +2,13 @@ import React, { FunctionComponent, FunctionComponentElement } from "react";
 import { Interface } from "readline";
 import { Link } from "react-router-dom";
 import { buttonProps } from "../utilities/types";
+import { buttonStyle } from "../utilities/buttonStyle";
 
 const ActionButton: FunctionComponent<buttonProps> = (props) => {
-  const { buttonText, onClick, styleTags } = props;
+  const { buttonText, onClick, styleTags, buttonType } = props;
+  const typeStyle = buttonStyle(buttonType);
   return (
-    <button
-      className={`bg-white/70 transition-all ease-out duration-200 hover:drop-shadow-md hover:bg-white active:outline-double text-black font-bold py-2 px-4 mx-2 rounded ${styleTags}`}
-      onClick={onClick}
-    >
+    <button className={`${typeStyle} ${styleTags}`} onClick={onClick}>
       {buttonText}
     </button>
   );
