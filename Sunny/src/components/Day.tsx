@@ -42,22 +42,26 @@ const Day: FunctionComponent<dayProps> = () => {
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
   const loadDay = () => {
-    getDayData(params.date, (data: any) => {
-      console.log(data);
-      setLoadedDayObject(data);
-      if (data) {
-        setDayRating(data.dayRating);
-        setAttributes(data.attributes);
-        setNotes(data.notes);
+    getDayData(params.date, (dayData: any) => {
+      console.log(dayData);
+      setLoadedDayObject(dayData);
+      if (dayData) {
+        setDayRating(dayData.dayRating);
+        setAttributes(dayData.attributes);
+        setNotes(dayData.notes);
+      } else {
+        getAttributesForUser(
+          "64737a16f3a03c0586f7291c",
+          (attributeData: any) => {
+            console.log(attributeData);
+            setAttributes(attributeData);
+          }
+        );
       }
     });
   };
 
   useEffect(() => {
-    getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
-      console.log(data);
-      setAttributes(data);
-    });
     loadDay();
   }, []);
 
