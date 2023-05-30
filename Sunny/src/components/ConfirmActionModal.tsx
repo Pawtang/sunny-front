@@ -6,7 +6,8 @@ import { Fragment } from "react";
 const ConfirmActionModal: FunctionComponent<confirmActionModalProps> = (
   props
 ) => {
-  const { onClickConfirm, onClickCancel, modalText, buttonText } = props;
+  const { onClickConfirm, onClickCancel, modalText, buttonText, buttonType } =
+    props;
   return (
     <div className="p-4">
       <h2 className="text-xl">
@@ -21,7 +22,7 @@ const ConfirmActionModal: FunctionComponent<confirmActionModalProps> = (
           onClick={(e: React.MouseEvent<HTMLElement>) => {
             onClickConfirm(e);
           }}
-          styleTags="bg-red-400 hover:bg-red-300"
+          buttonType={buttonType}
         />
         <ActionButton
           buttonText="Cancel"

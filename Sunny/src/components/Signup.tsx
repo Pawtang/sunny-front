@@ -9,18 +9,19 @@ import {
   uppercaseRegex,
 } from "../utilities/regexStrings";
 
-const pwStrength = (password: string) => {
-  if (password === "") return "w-0";
-  const number = numberRegex.test(password) ? 2 : 0;
-  const lowercase = lowercaseRegex.test(password) ? 2 : 0;
-  const uppercase = uppercaseRegex.test(password) ? 2 : 0;
-  const symbol = symbolRegex.test(password) ? 2 : 0;
-  const length = password.length > 7 ? 2 : 0;
+// const pwStrength = (password: string) => {
+//   if (password === "") return "w-0";
+//   const number = numberRegex.test(password) ? 2 : 0;
+//   const lowercase = lowercaseRegex.test(password) ? 2 : 0;
+//   const uppercase = uppercaseRegex.test(password) ? 2 : 0;
+//   const symbol = symbolRegex.test(password) ? 2 : 0;
+//   const length = password.length > 7 ? 2 : 0;
 
-  const total: number = number + lowercase + uppercase + symbol + length;
-  if (total >= 12) return "w-full";
-  return `w-${total}/12`;
-};
+//   const total: number = number + lowercase + uppercase + symbol + length;
+//   if (total >= 12) return "w-full";
+//   return `w-${total}/12`;
+// };
+// const pwStyle = pwStrength(password);
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -28,8 +29,6 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const pwStyle = pwStrength(password);
 
   useEffect(() => {
     // console.log("pwStrength", pwStrength(password));
@@ -160,9 +159,9 @@ const Signup = () => {
                 Length
               </span>
             </p>
-            <div className="w-full h-2 mt-2 rounded-lg  bg-gray-200">
+            {/* <div className="w-full h-2 mt-2 rounded-lg  bg-gray-200">
               <div className={`h-full bg-green-500 ${pwStyle}`}></div>
-            </div>
+            </div> */}
           </div>
           <div className="mb-6">
             <label

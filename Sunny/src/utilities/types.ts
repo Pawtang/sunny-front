@@ -16,7 +16,15 @@ export interface buttonProps {
   buttonText: string;
   onClick: any;
   styleTags?: string;
+  buttonType?: string;
   // stateSetter: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface linkButtonProps {
+  buttonText: string;
+  linkTo: string;
+  styleTags?: string;
+  buttonType?: string;
 }
 
 export interface checkProps {
@@ -83,6 +91,7 @@ export interface confirmActionModalProps {
   onClickCancel: Function;
   modalText: string;
   buttonText: string;
+  buttonType?: string;
 }
 
 export interface monthPickerProps {
