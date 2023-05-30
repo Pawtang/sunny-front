@@ -55,13 +55,21 @@ const Day: FunctionComponent<dayProps> = () => {
   };
 
   const loadDay = () => {
-    getDayData(params.date, (data: any) => {
-      console.log(data);
-      // setLoadedDayObject(data);
-      if (data) {
-        setDayRating(data.dayRating);
-        setAttributes(sortAttributes(data.attributes));
-        setNotes(data.notes);
+    getDayData(params.date, (dayData: any) => {
+      console.log(dayData);
+      setLoadedDayObject(dayData);
+      if (dayData) {
+        setDayRating(dayData.dayRating);
+        setAttributes(dayData.attributes);
+        setNotes(dayData.notes);
+      } else {
+        getAttributesForUser(
+          "64737a16f3a03c0586f7291c",
+          (attributeData: any) => {
+            console.log(attributeData);
+            setAttributes(attributeData);
+          }
+        );
       }
     });
   };
