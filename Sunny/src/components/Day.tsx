@@ -39,6 +39,7 @@ const Day: FunctionComponent<dayProps> = () => {
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
 
+  // is this the problem?
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
   const sortAttributes = (data: Array<attributeObject>) => {
@@ -64,10 +65,11 @@ const Day: FunctionComponent<dayProps> = () => {
         setNotes(dayData.notes);
       } else {
         getAttributesForUser(
-          "64737a16f3a03c0586f7291c",
-          (attributeData: any) => {
-            console.log(attributeData);
-            setAttributes(attributeData);
+          "646a4e835e9049b898c0a2f2",
+          (data: Array<attributeObject>) => {
+            const sortedData = sortAttributes(data);
+            console.log(sortedData);
+            setAttributes(sortedData);
           }
         );
       }
@@ -75,21 +77,12 @@ const Day: FunctionComponent<dayProps> = () => {
   };
 
   useEffect(() => {
-    getAttributesForUser(
-      "646a4e835e9049b898c0a2f2",
-      (data: Array<attributeObject>) => {
-        const sortedData = sortAttributes(data);
-        console.log(sortedData);
-        setAttributes(sortedData);
-      }
-    );
     loadDay();
   }, []);
 
   const time = parseInt(today.format("hh"));
 
   const handleSubmitDay = () => {
-    // alert("submitted");
     const dayToSubmit =
       loadedDayObject && loadedDayObject._id
         ? { ...loadedDayObject, notes, dayRating, attributes }
@@ -152,7 +145,9 @@ const Day: FunctionComponent<dayProps> = () => {
             onClickConfirm={() => {
               handleDeleteDay();
             }}
-            onClickCancel={() => {}}
+            onClickCancel={() => {
+              setEraseModalVisibility(!eraseModalVisibility);
+            }}
             modalText="Are you sure you want to delete this day's data and start over?"
             buttonText="🗑 Delete"
           ></ConfirmActionModal>
@@ -167,10 +162,11 @@ const Day: FunctionComponent<dayProps> = () => {
         >
           <div className="float-right">
             <ActionButton
-              buttonText="❌"
+              buttonText="🗑"
               onClick={() => {
                 setEraseModalVisibility(!eraseModalVisibility);
               }}
+              styleTags="!bg-red-400 !hover:bg-red-200"
             ></ActionButton>
           </div>
           <div className="relative float-left container mx-auto p-4 mt-4 ">
@@ -217,6 +213,7 @@ const Day: FunctionComponent<dayProps> = () => {
               attribute.type === "number" ? (
                 <Fragment key={index}>
                   <NumberRating
+                    index={index}
                     label={attribute.name}
                     value={attribute.value ? attribute.value : 0}
                     onChange={(rating: number) => {
@@ -267,7 +264,25 @@ const Day: FunctionComponent<dayProps> = () => {
                 </Fragment>
               ) : (
                 <Fragment key={index}>
-                  <BooleanRating label={attribute.name}></BooleanRating>
+                  <BooleanRating
+                    index={index}
+                    label={attribute.name}
+                    checked={attribute.value ? attribute.value : 0}
+                    onChange={() => {
+                      const updatedAttributes = [...attributes]; // Create a shallow copy of the attributes array
+
+                      updatedAttributes[index].value === undefined &&
+                        (updatedAttributes[index].value = 0);
+                      if (updatedAttributes[index].value === 0)
+                        updatedAttributes[index].value = 1;
+                      else if (updatedAttributes[index].value === 1)
+                        updatedAttributes[index].value = 0;
+                      console.log(updatedAttributes[index]);
+                      console.log(updatedAttributes);
+                      setAttributes(updatedAttributes);
+                      setIsEditing(true);
+                    }}
+                  ></BooleanRating>
                 </Fragment>
               )
             )}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { numberRatingProps } from "../utilities/types";
 
 const NumberRating: FunctionComponent<numberRatingProps> = (props) => {
-  const { label, value, onChange, increment, decrement } = props;
+  const { index, label, value, onChange, increment, decrement } = props;
 
   return (
     <div className="container dayrating mx-auto px-6">
@@ -24,7 +24,7 @@ const NumberRating: FunctionComponent<numberRatingProps> = (props) => {
             <input
               type="number"
               name="inputNum"
-              id="inputNum"
+              id={`input-number-${index}`}
               value={value}
               onChange={(e) => {
                 onChange(e.target.valueAsNumber);

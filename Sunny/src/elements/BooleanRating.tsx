@@ -1,38 +1,31 @@
-import React, { FunctionComponent } from "react";
-import { useState } from "react";
-import { Interface } from "readline";
+import { FunctionComponent } from "react";
+import { booleanToggleProps } from "../utilities/types";
 
-const evaluateRating = (value: string, rating: boolean) => {
-  if (rating === true) {
+const evaluateRating = (checked: number) => {
+  if (checked === 1) {
     return "Yes";
   } else return "No";
 };
 
-interface ratingProps {
-  label: string;
-}
-
-const BooleanRating: FunctionComponent<ratingProps> = (props) => {
-  const { label } = props;
-  const [rating, setRating] = useState(false);
+const BooleanRating: FunctionComponent<booleanToggleProps> = (props) => {
+  const { index, label, checked, onChange } = props;
 
   return (
-    // Change to a nice toggle pill component
     <div className="container mx-auto px-6">
       <div className="grid grid-cols-3 mx-auto p-2">
         <div className="mx-auto">{label}</div>
         <div className="mx-auto">
           <label
-            htmlFor="check"
+            htmlFor={`input-bool-${index}`}
             className="relative inline-flex items-center cursor-pointer"
           >
             <input
               type="checkbox"
               name="inputBool"
-              id="check"
-              checked={rating}
-              onChange={(e) => {
-                setRating(e.target.checked);
+              id={`input-bool-${index}`}
+              checked={checked === 1}
+              onChange={() => {
+                onChange();
               }}
               className="sr-only peer"
             />
@@ -40,7 +33,7 @@ const BooleanRating: FunctionComponent<ratingProps> = (props) => {
             <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
           </label>
         </div>
-        <div className="mx-auto">{evaluateRating(label, rating)}</div>
+        <div className="mx-auto">{evaluateRating(checked)}</div>
       </div>
     </div>
   );
