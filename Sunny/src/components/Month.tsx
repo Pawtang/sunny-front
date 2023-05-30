@@ -43,7 +43,7 @@ const Month: FunctionComponent = () => {
   const grad = generateGradient(time);
 
   return (
-    <div className="h-screen" style={{ background: grad }}>
+    <div className="sm:h-screen pb-6 sm:pb-0" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
         <ActionButton
@@ -54,7 +54,8 @@ const Month: FunctionComponent = () => {
           styleTags="z-50"
         ></ActionButton>
 
-        <div className="mx-4 inline">
+        {/* for gradient background testing */}
+        {/* <div className="mx-4 inline">
           <input
             type="range"
             value={time}
@@ -64,7 +65,7 @@ const Month: FunctionComponent = () => {
               setTime(e.target.valueAsNumber);
             }}
           />
-        </div>
+        </div> */}
 
         <Modal
           id="modalContainer"
@@ -85,7 +86,7 @@ const Month: FunctionComponent = () => {
           }
         ></Modal>
 
-        <div className="container justify-content mx-auto mt-4 sm:h-100 h-full">
+        <div className="container justify-content mx-auto my-4 sm:h-100 h-full">
           <div className="container justify-content mx-auto max-w-lg">
             <h1 className="text-2xl mx-auto text-center">
               <b>Today is {today.format("MMMM DD, YYYY")}</b>
