@@ -42,23 +42,41 @@ const Day: FunctionComponent<dayProps> = () => {
   // is this the problem?
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
+  const sortAttributes = (data: Array<attributeObject>) => {
+    const sortedData = data.sort((a: any, b: any) => {
+      if (a.type < b.type) {
+        return 1;
+      }
+      if (a.type > b.type) {
+        return -1;
+      }
+      return 0;
+    });
+    return sortedData;
+  };
+
   const loadDay = () => {
-    getDayData(params.date, (data: any) => {
-      // console.log("getDayData: ", data);
-      setLoadedDayObject(data);
-      if (data) {
-        setDayRating(data.dayRating);
-        setAttributes(data.attributes);
-        setNotes(data.notes);
+    getDayData(params.date, (dayData: any) => {
+      console.log(dayData);
+      setLoadedDayObject(dayData);
+      if (dayData) {
+        setDayRating(dayData.dayRating);
+        setAttributes(dayData.attributes);
+        setNotes(dayData.notes);
+      } else {
+        getAttributesForUser(
+          "646a4e835e9049b898c0a2f2",
+          (data: Array<attributeObject>) => {
+            const sortedData = sortAttributes(data);
+            console.log(sortedData);
+            setAttributes(sortedData);
+          }
+        );
       }
     });
   };
 
   useEffect(() => {
-    getAttributesForUser("646a4e835e9049b898c0a2f2", (data: any) => {
-      // console.log("getAttributes, ", data);
-      setAttributes(data);
-    });
     loadDay();
   }, []);
 

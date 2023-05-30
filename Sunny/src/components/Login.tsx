@@ -1,7 +1,10 @@
 import Navbar from "./Navbar";
 import ActionButton from "../elements/ActionButton";
+import { useState } from "react";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <>
       <Navbar></Navbar>
@@ -24,6 +27,10 @@ const Login = () => {
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
               placeholder="📧 Enter your email address"
               autoComplete="email"
+              value={email}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setEmail(e.currentTarget.value);
+              }}
             />
           </div>
           <div className="mb-6">
@@ -36,6 +43,10 @@ const Login = () => {
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
               placeholder="🔑 Enter your password"
               autoComplete="password"
+              value={password}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setPassword(e.currentTarget.value);
+              }}
             />
           </div>
           <div className="flex justify-center">

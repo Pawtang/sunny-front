@@ -55,10 +55,9 @@ const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
         }
       >
         <div
-          className={` relative w-16  h-16 transition-all m-4 rounded  ${conditionalStyling()} outline outline-1`}
+          className={` relative sm:w-16 sm:h-16 h-12 transition-all m-4 rounded  ${conditionalStyling()} outline outline-1`}
         >
-          <h1 className="text-large text-center">{dayIndex}</h1>
-          {/* <h2 className="text-medium text-center">{dayRating}</h2> */}
+          <h1 className="text-large sm:text-center mx-3 mt-3">{dayIndex}</h1>
           <div className={`absolute w-10 h-8 bottom-1 right-1 rounded-full}`}>
             <span className="text-xl">
               {compare(date) === "before" || compare(date) === "same"
