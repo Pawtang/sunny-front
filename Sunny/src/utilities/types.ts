@@ -1,7 +1,7 @@
 export interface IDay {
   id: number;
   dayRating?: number | undefined;
-  sleep?: number | undefined;
+  attributes?: Array<attributeObject>;
   date?: string | undefined;
   notes?: string | undefined;
 }
@@ -76,6 +76,7 @@ export interface dayObject {
   _id?: string;
   name?: string;
   notes?: string;
+  dayRating?: number;
   attributes?: attributeObject[];
 }
 

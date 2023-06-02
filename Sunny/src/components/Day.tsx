@@ -21,6 +21,7 @@ import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
+import { dummyUserID } from "../utilities/constants";
 // import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
 
 const today = dayjs();
@@ -65,7 +66,7 @@ const Day: FunctionComponent<dayProps> = () => {
         setNotes(dayData.notes);
       } else {
         getAttributesForUser(
-          "646a4e835e9049b898c0a2f2",
+          dummyUserID,
           (attributeData: Array<attributeObject>) => {
             const sortedData = sortAttributes(attributeData);
             // console.log(sortedData);

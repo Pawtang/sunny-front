@@ -6,6 +6,7 @@ import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
 import { submitAttributes } from "../middleware/setupServiceCalls";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
+import { dummyUserID } from "../utilities/constants";
 
 const HOURS_SLEPT = "Hours Slept";
 const MILES_RUN = "Miles Run";
@@ -39,7 +40,7 @@ const Setup = () => {
   const [attributeType, setAttributeType] = useState<string>("");
 
   useEffect(() => {
-    getAttributesForUser("646808d38d816587d6ec320e", (data: any) => {
+    getAttributesForUser(dummyUserID, (data: any) => {
       setAttributes(
         data.filter(
           (attr: attributeObject) =>
