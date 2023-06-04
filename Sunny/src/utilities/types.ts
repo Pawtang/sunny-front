@@ -1,3 +1,17 @@
+export interface attributeObject {
+  name: string;
+  type: string;
+  value?: number;
+}
+
+export interface dayObject {
+  _id?: string;
+  name?: string;
+  notes?: string;
+  dayRating?: number;
+  attributes?: attributeObject[];
+}
+
 export interface IDay {
   id: number;
   dayRating?: number | undefined;
@@ -64,20 +78,6 @@ export interface numberRatingProps {
   increment: Function;
   decrement: Function;
   onChange: Function;
-}
-
-export interface attributeObject {
-  name: string;
-  type: string;
-  value?: number;
-}
-
-export interface dayObject {
-  _id?: string;
-  name?: string;
-  notes?: string;
-  dayRating?: number;
-  attributes?: attributeObject[];
 }
 
 export interface modalProps {

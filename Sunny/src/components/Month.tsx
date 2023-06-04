@@ -46,6 +46,10 @@ const Month: FunctionComponent = () => {
     <div className="min-h-screen pb-6" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
+        <LinkButton
+          linkTo="/correlationreport"
+          buttonText="Correlation"
+        ></LinkButton>
         <ActionButton
           onClick={() => {
             setModalVisibility(!modalVisibility);
