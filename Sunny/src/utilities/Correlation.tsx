@@ -1,30 +1,38 @@
 import { attributeObject, dayObject } from "./types";
+import { useEffect, useState } from "react";
 
-export const Correlation = (props: { days: Array<dayObject> }) => {
-  const { days } = props;
+export const Correlation = (days: Array<dayObject>) => {
+  const dayRatingArray = days.map((day, index) => {
+    return day.dayRating;
+  });
 
-  const dayRatingArray: Array<number> = [];
-  const attribute: Array<number> = [];
+  const attributeArray = days.map((day, index) => {
+    return day.attributes
+      ? day.attributes.map((attribute, attrIndex) => {
+          return attribute.value;
+        })
+      : //   return {
+        //     day: day._id,
+        //     name: attribute.name,
+        //     type: attribute.type,
+        //     value: attribute.value,
+        //   };
+        // })
+        [];
+  });
 
-  console.log(days);
 
-  return (
-    <div className="">
-      <div className="w-full">
-        {days.map((day, index) => (
-          <div className="outline outline-1 outline-offset-1 rounded hover:bg-white/50 my-4 p-4">
-            <p>{`Day: ${index}, day rating: ${day.dayRating}`}</p>
-            <div className="w-full">
-              {day.attributes &&
-                day.attributes.map((attribute, attrIndex) => (
-                  <div className="" key={attrIndex}>
-                    <p>{`${attrIndex}: ${attribute.name}: ${attribute.value}`}</p>
-                  </div>
-                ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+const pearsonCorrelation = (x: Array<number>, y: Array<number>)
+
+  useEffect(() => {
+    console.log("days,", days);
+    console.log(dayRatingArray);
+    console.log(attributeArray);
+    // writeArrays();
+    // writeArrays();
+  }, [dayRatingArray, attributeArray]);
+
+  // console.log(days);
+
+  return "some score for each";
 };

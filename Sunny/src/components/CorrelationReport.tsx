@@ -44,7 +44,7 @@ const CorrelationReport: FunctionComponent = () => {
       <div
         className={`mx-auto shadow-lg mt-10 container place-content-center rounded bg-white/50 p-4`}
       >
-        <Correlation days={userDayData}></Correlation>
+        <p>{Correlation(userDayData)}</p>
       </div>
     </div>
   );
