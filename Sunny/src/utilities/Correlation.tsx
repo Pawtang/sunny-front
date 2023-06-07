@@ -21,6 +21,9 @@ export const Correlation = (days: Array<dayObject>) => {
         [];
   });
 
+  const array1 = [2, 3, 1, 0, 5, 5, 5, 5];
+  const array2 = [1, 7, 7, 4, 5, 5, 5, 6];
+
   const pearsonCorrelation = (x: Array<number>, y: Array<number>) => {
     // if (x.length !== y.length) throw new Error("unequal lengths");
     if (x.length !== y.length) return "must be equal lengths!";
@@ -38,20 +41,19 @@ export const Correlation = (days: Array<dayObject>) => {
       B += xdiff ** 2;
       C += ydiff ** 2;
     }
-    return A / Math.sqrt(B * C);
+    return (A / Math.sqrt(B * C)).toFixed(3);
   };
 
   useEffect(() => {
     console.log("days,", days);
     console.log(dayRatingArray);
     console.log(attributeArray);
-    console.log(
-      "pearson",
-      pearsonCorrelation([2, 3, 1, 0, 5, 5, 5, 5], [1, 7, 7, 4, 5, 5, 5, 6])
-    );
   }, [dayRatingArray, attributeArray]);
 
   // console.log(days);
 
-  return "some score for each";
+  return `The correlation between [${array1}] and [${array2}] is ${pearsonCorrelation(
+    array1,
+    array2
+  ).toString()}`;
 };
