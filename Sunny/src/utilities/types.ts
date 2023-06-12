@@ -20,6 +20,15 @@ export interface IDay {
   notes?: string | undefined;
 }
 
+export interface attributeLibrary {
+  [key: string]: number[];
+}
+
+export interface scores {
+  name: string;
+  score: string;
+}
+
 export interface dayProps {
   // id: number;
   // dayRating: number;
