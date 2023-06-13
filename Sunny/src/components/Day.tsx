@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { Fragment } from "react";
 import { useState } from "react";
 import BooleanRating from "../elements/BooleanRating";
@@ -14,7 +15,7 @@ import {
   getDayData,
   submitDay,
 } from "../middleware/dayServiceCalls";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { attributeObject, dayObject, dayProps } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
@@ -39,6 +40,8 @@ const Day: FunctionComponent<dayProps> = () => {
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
+
+  const navigate = useNavigate();
 
   // is this the problem?
   const dayExists = () => loadedDayObject && loadedDayObject._id;
@@ -107,6 +110,7 @@ const Day: FunctionComponent<dayProps> = () => {
       setDayRating(dayRating);
       setIsEditing(false);
     });
+    navigate("/correlationreport");
   };
 
   const handleDeleteDay = () => {
