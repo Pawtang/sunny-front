@@ -21,6 +21,7 @@ import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
+import { dummyUserID } from "../utilities/constants";
 // import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
 
 const today = dayjs();
@@ -55,9 +56,18 @@ const Day: FunctionComponent<dayProps> = () => {
     return sortedData;
   };
 
+  const initAttributes = (attributes: Array<attributeObject>) => {
+    attributes.map((attribute, index: number) => {
+      const initializedAttributes = [...attributes]; // Create a shallow copy of the attributes array
+      initializedAttributes[index] = {
+        ...attribute,
+        value: 0,
+      };
+    });
+  };
+
   const loadDay = () => {
     getDayData(params.date, (dayData: any) => {
-      console.log(dayData);
       setLoadedDayObject(dayData);
       if (dayData) {
         setDayRating(dayData.dayRating);
@@ -65,10 +75,9 @@ const Day: FunctionComponent<dayProps> = () => {
         setNotes(dayData.notes);
       } else {
         getAttributesForUser(
-          "646a4e835e9049b898c0a2f2",
+          dummyUserID,
           (attributeData: Array<attributeObject>) => {
             const sortedData = sortAttributes(attributeData);
-            // console.log(sortedData);
             setAttributes(sortedData);
           }
         );
@@ -83,15 +92,14 @@ const Day: FunctionComponent<dayProps> = () => {
   const time = parseInt(today.format("hh"));
 
   const handleSubmitDay = () => {
-    const dayToSubmit =
-      loadedDayObject && loadedDayObject._id
-        ? { ...loadedDayObject, notes, dayRating, attributes }
-        : {
-            notes,
-            dayRating,
-            attributes,
-            date: dayjs(date).format("YYYY-MM-DD"),
-          };
+    const dayToSubmit = dayExists()
+      ? { ...loadedDayObject, notes, dayRating, attributes }
+      : {
+          notes,
+          dayRating,
+          attributes,
+          date: dayjs(date).format("YYYY-MM-DD"),
+        };
     submitDay(dayToSubmit, (data: any) => {
       const { notes, dayRating } = data;
       setLoadedDayObject(data);

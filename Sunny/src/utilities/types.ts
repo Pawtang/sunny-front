@@ -1,9 +1,32 @@
+export interface attributeObject {
+  name: string;
+  type: string;
+  value?: number;
+}
+
+export interface dayObject {
+  _id?: string;
+  name?: string;
+  notes?: string;
+  dayRating?: number;
+  attributes?: attributeObject[];
+}
+
 export interface IDay {
   id: number;
   dayRating?: number | undefined;
-  sleep?: number | undefined;
+  attributes?: Array<attributeObject>;
   date?: string | undefined;
   notes?: string | undefined;
+}
+
+export interface attributeLibrary {
+  [key: string]: number[];
+}
+
+export interface scores {
+  name: string;
+  score: string;
 }
 
 export interface dayProps {
@@ -64,19 +87,6 @@ export interface numberRatingProps {
   increment: Function;
   decrement: Function;
   onChange: Function;
-}
-
-export interface attributeObject {
-  name: string;
-  type: string;
-  value?: number;
-}
-
-export interface dayObject {
-  _id?: string;
-  name?: string;
-  notes?: string;
-  attributes?: attributeObject[];
 }
 
 export interface modalProps {

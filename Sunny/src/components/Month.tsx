@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import CalendarDay from "./CalendarDay";
@@ -43,9 +43,13 @@ const Month: FunctionComponent = () => {
   const grad = generateGradient(time);
 
   return (
-    <div className="sm:h-screen pb-6 sm:pb-0" style={{ background: grad }}>
+    <div className="min-h-screen pb-6" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
         <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
+        <LinkButton
+          linkTo="/correlationreport"
+          buttonText="Correlation"
+        ></LinkButton>
         <ActionButton
           onClick={() => {
             setModalVisibility(!modalVisibility);
@@ -53,9 +57,9 @@ const Month: FunctionComponent = () => {
           buttonText="📅"
           styleTags="z-50"
         ></ActionButton>
-
-        {/* for gradient background testing */}
-        {/* <div className="mx-4 inline">
+      </div>
+      {/* for gradient background testing */}
+      {/* <div className="mx-4 inline">
           <input
             type="range"
             value={time}
@@ -67,50 +71,51 @@ const Month: FunctionComponent = () => {
           />
         </div> */}
 
-        <Modal
-          id="modalContainer"
-          onClick={() => {
-            setModalVisibility(!modalVisibility);
-          }}
-          visible={modalVisibility}
-          content={
-            <MonthPicker
-              closeModal={() => {
-                setModalVisibility(!modalVisibility);
-              }}
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-              setMonth={setSelectedMonth}
-              setYear={setSelectedYear}
-            ></MonthPicker>
-          }
-        ></Modal>
+      <Modal
+        id="modalContainer"
+        onClick={() => {
+          setModalVisibility(!modalVisibility);
+        }}
+        visible={modalVisibility}
+        content={
+          <MonthPicker
+            closeModal={() => {
+              setModalVisibility(!modalVisibility);
+            }}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            setMonth={setSelectedMonth}
+            setYear={setSelectedYear}
+          ></MonthPicker>
+        }
+      ></Modal>
 
-        <div className="container justify-content mx-auto my-4 sm:h-100 h-full">
-          <div className="container justify-content mx-auto max-w-lg">
-            <h1 className="text-2xl mx-auto text-center">
-              <b>Today is {today.format("MMMM DD, YYYY")}</b>
-            </h1>
-            <h1 className="text-xl text-center">
-              {`There are ${monthCount} days in ${today.format("MMMM")}.`}
-              <br />
-              One box represents each day:
-            </h1>
-          </div>
-          <div
-            className={`mx-auto shadow-lg mt-10 container grid grid-cols-3 sm:grid-cols-7 place-content-center rounded bg-white/50 p-4 max-w-2xl `}
-          >
-            {month &&
-              month.map((day) => (
-                <div id={day.id.toString()} key={day.id}>
-                  <CalendarDay
-                    dayIndex={day.id}
-                    dayRating={day.dayRating}
-                    notes={day.notes}
-                  ></CalendarDay>
-                </div>
-              ))}
-          </div>
+      <div className="container justify-content mx-auto my-4 sm:h-100 h-full">
+        {/* Header */}
+        <div className="container justify-content mx-auto max-w-lg">
+          <h1 className="text-2xl mx-auto text-center">
+            <b>Today is {today.format("MMMM DD, YYYY")}</b>
+          </h1>
+          <h1 className="text-xl text-center">
+            {`There are ${monthCount} days in ${today.format("MMMM")}.`}
+            <br />
+            One box represents each day:
+          </h1>
+        </div>
+        {/* Content */}
+        <div
+          className={`mx-auto shadow-lg mt-10 container grid grid-cols-3 sm:grid-cols-7 place-content-center rounded bg-white/50 p-4 max-w-2xl `}
+        >
+          {month &&
+            month.map((day) => (
+              <div id={day.id.toString()} key={day.id}>
+                <CalendarDay
+                  dayIndex={day.id}
+                  dayRating={day.dayRating}
+                  notes={day.notes}
+                ></CalendarDay>
+              </div>
+            ))}
         </div>
       </div>
     </div>

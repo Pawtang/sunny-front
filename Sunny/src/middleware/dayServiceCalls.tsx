@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const DAY_URL = "http://localhost:8000/day";
+const DAYS_URL = "http://localhost:8000/days";
 const MONTH_URL = "http://localhost:8000/month";
 
 export const submitDay = async (body: object, successCallback: Function) => {
@@ -45,6 +46,19 @@ export const getMonth = async (
       .then((response) => {
         successCallback && successCallback(response.data);
       });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllDaysForUser = async (
+  successCallback: Function,
+  userid?: string
+) => {
+  try {
+    await axios.get(`${DAYS_URL}?userid=${userid}`).then((response) => {
+      successCallback && successCallback(response.data);
+    });
   } catch (error) {
     console.error(error);
   }
