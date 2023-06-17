@@ -64,7 +64,7 @@ const CorrelationReport: FunctionComponent = () => {
           {correlationArray &&
             correlationArray.map((score: scores, index: number) => {
               const applyStyles = { transform: translation(score.score) };
-              console.log(applyStyles);
+
               return (
                 <div key={Math.random()}>
                   <p>{`

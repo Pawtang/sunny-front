@@ -12,7 +12,7 @@ const BooleanRating: FunctionComponent<booleanToggleProps> = (props) => {
 
   return (
     <div className="container mx-auto px-6">
-      <div className="grid grid-cols-3 mx-auto p-2">
+      <div className="grid grid-cols-2 mx-auto p-2">
         <div className="mx-auto">{label}</div>
         <div className="mx-auto">
           <label
@@ -33,7 +33,7 @@ const BooleanRating: FunctionComponent<booleanToggleProps> = (props) => {
             <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
           </label>
         </div>
-        <div className="mx-auto">{evaluateRating(checked)}</div>
+        {/* <div className="mx-auto">{evaluateRating(checked)}</div> */}
       </div>
     </div>
   );

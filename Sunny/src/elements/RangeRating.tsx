@@ -29,7 +29,7 @@ const RangeRating: FunctionComponent<ratingProps> = (props) => {
 
   return (
     <div className="container dayrating mx-auto px-6">
-      <div className="grid grid-cols-3 mx-auto p-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 mx-auto p-2">
         <div className="border-1 mx-auto">{label}</div>
         <div className="border-1 mx-auto">
           <input
