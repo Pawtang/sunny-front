@@ -122,7 +122,7 @@ const Day: FunctionComponent<dayProps> = () => {
 
   return (
     <div
-      className="Day h-screen w-screen flex items-center"
+      className="Day min-h-screen h-full w-screen flex items-center pb-6"
       style={{ backgroundImage: `${BackgroundGradient(time)}` }}
     >
       <Modal

@@ -8,7 +8,7 @@ const NumberRating: FunctionComponent<numberRatingProps> = (props) => {
 
   return (
     <div className="container dayrating mx-auto px-6">
-      <div className="grid grid-cols-3 mx-auto p-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 mx-auto p-2">
         <div className="border-1 mx-auto">{label}</div>
         <div className="border-1 mx-auto">
           <div className="w-36 flex flex-row relative">
@@ -43,7 +43,6 @@ const NumberRating: FunctionComponent<numberRatingProps> = (props) => {
             </button>
           </div>
         </div>
-        <div className="border-1 mx-auto">{label}</div>
       </div>
     </div>
   );
