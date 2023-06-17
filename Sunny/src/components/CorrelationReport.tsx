@@ -10,6 +10,7 @@ import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import { dummyUserID } from "../utilities/constants";
 import { scores } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
+import Timeline from "./Timeline";
 
 const CorrelationReport: FunctionComponent = () => {
   const [userDayData, setUserDayData] = useState<dayObject[]>([{}]);
@@ -57,6 +58,35 @@ const CorrelationReport: FunctionComponent = () => {
     `Here's how your habits correlate with your perceived daily quality.`,
   ];
 
+  const barColor = (n: string) => {
+    const score = parseFloat(n);
+    if (score < -0.5) return "bg-red-400";
+    else if (score < -0.25) return "bg-amber-400";
+    else if (score < 0) return "bg-yellow-400";
+    else if (score < 0.25) return "bg-lime-200";
+    else if (score < 0.5) return "bg-lime-400";
+    else if (score >= 0.5) return "bg-green-600";
+  };
+
+  const barWidth = (n: string) => {
+    const totalWidth = 200;
+    const score = parseFloat(n);
+    const translate = Math.floor((score * totalWidth) / 4);
+    const fillWidth = Math.floor((Math.abs(score) * totalWidth) / 2);
+    const properties = { translate, fillWidth };
+    console.log(score, properties);
+    return properties;
+  };
+
+  const strength = (n: string) => {
+    const score = parseFloat(n);
+    if (score < -0.5) return "Strongly negative";
+    else if (score < -0.25) return "Negative";
+    else if (score < 0.25) return "Neutral";
+    else if (score < 0.5) return "Positive";
+    else if (score >= 0.5) return "Strongly Positive";
+  };
+
   return (
     <div
       className="min-h-screen pb-6"
@@ -89,51 +119,50 @@ const CorrelationReport: FunctionComponent = () => {
               className={`text-xl mx-auto text-center mb-4 ${
                 index === introText.length - 1 && "font-bold"
               }`}
+              key={index}
             >
               {sentence}
             </h1>
           );
         })}
         {/* Average Quality */}
-        <div className="place-content-center mt-6 mb-6">
-          <h1 className={`text-2xl font-bold mx-auto text-center mt-12`}>
+        <div className="place-content-center mb-6">
+          <h1 className={`text-2xl font-bold mx-auto text-center`}>
             Average Daily Quality
           </h1>
           <h2 className="center mt-4 text-8xl font-bold">
             {userDayData && getAvgQuality(userDayData)}
           </h2>
         </div>
+        <Timeline userDayData={userDayData}></Timeline>
         {/* Scores */}
-        <div className="place-content-center">
+        {/* Sort first?  */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {correlationArray &&
             correlationArray.map((score: scores, index: number) => {
-              const applyStyles = { transform: translation(score.score) };
-              const barColor = (n: string) => {
-                const score = parseFloat(n);
-                if (score < -0.5) return "bg-red-400";
-                else if (score < -0.25) return "bg-amber-400";
-                else if (score < 0) return "bg-yellow-400";
-                else if (score < 0.25) return "bg-lime-200";
-                else if (score < 0.5) return "bg-lime-400";
-                else if (score > 0.5) return "bg-green-600";
-              };
+              // const applyStyles = { transform: translation(score.score) };
+              const properties = barWidth(score.score);
               return (
-                <div key={index} className="mx-auto my-6 ">
+                <div
+                  key={index}
+                  className="mx-auto my-6 border p-4 bg-white/30 hover:bg-white/70 hover:-translate-y-2 transition-all ease-out duration-200 rounded-lg "
+                >
                   <p className="mx-auto text-center">{`
           ${score.name} : 
           ${score.score}`}</p>
 
-                  <div
-                    className="w-48 border h-6 bg-gray-800 mx-auto rounded-md"
-                    key={index}
-                  >
+                  <div className="w-48 border h-6 bg-gray-800 mx-auto rounded-md">
                     <div
                       className={`${barColor(
                         score.score
-                      )} mx-auto h-full w-2 rounded-sm group`}
-                      style={applyStyles}
+                      )} mx-auto h-full w-2 group`}
+                      style={{
+                        width: `${properties.fillWidth}px`,
+                        transform: `translate(${properties.translate}px)`,
+                      }}
                     ></div>
                   </div>
+                  <p className="text-center">{strength(score.score)}</p>
                 </div>
               );
             })}
