@@ -174,6 +174,10 @@ const Day: FunctionComponent<dayProps> = () => {
           }`}
         >
           <div className="float-right">
+            <LinkButton
+              linkTo="/correlationreport"
+              buttonText="🏸"
+            ></LinkButton>
             <ActionButton
               buttonText="🗑"
               onClick={() => {

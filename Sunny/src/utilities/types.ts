@@ -6,6 +6,7 @@ export interface attributeObject {
 
 export interface dayObject {
   _id?: string;
+  date?: string;
   name?: string;
   notes?: string;
   dayRating?: number;
