@@ -3,6 +3,7 @@ import { attributeLibrary } from "./types";
 import { scores } from "./types";
 
 const pearsonCorrelation = (x: Array<number>, y: Array<number>) => {
+  if (x.length < 1 || y.length < 1) return "empty arrays!";
   if (x.length !== y.length) return "must be equal lengths!";
   const xSum = x.reduce((sum, score) => sum + score);
   const ySum = y.reduce((sum, score) => sum + score);

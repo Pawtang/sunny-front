@@ -20,7 +20,8 @@ const CorrelationReport: FunctionComponent = () => {
 
   useEffect(() => {
     getAllDaysForUser((data: any) => {
-      setUserDayData(data);
+      const sorted = sortByDate(data);
+      setUserDayData(sorted);
     });
     getAttributesForUser(dummyUserID, (data: any) => {
       setUserAttributes(data);
@@ -32,6 +33,22 @@ const CorrelationReport: FunctionComponent = () => {
       userAttributes.length > 0 &&
       setCorrelationArray(Correlation(userDayData, userAttributes));
   }, [userDayData, userAttributes]);
+
+  const sortByDate = (dayArray: dayObject[]) => {
+    const sortedDates = dayArray.sort((a, b) => {
+      const dateA = dayjs(a.date);
+      const dateB = dayjs(b.date);
+
+      if (dateA.isBefore(dateB)) {
+        return -1;
+      } else if (dateA.isAfter(dateB)) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return sortedDates;
+  };
 
   const getAvgQuality = (dayArray: dayObject[]) => {
     if (!dayArray) {
@@ -74,7 +91,7 @@ const CorrelationReport: FunctionComponent = () => {
     const translate = Math.floor((score * totalWidth) / 4);
     const fillWidth = Math.floor((Math.abs(score) * totalWidth) / 2);
     const properties = { translate, fillWidth };
-    console.log(score, properties);
+    // console.log(score, properties);
     return properties;
   };
 
