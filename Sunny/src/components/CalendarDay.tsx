@@ -9,6 +9,8 @@ interface calendarDayProps {
   dayIndex: number;
   dayRating?: number;
   notes?: string;
+  selectedMonth: number;
+  selectedYear: number;
 }
 
 const today = dayjs();
@@ -25,9 +27,9 @@ const CalendarEmoji = (dayRating: number | undefined) => {
 
 const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
   {
-    const { dayIndex, dayRating, notes } = props;
-    const month = dayjs().format("MM");
-    const year = dayjs().year();
+    const { dayIndex, dayRating, notes, selectedMonth, selectedYear } = props;
+    const month = selectedMonth.toFixed(2);
+    const year = selectedYear;
     const day = prefixer(dayIndex);
     const date = `${year}-${month}-${day}`;
 
