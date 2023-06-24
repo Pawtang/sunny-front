@@ -43,7 +43,6 @@ const Day: FunctionComponent<dayProps> = () => {
 
   const navigate = useNavigate();
 
-  // is this the problem?
   const dayExists = () => loadedDayObject && loadedDayObject._id;
 
   const sortAttributes = (data: Array<attributeObject>) => {
@@ -96,21 +95,34 @@ const Day: FunctionComponent<dayProps> = () => {
 
   const handleSubmitDay = () => {
     const dayToSubmit = dayExists()
-      ? { ...loadedDayObject, notes, dayRating, attributes }
+      ? {
+          ...loadedDayObject,
+          notes,
+          dayRating,
+          attributes,
+          date,
+          owner: dummyUserID,
+        }
       : {
           notes,
           dayRating,
           attributes,
           date: dayjs(date).format("YYYY-MM-DD"),
+          owner: dummyUserID,
         };
-    submitDay(dayToSubmit, (data: any) => {
-      const { notes, dayRating } = data;
-      setLoadedDayObject(data);
-      setNotes(notes);
-      setDayRating(dayRating);
-      setIsEditing(false);
-    });
-    navigate("/correlationreport");
+    console.log(dayToSubmit);
+    try {
+      submitDay(dayToSubmit, (data: any) => {
+        const { notes, dayRating } = data;
+        setLoadedDayObject(data);
+        setNotes(notes);
+        setDayRating(dayRating);
+        setIsEditing(false);
+      });
+    } catch (error) {
+      return error;
+    }
+    navigate("/month");
   };
 
   const handleDeleteDay = () => {

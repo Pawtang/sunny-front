@@ -28,7 +28,7 @@ const CalendarEmoji = (dayRating: number | undefined) => {
 const CalendarDay: FunctionComponent<calendarDayProps> = (props) => {
   {
     const { dayIndex, dayRating, notes, selectedMonth, selectedYear } = props;
-    const month = selectedMonth.toFixed(2);
+    const month = prefixer(selectedMonth);
     const year = selectedYear;
     const day = prefixer(dayIndex);
     const date = `${year}-${month}-${day}`;
