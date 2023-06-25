@@ -11,6 +11,7 @@ export const submitDay = async (body: object, successCallback: Function) => {
       successCallback && successCallback(response.data);
     });
   } catch (error) {
+    return error;
     console.error("error", error);
   }
 };

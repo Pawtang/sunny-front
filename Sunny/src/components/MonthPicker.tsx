@@ -5,7 +5,14 @@ import { Fragment, FunctionComponent } from "react";
 import { monthPickerProps } from "../utilities/types";
 
 const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
-  const { closeModal, setMonth, setYear, selectedMonth, selectedYear } = props;
+  const {
+    closeModal,
+    setMonth,
+    setYear,
+    selectedMonth,
+    selectedYear,
+    loadMonth,
+  } = props;
   const months = [
     "January",
     "February",
@@ -29,6 +36,11 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
   };
   const years = yearlist();
 
+  const buttonAction = () => {
+    closeModal();
+    loadMonth();
+  };
+
   return (
     <>
       <div className="p-5 items-center ">
@@ -42,11 +54,11 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
                     <li key={month}>
                       <ActionButton
                         onClick={() => {
-                          setMonth(month);
+                          setMonth(index + 1);
                         }}
                         buttonText={month}
                         styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
-                          selectedMonth === month ? "!bg-blue-200" : ""
+                          selectedMonth === index + 1 ? "!bg-blue-200" : ""
                         }`}
                       ></ActionButton>
                     </li>
@@ -64,11 +76,11 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
                     <li key={year}>
                       <ActionButton
                         onClick={() => {
-                          setYear(year);
+                          setYear(parseInt(year));
                         }}
                         buttonText={year}
                         styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
-                          selectedYear === year ? "!bg-blue-200" : ""
+                          selectedYear.toString() === year ? "!bg-blue-200" : ""
                         }`}
                       ></ActionButton>
                     </li>
@@ -80,7 +92,7 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
         </div>
         <div className="flex justify-center w-100 mt-10">
           <ActionButton
-            onClick={closeModal}
+            onClick={buttonAction}
             buttonText="Set Month"
             styleTags="mx-auto w-40 border"
           />

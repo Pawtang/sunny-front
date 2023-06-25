@@ -20,14 +20,24 @@ const Month: FunctionComponent = () => {
   // };
 
   const [month, setMonth] = useState<IDay[] | undefined>([]);
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState<number>(today.month() + 1);
+  const [selectedYear, setSelectedYear] = useState<number>(today.year());
   const [modalVisibility, setModalVisibility] = useState(false);
 
   const loadMonth = async () => {
     try {
       setMonth(MonthGen());
-      await getMonth(today.month() + 1, today.year(), (days: IDay[]) => {
+      await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
+        setMonth(MonthGen(days));
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadSelectedMonth = async () => {
+    try {
+      await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
         setMonth(MonthGen(days));
       });
     } catch (error) {
@@ -58,18 +68,6 @@ const Month: FunctionComponent = () => {
           styleTags="z-50"
         ></ActionButton>
       </div>
-      {/* for gradient background testing */}
-      {/* <div className="mx-4 inline">
-          <input
-            type="range"
-            value={time}
-            min={0}
-            max={23}
-            onChange={(e) => {
-              setTime(e.target.valueAsNumber);
-            }}
-          />
-        </div> */}
 
       <Modal
         id="modalContainer"
@@ -86,6 +84,7 @@ const Month: FunctionComponent = () => {
             selectedYear={selectedYear}
             setMonth={setSelectedMonth}
             setYear={setSelectedYear}
+            loadMonth={loadSelectedMonth}
           ></MonthPicker>
         }
       ></Modal>
@@ -110,6 +109,8 @@ const Month: FunctionComponent = () => {
             month.map((day) => (
               <div id={day.id.toString()} key={day.id}>
                 <CalendarDay
+                  selectedMonth={selectedMonth}
+                  selectedYear={selectedYear}
                   dayIndex={day.id}
                   dayRating={day.dayRating}
                   notes={day.notes}

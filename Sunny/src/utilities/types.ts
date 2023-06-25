@@ -109,6 +109,7 @@ export interface monthPickerProps {
   closeModal: Function;
   setMonth: Function;
   setYear: Function;
-  selectedMonth: string;
-  selectedYear: string;
+  loadMonth: Function;
+  selectedMonth: number;
+  selectedYear: number;
 }

@@ -27,34 +27,39 @@ const Timeline = (props: { userDayData: dayObject[] }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-row place-content-center h-16">
-      {scoresArray.length > 0 ? (
-        userDayData.map((day, index: number) => {
-          const score = day.dayRating;
-          const date = dayjs(day.date).format("MMMM DD, YYYY");
-          const linkDate = dayjs(day.date).format("YYYY-MM-DD");
-          return (
-            <div
-              key={index}
-              className={`group h-10 hover:shadow-lg hover:scale-x-125 hover:scale-y-150 transition-all ease-out duration:200 m-0 p-0 ${
-                score ? segmentColor(score) : "bg-gray-800"
-              } cursor-pointer`}
-              style={score ? { width: segmentWidth() } : { width: 0 }}
-              onClick={() => {
-                linkDate && navigate(`/Day?date=${linkDate}`);
-              }}
-            >
-              <span className="absolute top-16 scale-0 transition-all ease-out duration-100 w-100 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 italic bg-opacity-70 w-36">
-                <p className="break-keep inline-block">
-                  {date} quality: {score && score.toString()}
-                </p>
-              </span>
-            </div>
-          );
-        })
-      ) : (
-        <div className="">No data</div>
-      )}
+    <div className="">
+      <div
+        className="flex flex-row place-content-center h-16 bg-gray-800/70 hover:bg-gray-700/70 
+      hover:scale-105 transition-all duration-200 ease-out w-[400px] p-3 rounded-xl mx-auto"
+      >
+        {scoresArray.length > 0 ? (
+          userDayData.map((day, index: number) => {
+            const score = day.dayRating;
+            const date = dayjs(day.date).format("MMMM DD, YYYY");
+            const linkDate = dayjs(day.date).format("YYYY-MM-DD");
+            return (
+              <div
+                key={index}
+                className={`group rounded-lg mr-0.5 h-10 hover:shadow-lg hover:scale-x-125 hover:scale-y-150 transition-all ease-out duration:200 m-0 p-0 ${
+                  score ? segmentColor(score) : "bg-gray-800"
+                } cursor-pointer`}
+                style={score ? { width: segmentWidth() } : { width: 0 }}
+                onClick={() => {
+                  linkDate && navigate(`/Day?date=${linkDate}`);
+                }}
+              >
+                <span className="absolute top-12 scale-0 transition-all ease-out duration-100 w-100 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 italic bg-opacity-70 w-36">
+                  <p className="break-keep inline-block">
+                    {date} quality: {score && score.toString()}
+                  </p>
+                </span>
+              </div>
+            );
+          })
+        ) : (
+          <div className="">No data</div>
+        )}
+      </div>
     </div>
   );
 };
