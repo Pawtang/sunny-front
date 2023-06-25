@@ -1,6 +1,6 @@
 import ActionButton from "../elements/ActionButton";
 import Navbar from "./Navbar";
-// import { signup } from "../middleware/userServiceCalls";
+import { signup } from "../middleware/userServiceCalls";
 import { useEffect, useState } from "react";
 import {
   numberRegex,
@@ -172,7 +172,7 @@ const Signup = () => {
             </label>
             <input
               type="password"
-              id="password"
+              id="confirm-password"
               className={`rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2 ${
                 password === confirmPassword
                   ? "!outline-green-400 outline-4"
@@ -188,7 +188,17 @@ const Signup = () => {
           </div>
           <div className="flex justify-center">
             <ActionButton
-              onClick={() => {}}
+              onClick={(e: any) => {
+                e.preventDefault()
+                signup({
+                  email,
+                  name: `${firstName} ${lastName}`,
+                  password
+                }, () => {
+                  //TODO navigate to other page
+                  alert("SUCCESSUUUU");
+                });
+              }}
               buttonText="Submit"
               styleTags="w-96"
             ></ActionButton>

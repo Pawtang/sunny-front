@@ -1,5 +1,6 @@
 import Navbar from "./Navbar";
 import ActionButton from "../elements/ActionButton";
+import { login } from "../middleware/userServiceCalls";
 import { useState } from "react";
 
 const Login = () => {
@@ -51,7 +52,12 @@ const Login = () => {
           </div>
           <div className="flex justify-center">
             <ActionButton
-              onClick={() => {}}
+              onClick={(e: any) => {
+                e.preventDefault();
+                login({email, password}, () => {
+                  alert("YAYY");
+                })
+              }}
               buttonText="Log In"
               styleTags="w-96 mt-4"
             ></ActionButton>

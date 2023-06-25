@@ -7,12 +7,14 @@ const MONTH_URL = "http://localhost:8000/month";
 export const submitDay = async (body: object, successCallback: Function) => {
   console.log("body", body);
   try {
-    await axios.post(DAY_URL, body).then((response) => {
+    await axios.post(DAY_URL, body, {headers: {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDk4ODA3OTg3NWE0OTEyNGY0NTNhZTciLCJpYXQiOjE2ODc3MTY0OTJ9.X2OyJvXiCFTao4FEWHiuaifn4QdDGEBRLik2u6W0yxY"
+    }}).then((response) => {
       successCallback && successCallback(response.data);
     });
   } catch (error) {
-    return error;
     console.error("error", error);
+    return error;
   }
 };
 

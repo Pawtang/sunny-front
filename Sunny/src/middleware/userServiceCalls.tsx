@@ -1,10 +1,12 @@
 import axios from "axios";
-const USER_URL = "http://localhost:8000/user";
 import { dummyUserID } from "../utilities/constants";
 
+const USER_URL = "http://localhost:8000/user";
+
 export const signup = async (body: object, successCallback: Function) => {
+  console.log("FUCK YOU", body);
   try {
-    const response = await axios.post(USER_URL, body).then((response) => {
+    await axios.post(USER_URL, body).then((response) => {
       successCallback && successCallback(response.data);
     });
   } catch (error) {
@@ -14,7 +16,8 @@ export const signup = async (body: object, successCallback: Function) => {
 
 export const login = async (body: object, successCallback: Function) => {
   try {
-    const response = await axios.post(USER_URL, body).then((response) => {
+    await axios.post(`${USER_URL}/login`, body).then((response) => {
+      console.log("RESPONSE", response);
       successCallback && successCallback(response.data);
     });
   } catch (error) {
