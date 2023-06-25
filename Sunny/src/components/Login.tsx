@@ -1,11 +1,16 @@
 import Navbar from "./Navbar";
 import ActionButton from "../elements/ActionButton";
 import { login } from "../middleware/userServiceCalls";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../contexts/userContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const {setTokenAndUser} = useContext(UserContext);
   return (
     <>
       <Navbar></Navbar>
@@ -54,8 +59,9 @@ const Login = () => {
             <ActionButton
               onClick={(e: any) => {
                 e.preventDefault();
-                login({email, password}, () => {
-                  alert("YAYY");
+                login({email, password}, (data: any) => {
+                  setTokenAndUser(data.token, data.user.name);
+                  navigate("/");
                 })
               }}
               buttonText="Log In"

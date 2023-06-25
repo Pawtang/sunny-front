@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Fragment } from "react";
 import { useState } from "react";
@@ -23,6 +23,7 @@ import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
 import { dummyUserID } from "../utilities/constants";
+import { UserContext } from "../contexts/userContext";
 // import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
 
 const today = dayjs();

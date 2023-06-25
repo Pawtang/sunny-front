@@ -1,13 +1,15 @@
 import ActionButton from "../elements/ActionButton";
 import Navbar from "./Navbar";
 import { signup } from "../middleware/userServiceCalls";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   numberRegex,
   symbolRegex,
   lowercaseRegex,
   uppercaseRegex,
 } from "../utilities/regexStrings";
+import { UserContext } from "../contexts/userContext";
 
 // const pwStrength = (password: string) => {
 //   if (password === "") return "w-0";
@@ -24,11 +26,15 @@ import {
 // const pwStyle = pwStrength(password);
 
 const Signup = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  const navigate = useNavigate();
+
+  const {setTokenAndUser} = useContext(UserContext);
 
   useEffect(() => {
     // console.log("pwStrength", pwStrength(password));
@@ -194,9 +200,9 @@ const Signup = () => {
                   email,
                   name: `${firstName} ${lastName}`,
                   password
-                }, () => {
-                  //TODO navigate to other page
-                  alert("SUCCESSUUUU");
+                }, (data: any) => {
+                  setTokenAndUser(data.token, data.user.name);
+                  navigate("/");
                 });
               }}
               buttonText="Submit"
