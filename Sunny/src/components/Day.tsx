@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { useContext, FunctionComponent, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Fragment } from "react";
 import { useState } from "react";
@@ -22,14 +22,16 @@ import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
-import { dummyUserID } from "../utilities/constants";
+import { dummyUserID, DAY_URL } from "../utilities/constants";
 import { UserContext } from "../contexts/userContext";
+
 // import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
 
 const today = dayjs();
 dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = () => {
+  const { genericPostWithAuth } = useContext(UserContext);
   const [eraseModalVisibility, setEraseModalVisibility] = useState(false);
   const [overwriteModalVisibility, setOverwriteModalVisibility] =
     useState(false);
@@ -89,6 +91,7 @@ const Day: FunctionComponent<dayProps> = () => {
   };
 
   useEffect(() => {
+    console.log("Process env:", process.env);
     loadDay();
   }, []);
 
@@ -113,13 +116,14 @@ const Day: FunctionComponent<dayProps> = () => {
         };
     console.log(dayToSubmit);
     try {
-      submitDay(dayToSubmit, (data: any) => {
+      genericPostWithAuth(DAY_URL, dayToSubmit, (data: any) => {
         const { notes, dayRating } = data;
         setLoadedDayObject(data);
         setNotes(notes);
         setDayRating(dayRating);
         setIsEditing(false);
       });
+      // submitDay();
     } catch (error) {
       return error;
     }

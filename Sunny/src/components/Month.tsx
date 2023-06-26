@@ -11,13 +11,11 @@ import { IDay } from "../utilities/types";
 import MonthPicker from "./MonthPicker";
 import generateGradient from "../utilities/PolynomialGradientsUtil";
 import Modal from "./Modal";
+import { prefixer } from "../utilities/Prefixer";
 
 const Month: FunctionComponent = () => {
   const today = dayjs();
   const monthCount = today.daysInMonth();
-  // const containerStyle = () => {
-  //   return "grid-cols-7";
-  // };
 
   const [month, setMonth] = useState<IDay[] | undefined>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(today.month() + 1);
@@ -93,13 +91,22 @@ const Month: FunctionComponent = () => {
         {/* Header */}
         <div className="container justify-content mx-auto max-w-lg">
           <h1 className="text-2xl mx-auto text-center">
-            <b>Today is {today.format("MMMM DD, YYYY")}</b>
+            <b>
+              {today.isSame(
+                dayjs(`${selectedYear}-${selectedMonth}`, "YYYY-M"),
+                "month"
+              )
+                ? `Today is ${today.format("MMMM DD, YYYY")}`
+                : dayjs(`${selectedYear}, ${selectedMonth}`).format(
+                    "MMMM, YYYY"
+                  )}
+            </b>
           </h1>
-          <h1 className="text-xl text-center">
+          {/* <h1 className="text-xl text-center">
             {`There are ${monthCount} days in ${today.format("MMMM")}.`}
             <br />
             One box represents each day:
-          </h1>
+          </h1> */}
         </div>
         {/* Content */}
         <div
