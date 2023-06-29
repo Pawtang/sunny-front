@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
@@ -12,8 +12,10 @@ import MonthPicker from "./MonthPicker";
 import generateGradient from "../utilities/PolynomialGradientsUtil";
 import Modal from "./Modal";
 import { prefixer } from "../utilities/Prefixer";
+import { UserContext } from "../contexts/userContext";
 
 const Month: FunctionComponent = () => {
+  const { token } = useContext(UserContext);
   const today = dayjs();
   const monthCount = today.daysInMonth();
 
@@ -44,6 +46,7 @@ const Month: FunctionComponent = () => {
   };
 
   useEffect(() => {
+    console.log(token);
     loadMonth();
   }, []);
 

@@ -55,6 +55,7 @@ const UserProvider = ({ children }: { children: any }) => {
     body: object,
     successCallback: Function
   ) => {
+    console.log(token);
     genericPost(url, body, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
