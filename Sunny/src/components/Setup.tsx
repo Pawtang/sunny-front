@@ -1,12 +1,14 @@
 import Navbar from "./Navbar";
 import ActionButton from "../elements/ActionButton";
 import { attributeObject } from "../utilities/types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
 import { submitAttributes } from "../middleware/setupServiceCalls";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import { dummyUserID } from "../utilities/constants";
+import { UserContext } from "../contexts/userContext";
+import { SETUP_URL } from "../utilities/constants";
 
 const HOURS_SLEPT = "Hours Slept";
 const MILES_RUN = "Miles Run";
@@ -30,6 +32,7 @@ const wentToGymObject: attributeObject = {
 const drinksHadObject: attributeObject = { name: DRINKS_HAD, type: "number" };
 
 const Setup = () => {
+  const { genericGetWithAuth } = useContext(UserContext);
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
   const [hoursSlept, setHoursSlept] = useState<boolean>(false);
   const [milesRun, setMilesRun] = useState<boolean>(false);
@@ -40,7 +43,7 @@ const Setup = () => {
   const [attributeType, setAttributeType] = useState<string>("");
 
   useEffect(() => {
-    getAttributesForUser(dummyUserID, (data: any) => {
+    genericGetWithAuth(SETUP_URL, (data: any) => {
       setAttributes(
         data.filter(
           (attr: attributeObject) =>
@@ -54,6 +57,20 @@ const Setup = () => {
         )
       );
     });
+    // getAttributesForUser(dummyUserID, (data: any) => {
+    //   setAttributes(
+    //     data.filter(
+    //       (attr: attributeObject) =>
+    //         ![
+    //           HOURS_SLEPT,
+    //           MILES_RUN,
+    //           MINUTES_READ,
+    //           WENT_TO_GYM,
+    //           DRINKS_HAD,
+    //         ].includes(attr.name)
+    //     )
+    //   );
+    // });
   }, []);
 
   const assignType = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -4,9 +4,10 @@ import { dummyUserID } from "../utilities/constants";
 const USER_URL = "http://localhost:8000/user";
 
 export const signup = async (body: object, successCallback: Function) => {
-  console.log("FUCK YOU", body);
+  console.log("signup body", body);
   try {
     await axios.post(USER_URL, body).then((response) => {
+      console.log(response);
       successCallback && successCallback(response.data);
     });
   } catch (error) {

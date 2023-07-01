@@ -10,11 +10,7 @@ import LinkButton from "../elements/LinkButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import { mapQueryParamsToObject } from "../utilities/QueryParamsUtils";
 import ActionButton from "../elements/ActionButton";
-import {
-  deleteDay,
-  getDayData,
-  submitDay,
-} from "../middleware/dayServiceCalls";
+import { deleteDay, getDayData } from "../middleware/dayServiceCalls";
 import { useLocation, useNavigate } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { attributeObject, dayObject, dayProps } from "../utilities/types";
@@ -22,16 +18,16 @@ import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
-import { dummyUserID, DAY_URL } from "../utilities/constants";
+import { dummyUserID, DAY_URL, SETUP_URL } from "../utilities/constants";
 import { UserContext } from "../contexts/userContext";
 
 // import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
-
 const today = dayjs();
 dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = () => {
-  const { genericPostWithAuth } = useContext(UserContext);
+  const { token, user } = useContext(UserContext);
+  const { genericPostWithAuth, genericGetWithAuth } = useContext(UserContext);
   const [eraseModalVisibility, setEraseModalVisibility] = useState(false);
   const [overwriteModalVisibility, setOverwriteModalVisibility] =
     useState(false);
@@ -72,26 +68,32 @@ const Day: FunctionComponent<dayProps> = () => {
   };
 
   const loadDay = () => {
-    getDayData(params.date, (dayData: any) => {
+    genericGetWithAuth(`${DAY_URL}?date=${params.date}`, (dayData: any) => {
       setLoadedDayObject(dayData);
       if (dayData) {
         setDayRating(dayData.dayRating);
         setAttributes(sortAttributes(dayData.attributes));
         setNotes(dayData.notes);
       } else {
-        getAttributesForUser(
-          dummyUserID,
+        genericGetWithAuth(
+          SETUP_URL,
           (attributeData: Array<attributeObject>) => {
             const sortedData = sortAttributes(attributeData);
             setAttributes(sortedData);
           }
         );
+        // getAttributesForUser(
+        //   dummyUserID,
+        //   (attributeData: Array<attributeObject>) => {
+        //     const sortedData = sortAttributes(attributeData);
+        //     setAttributes(sortedData);
+        //   }
+        // );
       }
     });
   };
 
   useEffect(() => {
-    console.log("Process env:", process.env);
     loadDay();
   }, []);
 
@@ -185,16 +187,14 @@ const Day: FunctionComponent<dayProps> = () => {
       ></Modal>
 
       <div className="container mx-auto">
+        <p>{user ? user : "No user"}</p>
         <div
           className={`journal max-w-lg mx-auto shadow-sm hover:shadow-lg ${
             isEditing ? "" : ""
           }`}
         >
           <div className="float-right">
-            <LinkButton
-              linkTo="/correlationreport"
-              buttonText="🏸"
-            ></LinkButton>
+            <LinkButton linkTo="/correlationreport" buttonText="𝛴"></LinkButton>
             <ActionButton
               buttonText="🗑"
               onClick={() => {
@@ -206,7 +206,7 @@ const Day: FunctionComponent<dayProps> = () => {
           <div className="relative float-left container mx-auto p-4 mt-4 ">
             <div className="mx-auto">
               <h1 className="text-3xl font-bold underline center ">
-                Hello, Ben
+                {`Hello, ${user?.split(" ")[0]}`}
               </h1>
 
               {today.diff(date, "day") === 0 ? (

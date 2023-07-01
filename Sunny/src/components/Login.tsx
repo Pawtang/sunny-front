@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/userContext";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("ABC123abc!");
 
   const navigate = useNavigate();
-  const {setTokenAndUser} = useContext(UserContext);
+  const { setTokenAndUser } = useContext(UserContext);
   return (
     <>
       <Navbar></Navbar>
@@ -59,10 +59,10 @@ const Login = () => {
             <ActionButton
               onClick={(e: any) => {
                 e.preventDefault();
-                login({email, password}, (data: any) => {
+                login({ email, password }, (data: any) => {
                   setTokenAndUser(data.token, data.user.name);
                   navigate("/");
-                })
+                });
               }}
               buttonText="Log In"
               styleTags="w-96 mt-4"

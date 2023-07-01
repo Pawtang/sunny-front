@@ -13,9 +13,10 @@ import generateGradient from "../utilities/PolynomialGradientsUtil";
 import Modal from "./Modal";
 import { prefixer } from "../utilities/Prefixer";
 import { UserContext } from "../contexts/userContext";
+import { MONTH_URL } from "../utilities/constants";
 
 const Month: FunctionComponent = () => {
-  const { token } = useContext(UserContext);
+  const { token, user, genericGetWithAuth } = useContext(UserContext);
   const today = dayjs();
   const monthCount = today.daysInMonth();
 
@@ -27,9 +28,7 @@ const Month: FunctionComponent = () => {
   const loadMonth = async () => {
     try {
       setMonth(MonthGen());
-      await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
-        setMonth(MonthGen(days));
-      });
+      loadSelectedMonth();
     } catch (error) {
       console.error(error);
     }
@@ -37,16 +36,22 @@ const Month: FunctionComponent = () => {
 
   const loadSelectedMonth = async () => {
     try {
-      await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
-        setMonth(MonthGen(days));
-      });
+      genericGetWithAuth(
+        `${MONTH_URL}?month=${selectedMonth}&year=${selectedYear}`,
+        (days: IDay[]) => {
+          console.log(days);
+          setMonth(MonthGen(days));
+        }
+      );
+      // await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
+      //   setMonth(MonthGen(days));
+      // });
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    console.log(token);
     loadMonth();
   }, []);
 
@@ -68,6 +73,7 @@ const Month: FunctionComponent = () => {
           buttonText="📅"
           styleTags="z-50"
         ></ActionButton>
+        <p>{user ? user : "No user"}</p>
       </div>
 
       <Modal
