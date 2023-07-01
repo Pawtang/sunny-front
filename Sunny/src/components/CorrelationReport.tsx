@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import LinkButton from "../elements/LinkButton";
@@ -7,10 +7,11 @@ import { getAllDaysForUser } from "../middleware/dayServiceCalls";
 import { attributeObject } from "../utilities/types";
 import { dayObject } from "../utilities/types";
 import { getAttributesForUser } from "../middleware/setupServiceCalls";
-import { dummyUserID } from "../utilities/constants";
+import { DAYS_URL, SETUP_URL } from "../utilities/constants";
 import { scores } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import Timeline from "./Timeline";
+import { UserContext } from "../contexts/userContext";
 
 const CorrelationReport: FunctionComponent = () => {
   const [userDayData, setUserDayData] = useState<dayObject[]>([{}]);
@@ -18,12 +19,14 @@ const CorrelationReport: FunctionComponent = () => {
   const [correlationArray, setCorrelationArray] = useState<scores[]>();
   const [avgQuality, setAvgQuality] = useState<number>(0);
 
+  const { genericGetWithAuth } = useContext(UserContext);
+
   useEffect(() => {
-    getAllDaysForUser((data: any) => {
+    genericGetWithAuth(DAYS_URL, (data: any) => {
       const sorted = sortByDate(data);
       setUserDayData(sorted);
     });
-    getAttributesForUser(dummyUserID, (data: any) => {
+    genericGetWithAuth(SETUP_URL, (data: any) => {
       setUserAttributes(data);
     });
   }, []);

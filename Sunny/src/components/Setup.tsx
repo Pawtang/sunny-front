@@ -32,7 +32,7 @@ const wentToGymObject: attributeObject = {
 const drinksHadObject: attributeObject = { name: DRINKS_HAD, type: "number" };
 
 const Setup = () => {
-  const { genericGetWithAuth } = useContext(UserContext);
+  const { genericGetWithAuth, genericPostWithAuth } = useContext(UserContext);
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
   const [hoursSlept, setHoursSlept] = useState<boolean>(false);
   const [milesRun, setMilesRun] = useState<boolean>(false);
@@ -98,9 +98,12 @@ const Setup = () => {
 
     const toSubmit = [...commonAttributes, ...attributes].filter((val) => val);
     console.log("TO SUBMIT", toSubmit);
-    submitAttributes({ attributes: toSubmit }, (data: any) => {
+    genericPostWithAuth(SETUP_URL, { attributes: toSubmit }, (data: any) => {
       console.log(data);
     });
+    // submitAttributes({ attributes: toSubmit }, (data: any) => {
+    //   console.log(data);
+    // });
   };
 
   return (

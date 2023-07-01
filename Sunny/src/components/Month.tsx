@@ -14,6 +14,7 @@ import Modal from "./Modal";
 import { prefixer } from "../utilities/Prefixer";
 import { UserContext } from "../contexts/userContext";
 import { MONTH_URL } from "../utilities/constants";
+import Navbar from "./Navbar";
 
 const Month: FunctionComponent = () => {
   const { token, user, genericGetWithAuth } = useContext(UserContext);
@@ -43,9 +44,6 @@ const Month: FunctionComponent = () => {
           setMonth(MonthGen(days));
         }
       );
-      // await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
-      //   setMonth(MonthGen(days));
-      // });
     } catch (error) {
       console.error(error);
     }
@@ -61,19 +59,21 @@ const Month: FunctionComponent = () => {
   return (
     <div className="min-h-screen pb-6" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
-        <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
-        <LinkButton
-          linkTo="/correlationreport"
-          buttonText="Correlation"
-        ></LinkButton>
+        <Navbar></Navbar>
         <ActionButton
           onClick={() => {
             setModalVisibility(!modalVisibility);
           }}
-          buttonText="📅"
-          styleTags="z-50"
+          buttonText="📅  Month Select"
+          styleTags="z-50 inline ml-6"
         ></ActionButton>
-        <p>{user ? user : "No user"}</p>
+        {/* <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
+        <LinkButton
+          linkTo="/correlationreport"
+          buttonText="Correlation"
+        ></LinkButton>
+        
+        <p>{user ? user : "No user"}</p> */}
       </div>
 
       <Modal

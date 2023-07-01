@@ -1,4 +1,4 @@
-import React, { Component, ReactElement, useState, ReactNode } from "react";
+import React, { useState, ReactNode } from "react";
 import axios from "axios";
 
 const DEFAULT_FUNCTION = () => {
