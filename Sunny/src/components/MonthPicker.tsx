@@ -48,7 +48,7 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
   return (
     <>
       <div className="p-5 items-center ">
-        <div className="columns-2">
+        <div className="columns-2 mt-8">
           {/* Months */}
           <div className="overflow-scroll overflow-x-hidden flex justify-center max-h-96 border">
             <ul>

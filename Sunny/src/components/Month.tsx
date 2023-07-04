@@ -61,15 +61,25 @@ const Month: FunctionComponent = () => {
     <div className="min-h-screen pb-6" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
         {/* <Navbar></Navbar> */}
-        <LinkButton linkTo="/" buttonText="🏠" styleTags="mt-4"></LinkButton>
-        <LinkButton linkTo="/correlationreport" buttonText="𝛴"></LinkButton>
+        <LinkButton
+          linkTo="/"
+          buttonText=""
+          buttonImagePath="/icons/home.png"
+          styleTags="mt-4"
+        ></LinkButton>
+        <LinkButton
+          linkTo="/correlationreport"
+          buttonImagePath="/icons/chart.png"
+          buttonText=""
+        ></LinkButton>
 
         <ActionButton
           onClick={() => {
             setModalVisibility(!modalVisibility);
           }}
-          buttonText="📅  Month Select"
-          styleTags="z-50 "
+          buttonText="Month Select"
+          styleTags="z-50"
+          buttonImagePath="/icons/calendar.png"
         ></ActionButton>
         <p className="inline">{user ? user : "No user"}</p>
       </div>
