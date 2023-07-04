@@ -9,18 +9,18 @@ interface userContext {
   token: string | null;
   user: string | null;
   setTokenAndUser: (token: string, user: string) => void;
-  genericPostWithAuth: Function;
-  genericGetWithAuth: Function;
-  genericDeleteWithAuth: Function;
+  APIPostAuthy: Function;
+  APIGetAuthy: Function;
+  APIDeleteAuthy: Function;
 }
 
 const UserContext = React.createContext<userContext>({
   token: null,
   user: null,
   setTokenAndUser: DEFAULT_FUNCTION,
-  genericPostWithAuth: DEFAULT_FUNCTION,
-  genericGetWithAuth: DEFAULT_FUNCTION,
-  genericDeleteWithAuth: DEFAULT_FUNCTION,
+  APIPostAuthy: DEFAULT_FUNCTION,
+  APIGetAuthy: DEFAULT_FUNCTION,
+  APIDeleteAuthy: DEFAULT_FUNCTION,
 });
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -32,7 +32,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     setUser(user);
   };
 
-  const genericGet = async (
+  const APIGet = async (
     url: string,
     successCallback: Function,
     headers: object
@@ -49,7 +49,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const genericPost = async (
+  const APIPost = async (
     url: string,
     body: object,
     successCallback: Function,
@@ -67,7 +67,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const genericDelete = async (
+  const APIDelete = async (
     url: string,
     successCallback: Function,
     headers: object
@@ -83,30 +83,27 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const genericPostWithAuth = async (
+  const APIPostAuthy = async (
     url: string,
     body: object,
     successCallback: Function
   ) => {
     console.log(token);
-    genericPost(url, body, successCallback, {
+    APIPost(url, body, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
-  const genericGetWithAuth = async (url: string, successCallback: Function) => {
+  const APIGetAuthy = async (url: string, successCallback: Function) => {
     console.log(url, token);
-    genericGet(url, successCallback, {
+    APIGet(url, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
-  const genericDeleteWithAuth = async (
-    url: string,
-    successCallback: Function
-  ) => {
+  const APIDeleteAuthy = async (url: string, successCallback: Function) => {
     console.log(token);
-    genericDelete(url, successCallback, {
+    APIDelete(url, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
@@ -117,9 +114,9 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
         token,
         user,
         setTokenAndUser,
-        genericPostWithAuth,
-        genericGetWithAuth,
-        genericDeleteWithAuth,
+        APIPostAuthy,
+        APIGetAuthy,
+        APIDeleteAuthy,
       }}
     >
       {children}

@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import LinkButton from "../elements/LinkButton";
 import { Correlation } from "../utilities/Correlation";
-import { getAllDaysForUser } from "../middleware/dayServiceCalls";
+
 import { attributeObject } from "../utilities/types";
 import { dayObject } from "../utilities/types";
-import { getAttributesForUser } from "../middleware/setupServiceCalls";
+
 import { DAYS_URL, SETUP_URL } from "../utilities/constants";
 import { scores } from "../utilities/types";
-import { EmojiLibrary } from "../utilities/EmojiLibrary";
+
 import Timeline from "./Timeline";
 import { UserContext } from "../contexts/userContext";
 
@@ -19,14 +19,14 @@ const CorrelationReport: FunctionComponent = () => {
   const [correlationArray, setCorrelationArray] = useState<scores[]>();
   const [avgQuality, setAvgQuality] = useState<number>(0);
 
-  const { genericGetWithAuth } = useContext(UserContext);
+  const { APIGetAuthy } = useContext(UserContext);
 
   useEffect(() => {
-    genericGetWithAuth(DAYS_URL, (data: any) => {
+    APIGetAuthy(DAYS_URL, (data: any) => {
       const sorted = sortByDate(data);
       setUserDayData(sorted);
     });
-    genericGetWithAuth(SETUP_URL, (data: any) => {
+    APIGetAuthy(SETUP_URL, (data: any) => {
       setUserAttributes(data);
     });
   }, []);
@@ -66,11 +66,6 @@ const CorrelationReport: FunctionComponent = () => {
     return average.toString();
   };
 
-  const translation = (score: string) => {
-    const parsed = Math.floor(parseFloat(score) * 92);
-    return `translate(${parsed.toString()}px)`;
-  };
-
   const introText: Array<string> = [
     `Your habits can have a big effect on how you feel over time.`,
     `With the data from your daily quality score and your habit tracking,
@@ -94,7 +89,6 @@ const CorrelationReport: FunctionComponent = () => {
     const translate = Math.floor((score * totalWidth) / 4);
     const fillWidth = Math.floor((Math.abs(score) * totalWidth) / 2);
     const properties = { translate, fillWidth };
-    // console.log(score, properties);
     return properties;
   };
 

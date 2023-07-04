@@ -9,7 +9,7 @@ import { UserContext } from "../contexts/userContext";
 const Navbar: FunctionComponent = () => {
   const { token, user } = useContext(UserContext);
   return (
-    <div className="bg-white/0 p-4">
+    <div className="bg-white/50 absolute p-4 h-100 block">
       <nav>
         <LinkButton linkTo="/" buttonText="🏠"></LinkButton>
 

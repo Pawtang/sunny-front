@@ -5,8 +5,6 @@ import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
 import MonthGen from "../utilities/MonthGen";
-import BackgroundGradient from "../utilities/BackgroundGradient";
-import { getMonth } from "../middleware/dayServiceCalls";
 import { IDay } from "../utilities/types";
 import MonthPicker from "./MonthPicker";
 import generateGradient from "../utilities/PolynomialGradientsUtil";
@@ -14,12 +12,11 @@ import Modal from "./Modal";
 import { prefixer } from "../utilities/Prefixer";
 import { UserContext } from "../contexts/userContext";
 import { MONTH_URL } from "../utilities/constants";
-import Navbar from "./Navbar";
 
 const Month: FunctionComponent = () => {
-  const { token, user, genericGetWithAuth } = useContext(UserContext);
+  const { user, APIGetAuthy } = useContext(UserContext);
   const today = dayjs();
-  const monthCount = today.daysInMonth();
+  // const monthCount = today.daysInMonth();
 
   const [month, setMonth] = useState<IDay[] | undefined>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(today.month() + 1);
@@ -37,7 +34,7 @@ const Month: FunctionComponent = () => {
 
   const loadSelectedMonth = async () => {
     try {
-      genericGetWithAuth(
+      APIGetAuthy(
         `${MONTH_URL}?month=${selectedMonth}&year=${selectedYear}`,
         (days: IDay[]) => {
           console.log(days);
@@ -53,27 +50,28 @@ const Month: FunctionComponent = () => {
     loadMonth();
   }, []);
 
+  useEffect(() => {
+    loadSelectedMonth();
+  }, [selectedMonth, selectedYear]);
+
   const [time, setTime] = useState(12);
   const grad = generateGradient(time);
 
   return (
     <div className="min-h-screen pb-6" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
-        <Navbar></Navbar>
+        {/* <Navbar></Navbar> */}
+        <LinkButton linkTo="/" buttonText="🏠" styleTags="mt-4"></LinkButton>
+        <LinkButton linkTo="/correlationreport" buttonText="𝛴"></LinkButton>
+
         <ActionButton
           onClick={() => {
             setModalVisibility(!modalVisibility);
           }}
           buttonText="📅  Month Select"
-          styleTags="z-50 inline ml-6"
+          styleTags="z-50 "
         ></ActionButton>
-        {/* <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
-        <LinkButton
-          linkTo="/correlationreport"
-          buttonText="Correlation"
-        ></LinkButton>
-        
-        <p>{user ? user : "No user"}</p> */}
+        <p className="inline">{user ? user : "No user"}</p>
       </div>
 
       <Modal

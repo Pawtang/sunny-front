@@ -1,21 +1,18 @@
 import { useContext, FunctionComponent, useEffect } from "react";
-import { Navigate } from "react-router-dom";
 import { Fragment } from "react";
 import { useState } from "react";
 import BooleanRating from "../elements/BooleanRating";
 import NumberRating from "../elements/NumberRating";
 import RangeRating from "../elements/RangeRating";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import LinkButton from "../elements/LinkButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import { mapQueryParamsToObject } from "../utilities/QueryParamsUtils";
 import ActionButton from "../elements/ActionButton";
-import { deleteDay, getDayData } from "../middleware/dayServiceCalls";
 import { useLocation, useNavigate } from "react-router-dom";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { attributeObject, dayObject, dayProps } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
-import { getAttributesForUser } from "../middleware/setupServiceCalls";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
 import { dummyUserID, DAY_URL, SETUP_URL } from "../utilities/constants";
@@ -27,7 +24,7 @@ dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = () => {
   const { token, user } = useContext(UserContext);
-  const { genericPostWithAuth, genericGetWithAuth } = useContext(UserContext);
+  const { APIPostAuthy, APIGetAuthy, APIDeleteAuthy } = useContext(UserContext);
   const [eraseModalVisibility, setEraseModalVisibility] = useState(false);
   const [overwriteModalVisibility, setOverwriteModalVisibility] =
     useState(false);
@@ -68,27 +65,17 @@ const Day: FunctionComponent<dayProps> = () => {
   };
 
   const loadDay = () => {
-    genericGetWithAuth(`${DAY_URL}?date=${params.date}`, (dayData: any) => {
+    APIGetAuthy(`${DAY_URL}?date=${params.date}`, (dayData: any) => {
       setLoadedDayObject(dayData);
       if (dayData) {
         setDayRating(dayData.dayRating);
         setAttributes(sortAttributes(dayData.attributes));
         setNotes(dayData.notes);
       } else {
-        genericGetWithAuth(
-          SETUP_URL,
-          (attributeData: Array<attributeObject>) => {
-            const sortedData = sortAttributes(attributeData);
-            setAttributes(sortedData);
-          }
-        );
-        // getAttributesForUser(
-        //   dummyUserID,
-        //   (attributeData: Array<attributeObject>) => {
-        //     const sortedData = sortAttributes(attributeData);
-        //     setAttributes(sortedData);
-        //   }
-        // );
+        APIGetAuthy(SETUP_URL, (attributeData: Array<attributeObject>) => {
+          const sortedData = sortAttributes(attributeData);
+          setAttributes(sortedData);
+        });
       }
     });
   };
@@ -118,14 +105,13 @@ const Day: FunctionComponent<dayProps> = () => {
         };
     console.log(dayToSubmit);
     try {
-      genericPostWithAuth(DAY_URL, dayToSubmit, (data: any) => {
+      APIPostAuthy(DAY_URL, dayToSubmit, (data: any) => {
         const { notes, dayRating } = data;
         setLoadedDayObject(data);
         setNotes(notes);
         setDayRating(dayRating);
         setIsEditing(false);
       });
-      // submitDay();
     } catch (error) {
       return error;
     }
@@ -133,8 +119,8 @@ const Day: FunctionComponent<dayProps> = () => {
   };
 
   const handleDeleteDay = () => {
-    deleteDay(params.date, (data: any) => {
-      console.log("deleted");
+    APIDeleteAuthy(`${DAY_URL}?date=${params.date}`, (data: any) => {
+      console.log("deleted", data);
     });
     loadDay();
   };

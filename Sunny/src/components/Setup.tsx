@@ -4,9 +4,6 @@ import { attributeObject } from "../utilities/types";
 import { useContext, useEffect, useState } from "react";
 import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
-import { submitAttributes } from "../middleware/setupServiceCalls";
-import { getAttributesForUser } from "../middleware/setupServiceCalls";
-import { dummyUserID } from "../utilities/constants";
 import { UserContext } from "../contexts/userContext";
 import { SETUP_URL } from "../utilities/constants";
 
@@ -32,7 +29,7 @@ const wentToGymObject: attributeObject = {
 const drinksHadObject: attributeObject = { name: DRINKS_HAD, type: "number" };
 
 const Setup = () => {
-  const { genericGetWithAuth, genericPostWithAuth } = useContext(UserContext);
+  const { APIGetAuthy, APIPostAuthy } = useContext(UserContext);
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
   const [hoursSlept, setHoursSlept] = useState<boolean>(false);
   const [milesRun, setMilesRun] = useState<boolean>(false);
@@ -43,7 +40,7 @@ const Setup = () => {
   const [attributeType, setAttributeType] = useState<string>("");
 
   useEffect(() => {
-    genericGetWithAuth(SETUP_URL, (data: any) => {
+    APIGetAuthy(SETUP_URL, (data: any) => {
       setAttributes(
         data.filter(
           (attr: attributeObject) =>
@@ -98,12 +95,9 @@ const Setup = () => {
 
     const toSubmit = [...commonAttributes, ...attributes].filter((val) => val);
     console.log("TO SUBMIT", toSubmit);
-    genericPostWithAuth(SETUP_URL, { attributes: toSubmit }, (data: any) => {
+    APIPostAuthy(SETUP_URL, { attributes: toSubmit }, (data: any) => {
       console.log(data);
     });
-    // submitAttributes({ attributes: toSubmit }, (data: any) => {
-    //   console.log(data);
-    // });
   };
 
   return (
