@@ -38,6 +38,7 @@ export interface dayProps {
 
 export interface buttonProps {
   buttonText: string;
+  buttonImagePath?: string;
   onClick: any;
   styleTags?: string;
   buttonType?: string;
@@ -46,6 +47,7 @@ export interface buttonProps {
 
 export interface linkButtonProps {
   buttonText: string;
+  buttonImagePath?: string;
   linkTo: string;
   styleTags?: string;
   buttonType?: string;

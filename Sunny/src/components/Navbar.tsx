@@ -9,14 +9,26 @@ import { UserContext } from "../contexts/userContext";
 const Navbar: FunctionComponent = () => {
   const { token, user } = useContext(UserContext);
   return (
-    <div className="bg-white/50 absolute p-4 h-100 block">
+    <div className="absolute p-4 h-100 block">
       <nav>
-        <LinkButton linkTo="/" buttonText="🏠"></LinkButton>
+        <LinkButton
+          linkTo="/"
+          buttonText=""
+          buttonImagePath="/icons/home.png"
+        ></LinkButton>
 
         {user && (
           <>
-            <LinkButton linkTo="/setup" buttonText="⚙️"></LinkButton>
-            <LinkButton linkTo="/correlationreport" buttonText="𝛴"></LinkButton>
+            <LinkButton
+              linkTo="/setup"
+              buttonText=""
+              buttonImagePath="/icons/gear.png"
+            ></LinkButton>
+            <LinkButton
+              linkTo="/correlationreport"
+              buttonText=""
+              buttonImagePath="/icons/chart.png"
+            ></LinkButton>
           </>
         )}
 

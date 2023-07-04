@@ -127,7 +127,7 @@ const Day: FunctionComponent<dayProps> = () => {
 
   return (
     <div
-      className="Day min-h-screen h-full w-screen flex items-center pb-6"
+      className="Day min-h-screen h-full w-screen flex items-center py-6"
       style={{ backgroundImage: `${BackgroundGradient(time)}` }}
     >
       <Modal
@@ -166,23 +166,28 @@ const Day: FunctionComponent<dayProps> = () => {
               setEraseModalVisibility(!eraseModalVisibility);
             }}
             modalText="Are you sure you want to delete this day's data and start over?"
-            buttonText="🗑 Delete"
+            buttonText="Delete"
             buttonType="danger"
           ></ConfirmActionModal>
         }
       ></Modal>
 
       <div className="container mx-auto">
-        <p>{user ? user : "No user"}</p>
+        {/* <p>{user ? user : "No user"}</p> */}
         <div
           className={`journal max-w-lg mx-auto shadow-sm hover:shadow-lg ${
             isEditing ? "" : ""
           }`}
         >
           <div className="float-right">
-            <LinkButton linkTo="/correlationreport" buttonText="𝛴"></LinkButton>
+            <LinkButton
+              linkTo="/correlationreport"
+              buttonText=""
+              buttonImagePath="/icons/chart.png"
+            ></LinkButton>
             <ActionButton
-              buttonText="🗑"
+              buttonText=""
+              buttonImagePath="/icons/reset.png"
               onClick={() => {
                 setEraseModalVisibility(!eraseModalVisibility);
               }}
@@ -214,9 +219,14 @@ const Day: FunctionComponent<dayProps> = () => {
                   </h2>
                 </>
               )}
-              <h2 className="mt-4 center text-3xl">
+              {/* <h2 className="mt-4 center text-3xl">
                 {EmojiLibrary(dayRating)}
-              </h2>
+              </h2> */}
+              <img
+                src={`/icons/faces/${EmojiLibrary(dayRating)}.png`}
+                alt=""
+                className="w-16 mx-auto mt-3"
+              />
             </div>
           </div>
           <div className="rating-inputs container mx-auto max-w-lg">
@@ -333,6 +343,7 @@ const Day: FunctionComponent<dayProps> = () => {
           <LinkButton
             linkTo="/Month"
             buttonText="Back"
+            buttonImagePath="/icons/calendar.png"
             styleTags="text-center"
           ></LinkButton>
           <ActionButton
