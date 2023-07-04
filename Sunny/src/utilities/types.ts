@@ -113,3 +113,7 @@ export interface monthPickerProps {
   selectedMonth: number;
   selectedYear: number;
 }
+
+export interface navbarProps {
+  month: boolean;
+}

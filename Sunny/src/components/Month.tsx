@@ -1,23 +1,22 @@
 import { FunctionComponent } from "react";
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
 import MonthGen from "../utilities/MonthGen";
-import BackgroundGradient from "../utilities/BackgroundGradient";
-import { getMonth } from "../middleware/dayServiceCalls";
 import { IDay } from "../utilities/types";
 import MonthPicker from "./MonthPicker";
 import generateGradient from "../utilities/PolynomialGradientsUtil";
 import Modal from "./Modal";
+import { prefixer } from "../utilities/Prefixer";
+import { UserContext } from "../contexts/userContext";
+import { MONTH_URL } from "../utilities/constants";
 
 const Month: FunctionComponent = () => {
+  const { user, APIGetAuthy } = useContext(UserContext);
   const today = dayjs();
-  const monthCount = today.daysInMonth();
-  // const containerStyle = () => {
-  //   return "grid-cols-7";
-  // };
+  // const monthCount = today.daysInMonth();
 
   const [month, setMonth] = useState<IDay[] | undefined>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(today.month() + 1);
@@ -27,9 +26,7 @@ const Month: FunctionComponent = () => {
   const loadMonth = async () => {
     try {
       setMonth(MonthGen());
-      await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
-        setMonth(MonthGen(days));
-      });
+      loadSelectedMonth();
     } catch (error) {
       console.error(error);
     }
@@ -37,9 +34,13 @@ const Month: FunctionComponent = () => {
 
   const loadSelectedMonth = async () => {
     try {
-      await getMonth(selectedMonth, selectedYear, (days: IDay[]) => {
-        setMonth(MonthGen(days));
-      });
+      APIGetAuthy(
+        `${MONTH_URL}?month=${selectedMonth}&year=${selectedYear}`,
+        (days: IDay[]) => {
+          console.log(days);
+          setMonth(MonthGen(days));
+        }
+      );
     } catch (error) {
       console.error(error);
     }
@@ -49,24 +50,28 @@ const Month: FunctionComponent = () => {
     loadMonth();
   }, []);
 
+  useEffect(() => {
+    loadSelectedMonth();
+  }, [selectedMonth, selectedYear]);
+
   const [time, setTime] = useState(12);
   const grad = generateGradient(time);
 
   return (
     <div className="min-h-screen pb-6" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
-        <LinkButton linkTo="/" buttonText="Home" styleTags="mt-4"></LinkButton>
-        <LinkButton
-          linkTo="/correlationreport"
-          buttonText="Correlation"
-        ></LinkButton>
+        {/* <Navbar></Navbar> */}
+        <LinkButton linkTo="/" buttonText="🏠" styleTags="mt-4"></LinkButton>
+        <LinkButton linkTo="/correlationreport" buttonText="𝛴"></LinkButton>
+
         <ActionButton
           onClick={() => {
             setModalVisibility(!modalVisibility);
           }}
-          buttonText="📅"
-          styleTags="z-50"
+          buttonText="📅  Month Select"
+          styleTags="z-50 "
         ></ActionButton>
+        <p className="inline">{user ? user : "No user"}</p>
       </div>
 
       <Modal
@@ -93,13 +98,22 @@ const Month: FunctionComponent = () => {
         {/* Header */}
         <div className="container justify-content mx-auto max-w-lg">
           <h1 className="text-2xl mx-auto text-center">
-            <b>Today is {today.format("MMMM DD, YYYY")}</b>
+            <b>
+              {today.isSame(
+                dayjs(`${selectedYear}-${selectedMonth}`, "YYYY-M"),
+                "month"
+              )
+                ? `Today is ${today.format("MMMM DD, YYYY")}`
+                : dayjs(`${selectedYear}, ${selectedMonth}`).format(
+                    "MMMM, YYYY"
+                  )}
+            </b>
           </h1>
-          <h1 className="text-xl text-center">
+          {/* <h1 className="text-xl text-center">
             {`There are ${monthCount} days in ${today.format("MMMM")}.`}
             <br />
             One box represents each day:
-          </h1>
+          </h1> */}
         </div>
         {/* Content */}
         <div

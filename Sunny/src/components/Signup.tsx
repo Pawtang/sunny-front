@@ -1,13 +1,15 @@
 import ActionButton from "../elements/ActionButton";
 import Navbar from "./Navbar";
-// import { signup } from "../middleware/userServiceCalls";
-import { useEffect, useState } from "react";
+import { signup } from "../middleware/userServiceCalls";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   numberRegex,
   symbolRegex,
   lowercaseRegex,
   uppercaseRegex,
 } from "../utilities/regexStrings";
+import { UserContext } from "../contexts/userContext";
 
 // const pwStrength = (password: string) => {
 //   if (password === "") return "w-0";
@@ -24,11 +26,15 @@ import {
 // const pwStyle = pwStrength(password);
 
 const Signup = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  const navigate = useNavigate();
+
+  const {setTokenAndUser} = useContext(UserContext);
 
   useEffect(() => {
     // console.log("pwStrength", pwStrength(password));
@@ -172,7 +178,7 @@ const Signup = () => {
             </label>
             <input
               type="password"
-              id="password"
+              id="confirm-password"
               className={`rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2 ${
                 password === confirmPassword
                   ? "!outline-green-400 outline-4"
@@ -188,7 +194,17 @@ const Signup = () => {
           </div>
           <div className="flex justify-center">
             <ActionButton
-              onClick={() => {}}
+              onClick={(e: any) => {
+                e.preventDefault()
+                signup({
+                  email,
+                  name: `${firstName} ${lastName}`,
+                  password
+                }, (data: any) => {
+                  setTokenAndUser(data.token, data.user.name);
+                  navigate("/");
+                });
+              }}
               buttonText="Submit"
               styleTags="w-96"
             ></ActionButton>

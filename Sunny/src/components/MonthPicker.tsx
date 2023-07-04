@@ -1,7 +1,7 @@
 import ActionButton from "../elements/ActionButton";
 import BackgroundGradient from "../utilities/BackgroundGradient";
 import dayjs from "dayjs";
-import { Fragment, FunctionComponent } from "react";
+import { useState, FunctionComponent } from "react";
 import { monthPickerProps } from "../utilities/types";
 
 const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
@@ -13,6 +13,8 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
     selectedYear,
     loadMonth,
   } = props;
+  const [stageMonth, setStageMonth] = useState<number>(selectedMonth);
+  const [stageYear, setStageYear] = useState<number>(selectedYear);
   const months = [
     "January",
     "February",
@@ -37,8 +39,10 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
   const years = yearlist();
 
   const buttonAction = () => {
+    setMonth(stageMonth);
+    setYear(stageYear);
     closeModal();
-    loadMonth();
+    // loadMonth();
   };
 
   return (
@@ -54,11 +58,11 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
                     <li key={month}>
                       <ActionButton
                         onClick={() => {
-                          setMonth(index + 1);
+                          setStageMonth(index + 1);
                         }}
                         buttonText={month}
                         styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
-                          selectedMonth === index + 1 ? "!bg-blue-200" : ""
+                          stageMonth === index + 1 ? "!bg-blue-200" : ""
                         }`}
                       ></ActionButton>
                     </li>
@@ -76,11 +80,11 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
                     <li key={year}>
                       <ActionButton
                         onClick={() => {
-                          setYear(parseInt(year));
+                          setStageYear(parseInt(year));
                         }}
                         buttonText={year}
                         styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
-                          selectedYear.toString() === year ? "!bg-blue-200" : ""
+                          stageYear.toString() === year ? "!bg-blue-200" : ""
                         }`}
                       ></ActionButton>
                     </li>

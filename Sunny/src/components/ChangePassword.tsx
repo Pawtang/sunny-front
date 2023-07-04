@@ -1,16 +1,10 @@
 import Navbar from "./Navbar";
 import ActionButton from "../elements/ActionButton";
-import { login } from "../middleware/userServiceCalls";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../contexts/userContext";
+import { useState } from "react";
 
-const Login = () => {
-  const [email, setEmail] = useState("test@gmail.com");
-  const [password, setPassword] = useState("ABC123abc!");
-
-  const navigate = useNavigate();
-  const { setTokenAndUser } = useContext(UserContext);
+const ChangePassword = () => {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   return (
     <>
       <Navbar></Navbar>
@@ -20,28 +14,9 @@ const Login = () => {
         <form className="bg-white/50 hover:bg-white/60 transition-all p-6 rounded-lg shadow-md max-w-md hover:-translate-y-1 duration-200 ease-linear">
           <h2 className="text-3xl font-bold mb-6 text-center">Log In</h2>
 
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block font-semibold text-gray-700 mb-2"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
-              placeholder="📧 Enter your email address"
-              autoComplete="email"
-              value={email}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                setEmail(e.currentTarget.value);
-              }}
-            />
-          </div>
           <div className="mb-6">
             <label htmlFor="password" className="block font-semibold 0 mb-2">
-              Password
+              Current Password
             </label>
             <input
               type="password"
@@ -49,22 +24,32 @@ const Login = () => {
               className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
               placeholder="🔑 Enter your password"
               autoComplete="password"
-              value={password}
+              value={currentPassword}
               onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                setPassword(e.currentTarget.value);
+                setCurrentPassword(e.currentTarget.value);
+              }}
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="password" className="block font-semibold 0 mb-2">
+              New Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="rounded-lg px-4 py-2 w-full focus:outline-blue-500 focus:outline-2"
+              placeholder="🔑 Enter your password"
+              autoComplete="password"
+              value={newPassword}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                setNewPassword(e.currentTarget.value);
               }}
             />
           </div>
           <div className="flex justify-center">
             <ActionButton
-              onClick={(e: any) => {
-                e.preventDefault();
-                login({ email, password }, (data: any) => {
-                  setTokenAndUser(data.token, data.user.name);
-                  navigate("/");
-                });
-              }}
-              buttonText="Log In"
+              onClick={() => {}}
+              buttonText="Save"
               styleTags="w-96 mt-4"
             ></ActionButton>
           </div>
@@ -74,4 +59,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ChangePassword;
