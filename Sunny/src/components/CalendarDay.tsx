@@ -1,15 +1,8 @@
 import React, { FunctionComponent } from "react";
-import { useState } from "react";
 import dayjs from "dayjs";
-import { Interface } from "readline";
 import { Link } from "react-router-dom";
 import { prefixer } from "../utilities/Prefixer";
-// import beaming from "../assets/icons/faces/beaming.png";
-// import grinning from "icons/faces/grinning.png";
-// import smiling from "../assets/icons/faces/smiling.png";
-// import neutral from "../assets/icons/faces/neutral.png";
-// import sad from "../assets/icons/faces/sad.png";
-// import crying from "../assets/icons/faces/crying.png";
+import { EmojiLibrary } from "../utilities/EmojiLibrary";
 
 interface calendarDayProps {
   dayIndex: number;

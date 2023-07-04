@@ -219,9 +219,14 @@ const Day: FunctionComponent<dayProps> = () => {
                   </h2>
                 </>
               )}
-              <h2 className="mt-4 center text-3xl">
+              {/* <h2 className="mt-4 center text-3xl">
                 {EmojiLibrary(dayRating)}
-              </h2>
+              </h2> */}
+              <img
+                src={`/icons/faces/${EmojiLibrary(dayRating)}.png`}
+                alt=""
+                className="w-16 mx-auto mt-3"
+              />
             </div>
           </div>
           <div className="rating-inputs container mx-auto max-w-lg">
