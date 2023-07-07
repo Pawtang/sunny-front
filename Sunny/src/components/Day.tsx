@@ -121,6 +121,7 @@ const Day: FunctionComponent<dayProps> = () => {
   const handleDeleteDay = () => {
     APIDeleteAuthy(`${DAY_URL}?date=${params.date}`, (data: any) => {
       console.log("deleted", data);
+      setEraseModalVisibility(!eraseModalVisibility);
     });
     loadDay();
   };
@@ -179,6 +180,14 @@ const Day: FunctionComponent<dayProps> = () => {
             isEditing ? "" : ""
           }`}
         >
+          <div className="float-left">
+            <LinkButton
+              linkTo="/Month"
+              buttonText=""
+              buttonImagePath="/icons/back.png"
+              styleTags="text-center"
+            ></LinkButton>
+          </div>
           <div className="float-right">
             <LinkButton
               linkTo="/correlationreport"
@@ -338,24 +347,18 @@ const Day: FunctionComponent<dayProps> = () => {
               placeholder="Tell me about your day"
             />
           </div>
-        </div>
-        <div className="m-10 mx-auto flex justify-center max-w-sm">
-          <LinkButton
-            linkTo="/Month"
-            buttonText="Back"
-            buttonImagePath="/icons/calendar.png"
-            styleTags="text-center"
-          ></LinkButton>
-          <ActionButton
-            onClick={() => {
-              isEditing && dayExists()
-                ? setOverwriteModalVisibility(!overwriteModalVisibility)
-                : handleSubmitDay();
-            }}
-            buttonText={`${dayExists() ? "Save Changes" : "Submit"}`}
-            styleTags={`text-center`}
-            buttonType={isEditing ? "confirm" : "disabled"}
-          ></ActionButton>
+          <div className="mt-2 mx-auto flex justify-center max-w-sm">
+            <ActionButton
+              onClick={() => {
+                isEditing && dayExists()
+                  ? setOverwriteModalVisibility(!overwriteModalVisibility)
+                  : handleSubmitDay();
+              }}
+              buttonText={`${dayExists() ? "Save Changes" : "Submit"}`}
+              styleTags={`text-center`}
+              buttonType={isEditing ? "confirm" : "disabled"}
+            ></ActionButton>
+          </div>
         </div>
       </div>
     </div>

@@ -19,6 +19,8 @@ const pearsonCorrelation = (x: Array<number>, y: Array<number>) => {
     B += xdiff ** 2;
     C += ydiff ** 2;
   }
+  console.log("x, y:", x, y);
+  console.log("Pearson ABC:", A, B, C);
   return (A / Math.sqrt(B * C)).toFixed(2);
 };
 
@@ -45,11 +47,14 @@ export const Correlation = (
     const results: scores[] = [];
     for (const [name, attr] of Object.entries(library)) {
       const attrArray = attr;
+      console.log("Attrs, ratings", attrArray, dayRatings);
+      console.log("Pearson:", pearsonCorrelation(attrArray, dayRatings));
       results.push({
         name: name,
         score: pearsonCorrelation(attrArray, dayRatings),
       });
     }
+    console.log("RESULTS", results);
     return results;
   };
 

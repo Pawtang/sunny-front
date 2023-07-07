@@ -1,5 +1,6 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const DEFAULT_FUNCTION = () => {
   console.error("WRONG FUNCTION");
@@ -26,21 +27,27 @@ const UserContext = React.createContext<userContext>({
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const setTokenAndUser = (token: string, user: string) => {
     setToken(token);
     setUser(user);
   };
 
+  // Boot to home page if no active session
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, [token]);
+
   const APIGet = async (
     url: string,
     successCallback: Function,
     headers: object
   ) => {
-    console.log("hit the get");
     try {
       await axios.get(url, headers).then((response) => {
-        console.log(response);
         successCallback && successCallback(response.data);
       });
     } catch (error) {
@@ -88,21 +95,22 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     body: object,
     successCallback: Function
   ) => {
-    console.log(token);
+    // console.log(token);
     APIPost(url, body, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
   const APIGetAuthy = async (url: string, successCallback: Function) => {
-    console.log(url, token);
+    // console.log(url, token);
+
     APIGet(url, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
   const APIDeleteAuthy = async (url: string, successCallback: Function) => {
-    console.log(token);
+    // console.log(token);
     APIDelete(url, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
