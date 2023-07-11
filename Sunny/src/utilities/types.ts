@@ -39,6 +39,7 @@ export interface dayProps {
 export interface buttonProps {
   buttonText: string;
   buttonImagePath?: string;
+  imageStyle?: string;
   onClick: any;
   styleTags?: string;
   buttonType?: string;

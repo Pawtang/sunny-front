@@ -39,6 +39,8 @@ const Setup = () => {
   const [attributeName, setAttributeName] = useState<string>("");
   const [attributeType, setAttributeType] = useState<string>("");
 
+  const [firstVisit, setFirstVisit] = useState<boolean>(true);
+
   useEffect(() => {
     APIGetAuthy(SETUP_URL, (data: any) => {
       setAttributes(
@@ -93,44 +95,63 @@ const Setup = () => {
       <div
         className={`bg-gradient-to-r from-cyan-500 to-blue-500 min-h-screen flex items-center justify-center`}
       >
-        <form className="my-24 container-2xl bg-white/50 hover:bg-white/60 transition-all p-6 rounded-lg shadow-md hover:-translate-y-1 duration-200 ease-linear">
+        <ActionButton
+          onClick={() => setFirstVisit(!firstVisit)}
+          buttonText="Flip State"
+          styleTags="absolute top-4 right-4"
+        ></ActionButton>
+        <form className="my-24 container-xl max-w-4xl bg-white/50 hover:bg-white/60 transition-all p-6 rounded-lg shadow-md hover:-translate-y-1 duration-200 ease-linear">
           <div className="mb-6">
             <h2 className="text-3xl font-bold  text-center">
-              Set Up Your Tracking
+              {firstVisit ? "Set Up Your Tracking" : "Edit Your Tracking"}
             </h2>
             <i>
-              You can change these later, but it's best to set up correctly the
-              first time to collect good data!{" "}
+              {firstVisit
+                ? "Welcome to Sunny! To begin tracking your days, please add the attributes you want to track. You can change these later, but it's best to set up correctly the first time to collect good data!"
+                : "While you can change these at any time, you will only have partial data if you start tracking new attributes after you have already started using Sunny. This may affect the quality of the correlations."}
             </i>
           </div>
-          <h2 className="text-xl ">
-            <b>Currently Tracking:</b>
-          </h2>
 
-          <div className="outline outline-1 outline-white py-1 px-2 my-2 rounded-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {attributes.map((attribute) => {
-              return (
-                <div className="my-4 w-100">
-                  {/* <ul className="text-lg">
-                  <li className="my-8"> */}
-                  <div className="p-2 bg-white/50 rounded-md inline w-100 mx-2">
-                    <img
-                      className="w-6 inline"
-                      src={`/icons/${
-                        attribute.type === "boolean"
-                          ? "true-false.png"
-                          : "numbers.png"
-                      }`}
-                      alt=""
-                    />
-                  </div>
-                  <b>{`${attribute.name}`}</b>
-                  {/* </li>
-                </ul> */}
-                </div>
-              );
-            })}
-          </div>
+          {firstVisit ? (
+            <div></div>
+          ) : (
+            <div>
+              <h2 className="text-xl ">
+                <b>Currently Tracking:</b>
+              </h2>
+
+              <div className="outline outline-1 outline-white py-1 px-2 my-2 rounded-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                {attributes.map((attribute) => {
+                  return (
+                    <div className="my-4 w-100">
+                      <div className="p-2 bg-white/50 rounded-md inline w-100 mx-2">
+                        <img
+                          className="w-6 inline"
+                          src={`/icons/${
+                            attribute.type === "boolean"
+                              ? "true-false.png"
+                              : "numbers.png"
+                          }`}
+                          alt=""
+                        />
+                      </div>
+                      <b>{`${attribute.name}`}</b>
+                      <div className="inline w-2">
+                        <ActionButton
+                          onClick={() => {}}
+                          buttonText="-"
+                          // buttonImagePath="/icons/trash.png"
+                          imageStyle="object-cover"
+                          styleTags="text-center"
+                        ></ActionButton>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           <h2 className="text-xl mt-4">
             <b>Add Attributes:</b>
           </h2>
@@ -141,6 +162,10 @@ const Setup = () => {
               <h2 className="text-xl ">
                 <b>Common Attributes</b>
               </h2>
+              <i>
+                These are provided as examples of common things people track
+              </i>
+              <br></br>
               <CheckItem
                 label="Hours Slept"
                 checked={hoursSlept}
@@ -177,6 +202,13 @@ const Setup = () => {
               <h2 className="text-xl bold">
                 <b>Custom Attributes</b>
               </h2>
+              <div className="my-2">
+                <i>
+                  You can add as many additional attributes as you like. They
+                  can be either a number, or a true/false. You get best results
+                  when you record data for each of them every day.
+                </i>
+              </div>
 
               <label
                 htmlFor="name"
