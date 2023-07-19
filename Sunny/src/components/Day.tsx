@@ -15,7 +15,6 @@ import { attributeObject, dayObject, dayProps } from "../utilities/types";
 import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
-import { dummyUserID, DAY_URL, SETUP_URL } from "../utilities/constants";
 import { UserContext } from "../contexts/userContext";
 
 // import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
@@ -36,6 +35,11 @@ const Day: FunctionComponent<dayProps> = () => {
   const location = useLocation();
   const params = mapQueryParamsToObject(location.search);
   const date = dayjs(params.date, "YYYYMMDD");
+
+  const API_URL: string =
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+  const DAY_URL = API_URL.concat("day");
+  const SETUP_URL = API_URL.concat("attributes");
 
   const navigate = useNavigate();
 
@@ -94,14 +98,14 @@ const Day: FunctionComponent<dayProps> = () => {
           dayRating,
           attributes,
           date,
-          owner: dummyUserID,
+          owner: user,
         }
       : {
           notes,
           dayRating,
           attributes,
           date: dayjs(date).format("YYYY-MM-DD"),
-          owner: dummyUserID,
+          owner: user,
         };
     console.log(dayToSubmit);
     try {

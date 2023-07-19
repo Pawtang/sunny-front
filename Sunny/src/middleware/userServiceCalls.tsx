@@ -1,7 +1,9 @@
 import axios from "axios";
 import { dummyUserID } from "../utilities/constants";
 
-const USER_URL = "http://localhost:8000/user";
+const API_URL: string =
+  process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+const USER_URL = API_URL.concat("user");
 
 export const signup = async (body: object, successCallback: Function) => {
   console.log("signup body", body);

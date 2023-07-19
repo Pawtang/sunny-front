@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { useContext, useState, useEffect } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import CalendarDay from "./CalendarDay";
 import ActionButton from "../elements/ActionButton";
 import LinkButton from "../elements/LinkButton";
@@ -9,9 +9,8 @@ import { IDay } from "../utilities/types";
 import MonthPicker from "./MonthPicker";
 import generateGradient from "../utilities/PolynomialGradientsUtil";
 import Modal from "./Modal";
-import { prefixer } from "../utilities/Prefixer";
+// import { prefixer } from "../utilities/Prefixer";
 import { UserContext } from "../contexts/userContext";
-import { MONTH_URL } from "../utilities/constants";
 
 const Month: FunctionComponent = () => {
   const { user, APIGetAuthy } = useContext(UserContext);
@@ -22,6 +21,10 @@ const Month: FunctionComponent = () => {
   const [selectedMonth, setSelectedMonth] = useState<number>(today.month() + 1);
   const [selectedYear, setSelectedYear] = useState<number>(today.year());
   const [modalVisibility, setModalVisibility] = useState(false);
+
+  const API_URL: string =
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+  const MONTH_URL = API_URL.concat("month");
 
   const loadMonth = async () => {
     try {

@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const DAY_URL = "http://localhost:8000/day";
-const DAYS_URL = "http://localhost:8000/days";
-const MONTH_URL = "http://localhost:8000/month";
+const API_URL: string =
+  process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+const DAY_URL = API_URL.concat("day");
+const DAYS_URL = API_URL.concat("days");
+const MONTH_URL = API_URL.concat("month");
 
 // export const submitDay = async (body: object, successCallback: Function) => {
 //   console.log("body", body);

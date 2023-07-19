@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
 import { UserContext } from "../contexts/userContext";
-import { SETUP_URL } from "../utilities/constants";
 
 const HOURS_SLEPT = "Hours Slept";
 const MILES_RUN = "Miles Run";
@@ -38,8 +37,11 @@ const Setup = () => {
   const [drinksHad, setDrinksHad] = useState<boolean>(false);
   const [attributeName, setAttributeName] = useState<string>("");
   const [attributeType, setAttributeType] = useState<string>("");
-
   const [firstVisit, setFirstVisit] = useState<boolean>(true);
+
+  const API_URL: string =
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+  const SETUP_URL = API_URL.concat("attributes");
 
   useEffect(() => {
     APIGetAuthy(SETUP_URL, (data: any) => {

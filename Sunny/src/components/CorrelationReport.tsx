@@ -3,13 +3,9 @@ import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import LinkButton from "../elements/LinkButton";
 import { Correlation } from "../utilities/Correlation";
-
 import { attributeObject } from "../utilities/types";
 import { dayObject } from "../utilities/types";
-
-import { DAYS_URL, SETUP_URL } from "../utilities/constants";
 import { scores } from "../utilities/types";
-
 import Timeline from "./Timeline";
 import { UserContext } from "../contexts/userContext";
 
@@ -18,8 +14,12 @@ const CorrelationReport: FunctionComponent = () => {
   const [userAttributes, setUserAttributes] = useState<attributeObject[]>([]);
   const [correlationArray, setCorrelationArray] = useState<scores[]>();
   const [avgQuality, setAvgQuality] = useState<number>(0);
-
   const { APIGetAuthy } = useContext(UserContext);
+
+  const API_URL: string =
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+  const DAYS_URL = API_URL.concat("days");
+  const SETUP_URL = API_URL.concat("attributes");
 
   useEffect(() => {
     APIGetAuthy(DAYS_URL, (data: any) => {
