@@ -11,6 +11,13 @@ const Login = () => {
 
   const navigate = useNavigate();
   const { setTokenAndUser } = useContext(UserContext);
+  const { APIPostAuthy, APIGetAuthy, APIDeleteAuthy } = useContext(UserContext);
+  const API_URL: string =
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+  // const DAY_URL = API_URL.concat("day");
+  // const SETUP_URL = API_URL.concat("attributes");
+  const USER_URL = API_URL.concat("user");
+
   return (
     <>
       <Navbar></Navbar>
@@ -59,10 +66,19 @@ const Login = () => {
             <ActionButton
               onClick={(e: any) => {
                 e.preventDefault();
-                login({ email, password }, (data: any) => {
-                  setTokenAndUser(data.token, data.user.name);
-                  navigate("/");
-                });
+                APIPostAuthy(
+                  `${USER_URL}/login`,
+                  { email, password },
+                  (data: any) => {
+                    setTokenAndUser(data.token, data.user.name);
+                    navigate("/");
+                  }
+                );
+
+                // login({ email, password }, (data: any) => {
+                //   setTokenAndUser(data.token, data.user.name);
+                //   navigate("/");
+                // });
               }}
               buttonText="Log In"
               styleTags="w-96 mt-4"
