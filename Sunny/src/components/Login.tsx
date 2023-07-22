@@ -69,6 +69,7 @@ const Login = () => {
                   `${USER_URL}/login`,
                   { email, password },
                   (data: any) => {
+                    console.log(data);
                     setTokenAndUser(data.token, data.user.name);
                     navigate("/");
                   }
