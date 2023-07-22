@@ -9,6 +9,7 @@ interface userContext {
   token: string | null;
   user: string | null;
   setTokenAndUser: (token: string, user: string) => void;
+  APIPost: Function;
   APIPostAuthy: Function;
   APIGetAuthy: Function;
   APIDeleteAuthy: Function;
@@ -18,6 +19,7 @@ const UserContext = React.createContext<userContext>({
   token: null,
   user: null,
   setTokenAndUser: DEFAULT_FUNCTION,
+  APIPost: DEFAULT_FUNCTION,
   APIPostAuthy: DEFAULT_FUNCTION,
   APIGetAuthy: DEFAULT_FUNCTION,
   APIDeleteAuthy: DEFAULT_FUNCTION,
@@ -114,6 +116,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
         token,
         user,
         setTokenAndUser,
+        APIPost,
         APIPostAuthy,
         APIGetAuthy,
         APIDeleteAuthy,

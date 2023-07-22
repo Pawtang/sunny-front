@@ -11,11 +11,10 @@ const Login = () => {
 
   const navigate = useNavigate();
   const { setTokenAndUser } = useContext(UserContext);
-  const { APIPostAuthy, APIGetAuthy, APIDeleteAuthy } = useContext(UserContext);
+  const { APIPost } = useContext(UserContext);
   const API_URL: string =
     process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
-  // const DAY_URL = API_URL.concat("day");
-  // const SETUP_URL = API_URL.concat("attributes");
+
   const USER_URL = API_URL.concat("user");
 
   return (
@@ -66,7 +65,7 @@ const Login = () => {
             <ActionButton
               onClick={(e: any) => {
                 e.preventDefault();
-                APIPostAuthy(
+                APIPost(
                   `${USER_URL}/login`,
                   { email, password },
                   (data: any) => {

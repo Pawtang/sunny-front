@@ -11,20 +11,6 @@ import {
 } from "../utilities/regexStrings";
 import { UserContext } from "../contexts/userContext";
 
-// const pwStrength = (password: string) => {
-//   if (password === "") return "w-0";
-//   const number = numberRegex.test(password) ? 2 : 0;
-//   const lowercase = lowercaseRegex.test(password) ? 2 : 0;
-//   const uppercase = uppercaseRegex.test(password) ? 2 : 0;
-//   const symbol = symbolRegex.test(password) ? 2 : 0;
-//   const length = password.length > 7 ? 2 : 0;
-
-//   const total: number = number + lowercase + uppercase + symbol + length;
-//   if (total >= 12) return "w-full";
-//   return `w-${total}/12`;
-// };
-// const pwStyle = pwStrength(password);
-
 const Signup = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -34,7 +20,12 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const {setTokenAndUser} = useContext(UserContext);
+  const { setTokenAndUser } = useContext(UserContext);
+  const { APIPost } = useContext(UserContext);
+  const API_URL: string =
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+
+  const USER_URL = API_URL.concat("user");
 
   useEffect(() => {
     // console.log("pwStrength", pwStrength(password));
@@ -195,15 +186,26 @@ const Signup = () => {
           <div className="flex justify-center">
             <ActionButton
               onClick={(e: any) => {
-                e.preventDefault()
-                signup({
-                  email,
-                  name: `${firstName} ${lastName}`,
-                  password
-                }, (data: any) => {
-                  setTokenAndUser(data.token, data.user.name);
-                  navigate("/");
-                });
+                e.preventDefault();
+                APIPost(
+                  `${USER_URL}`,
+                  { email, name: `${firstName} ${lastName}`, password },
+                  (data: any) => {
+                    setTokenAndUser(data.token, data.user.name);
+                    navigate("/");
+                  }
+                );
+                // signup(
+                //   {
+                //     email,
+                //     name: `${firstName} ${lastName}`,
+                //     password,
+                //   },
+                //   (data: any) => {
+                //     setTokenAndUser(data.token, data.user.name);
+                //     navigate("/");
+                //   }
+                // );
               }}
               buttonText="Submit"
               styleTags="w-96"
