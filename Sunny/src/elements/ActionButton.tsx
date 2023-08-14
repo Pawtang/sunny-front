@@ -19,7 +19,7 @@ const ActionButton: FunctionComponent<buttonProps> = (props) => {
       {buttonImagePath && (
         <img
           src={buttonImagePath}
-          className={`inline ${buttonText && "mr - 2"} ${imageStyle}`}
+          className={`w-6 inline ${buttonText && "mr - 2"} ${imageStyle}`}
         />
       )}
       {buttonText}

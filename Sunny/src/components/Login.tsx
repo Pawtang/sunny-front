@@ -13,7 +13,7 @@ const Login = () => {
   const { setTokenAndUser } = useContext(UserContext);
   const { APIPost } = useContext(UserContext);
   const API_URL: string =
-    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app/";
 
   const USER_URL = API_URL.concat("user");
 

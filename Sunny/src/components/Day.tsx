@@ -37,9 +37,10 @@ const Day: FunctionComponent<dayProps> = () => {
   const date = dayjs(params.date, "YYYYMMDD");
 
   const API_URL: string =
-    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+    process.env.REACT_APP_URL || "sunny-back-production.up.railway.app/";
   const DAY_URL = API_URL.concat("day");
   const SETUP_URL = API_URL.concat("attributes");
+  console.log(DAY_URL, SETUP_URL, API_URL);
 
   const navigate = useNavigate();
 

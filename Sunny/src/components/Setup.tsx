@@ -45,6 +45,7 @@ const Setup = () => {
 
   useEffect(() => {
     APIGetAuthy(SETUP_URL, (data: any) => {
+      console.log("Data:", data);
       setAttributes(
         data
         // .filter(

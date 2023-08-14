@@ -39,7 +39,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     successCallback: Function,
     headers: object
   ) => {
-    console.log("hit the get");
+    console.log(url, successCallback, headers);
     try {
       await axios.get(url, headers).then((response) => {
         console.log(response);
