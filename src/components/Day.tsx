@@ -22,7 +22,7 @@ const today = dayjs();
 dayjs.extend(customParseFormat);
 
 const Day: FunctionComponent<dayProps> = () => {
-  const { token, user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { APIPostAuthy, APIGetAuthy, APIDeleteAuthy } = useContext(UserContext);
   const [eraseModalVisibility, setEraseModalVisibility] = useState(false);
   const [overwriteModalVisibility, setOverwriteModalVisibility] =
@@ -98,15 +98,13 @@ const Day: FunctionComponent<dayProps> = () => {
           notes,
           dayRating,
           attributes,
-          date,
-          owner: user,
+          date
         }
       : {
           notes,
           dayRating,
           attributes,
-          date: dayjs(date).format("YYYY-MM-DD"),
-          owner: user,
+          date: dayjs(date).format("YYYY-MM-DD")
         };
     console.log(dayToSubmit);
     try {
