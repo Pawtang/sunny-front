@@ -40,7 +40,6 @@ const Day: FunctionComponent<dayProps> = () => {
     process.env.REACT_APP_URL || "sunny-back-production.up.railway.app/";
   const DAY_URL = API_URL.concat("day");
   const SETUP_URL = API_URL.concat("attributes");
-  console.log(DAY_URL, SETUP_URL, API_URL);
 
   const navigate = useNavigate();
 
@@ -98,13 +97,13 @@ const Day: FunctionComponent<dayProps> = () => {
           notes,
           dayRating,
           attributes,
-          date
+          date,
         }
       : {
           notes,
           dayRating,
           attributes,
-          date: dayjs(date).format("YYYY-MM-DD")
+          date: dayjs(date).format("YYYY-MM-DD"),
         };
     console.log(dayToSubmit);
     try {
@@ -182,6 +181,7 @@ const Day: FunctionComponent<dayProps> = () => {
             isEditing ? "" : ""
           }`}
         >
+          {/* Statistics and reset day */}
           <div className="float-right">
             <LinkButton
               linkTo="/correlationreport"
@@ -197,6 +197,7 @@ const Day: FunctionComponent<dayProps> = () => {
               styleTags="!bg-red-400 !hover:bg-red-200"
             ></ActionButton>
           </div>
+
           <div className="relative float-left container mx-auto p-4 mt-4 ">
             <div className="mx-auto">
               <h1 className="text-3xl font-bold underline center ">

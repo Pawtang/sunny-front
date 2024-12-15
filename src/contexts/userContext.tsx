@@ -57,8 +57,8 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     successCallback: Function,
     headers: object
   ) => {
-    console.log("url", url);
-    console.log("body", body);
+    // console.log("url", url);
+    // console.log("body", body);
     try {
       await axios.post(url, body, headers).then((response) => {
         successCallback && successCallback(response.data);

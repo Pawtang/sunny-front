@@ -25,6 +25,12 @@ export interface attributeLibrary {
   [key: string]: number[];
 }
 
+interface userObject {
+  name: string | null;
+  attributes: attributeObject[];
+  isSetup: boolean;
+}
+
 export interface scores {
   name: string;
   score: string;
