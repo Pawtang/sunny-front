@@ -1,5 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import axios from "axios";
+import { userObject } from "../utilities/types";
 
 const DEFAULT_FUNCTION = () => {
   console.error("WRONG FUNCTION");
@@ -7,8 +8,9 @@ const DEFAULT_FUNCTION = () => {
 
 interface userContext {
   token: string | null;
-  user: string | null;
-  setTokenAndUser: (token: string, user: string) => void;
+  // user: string | null;
+  user: userObject | null;
+  setTokenAndUser: (token: string, user: userObject) => void;
   APIPost: Function;
   APIPostAuthy: Function;
   APIGetAuthy: Function;
@@ -27,11 +29,16 @@ const UserContext = React.createContext<userContext>({
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<string | null>(null);
+  // const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<userObject | null>(null);
 
-  const setTokenAndUser = (token: string, user: string) => {
+  const setTokenAndUser = (token: string, user: userObject) => {
     setToken(token);
     setUser(user);
+  };
+
+  const setLocalToken = (token: string) => {
+    localStorage.setItem("jwt", token);
   };
 
   const APIGet = async (
@@ -42,7 +49,6 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     console.log(url, successCallback, headers);
     try {
       await axios.get(url, headers).then((response) => {
-        console.log(response);
         successCallback && successCallback(response.data);
       });
     } catch (error) {
@@ -90,14 +96,14 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     body: object,
     successCallback: Function
   ) => {
-    console.log(token);
+    console.log("CALLED POST", token);
     APIPost(url, body, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
   const APIGetAuthy = async (url: string, successCallback: Function) => {
-    console.log(url, token);
+    console.log("CALLED GET ", token);
     APIGet(url, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });

@@ -28,7 +28,7 @@ const Home: FunctionComponent = () => {
               </h2>
               <p>A daily journal and habit tracker</p>
               <nav>
-                {user ? (
+                {user?.name ? (
                   <div className="">
                     <LinkButton
                       linkTo="/Month"

@@ -84,7 +84,7 @@ const Month: FunctionComponent = () => {
           styleTags="z-50"
           buttonImagePath="/icons/calendar.png"
         ></ActionButton>
-        <p className="inline">{user ? user : "No user"}</p>
+        <p className="inline">{user?.name || "No user"}</p>
       </div>
 
       <Modal

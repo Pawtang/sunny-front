@@ -30,16 +30,25 @@ export const Correlation = (
   const dayRatings: Array<number> = [];
 
   attributes.forEach((attr) => {
-    attributeLibrary[attr.name] = [];
+    if (attr.name) {
+      attributeLibrary[attr.name] = [];
+    }
   });
 
   days.forEach((day) => {
     day.dayRating && dayRatings.push(day.dayRating);
     day.attributes &&
-      day.attributes.forEach((attr) => {
-        attr.name && attributeLibrary[attr.name].push(attr.value || 0);
+      day.attributes?.forEach((attr) => {
+        if (attr.name) {
+          if (!attributeLibrary[attr.name]) {
+            attributeLibrary[attr.name] = [];
+          }
+          attributeLibrary[attr.name].push(attr.value || 0);
+        }
       });
   });
+
+  console.log(attributeLibrary);
 
   const calculateCorrelations = (library: attributeLibrary) => {
     const results: scores[] = [];

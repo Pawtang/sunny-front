@@ -6,60 +6,53 @@ import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
 import { UserContext } from "../contexts/userContext";
 
-const HOURS_SLEPT = "Hours Slept";
-const MILES_RUN = "Miles Run";
-const MINUTES_READ = "Minutes Read";
-const WENT_TO_GYM = "Went to Gym";
-const DRINKS_HAD = "Drinks Had";
+// const HOURS_SLEPT = "Hours Slept";
+// const MILES_RUN = "Miles Run";
+// const MINUTES_READ = "Minutes Read";
+// const WENT_TO_GYM = "Went to Gym";
+// const DRINKS_HAD = "Drinks Had";
 
-const hoursSleptObject: attributeObject = {
-  name: HOURS_SLEPT,
-  type: "number",
-};
-const milesRunObject: attributeObject = { name: MILES_RUN, type: "number" };
-const minutesReadObject: attributeObject = {
-  name: MINUTES_READ,
-  type: "number",
-};
-const wentToGymObject: attributeObject = {
-  name: WENT_TO_GYM,
-  type: "boolean",
-};
-const drinksHadObject: attributeObject = { name: DRINKS_HAD, type: "number" };
+// const hoursSleptObject: attributeObject = {
+//   name: HOURS_SLEPT,
+//   type: "number",
+// };
+// const milesRunObject: attributeObject = { name: MILES_RUN, type: "number" };
+// const minutesReadObject: attributeObject = {
+//   name: MINUTES_READ,
+//   type: "number",
+// };
+// const wentToGymObject: attributeObject = {
+//   name: WENT_TO_GYM,
+//   type: "boolean",
+// };
+// const drinksHadObject: attributeObject = { name: DRINKS_HAD, type: "number" };
 
 const Setup = () => {
-  const { APIGetAuthy, APIPostAuthy } = useContext(UserContext);
+  const { APIGetAuthy, APIPostAuthy, user } = useContext(UserContext);
   const [attributes, setAttributes] = useState<attributeObject[]>([]);
-  const [hoursSlept, setHoursSlept] = useState<boolean>(false);
-  const [milesRun, setMilesRun] = useState<boolean>(false);
-  const [minutesRead, setMinutesRead] = useState<boolean>(false);
-  const [wentToGym, setWentToGym] = useState<boolean>(false);
-  const [drinksHad, setDrinksHad] = useState<boolean>(false);
+  // const [hoursSlept, setHoursSlept] = useState<boolean>(false);
+  // const [milesRun, setMilesRun] = useState<boolean>(false);
+  // const [minutesRead, setMinutesRead] = useState<boolean>(false);
+  // const [wentToGym, setWentToGym] = useState<boolean>(false);
+  // const [drinksHad, setDrinksHad] = useState<boolean>(false);
   const [attributeName, setAttributeName] = useState<string>("");
   const [attributeType, setAttributeType] = useState<string>("");
-  const [firstVisit, setFirstVisit] = useState<boolean>(true);
+  const [isSetup, setisSetup] = useState<boolean>(false);
 
   const API_URL: string =
     process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
   const SETUP_URL = API_URL.concat("attributes");
 
-  useEffect(() => {
+  const loadAttributes = () => {
     APIGetAuthy(SETUP_URL, (data: any) => {
-      console.log("Data:", data);
-      setAttributes(
-        data
-        // .filter(
-        //   (attr: attributeObject) =>
-        //     ![
-        //       HOURS_SLEPT,
-        //       MILES_RUN,
-        //       MINUTES_READ,
-        //       WENT_TO_GYM,
-        //       DRINKS_HAD,
-        //     ].includes(attr.name)
-        // )
-      );
+      console.log("attr data avail: ", data);
+      setAttributes(data);
     });
+  };
+
+  useEffect(() => {
+    loadAttributes();
+    setisSetup(user?.isSetup || false);
   }, []);
 
   const assignType = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,28 +61,39 @@ const Setup = () => {
 
   const writeAttribute = () => {
     if (!attributeName || !attributeType) return;
-    setAttributes([
+    const attributeExists = attributes.some(
+      (attribute) =>
+        attribute.name === attributeName && attribute.type === attributeType
+    );
+    if (attributeExists) return;
+    const newAttributes = [
       ...attributes,
       { name: attributeName, type: attributeType },
-    ]);
+    ];
+
+    // Update the state with the new attributes
+    setAttributes(newAttributes);
     setAttributeName("");
   };
 
-  const commitAttributes = () => {
-    //check if boolean set to true (from user checkmark or from load attributes) and commit if so
-    const commonAttributes = [
-      hoursSlept && hoursSleptObject,
-      milesRun && milesRunObject,
-      minutesRead && minutesReadObject,
-      wentToGym && wentToGymObject,
-      drinksHad && drinksHadObject,
-    ];
+  const removeAttribute = (name: String, type: String) => {
+    const newAttributes = attributes.filter(
+      (attribute) => !(attribute.name === name && attribute.type === type)
+    );
+    setAttributes(newAttributes);
+  };
 
-    const toSubmit = [...commonAttributes, ...attributes].filter((val) => val);
-    console.log("TO SUBMIT", toSubmit);
-    APIPostAuthy(SETUP_URL, { attributes: toSubmit }, (data: any) => {
-      console.log(data);
-    });
+  const commitAttributes = () => {
+    const toSubmit = [...attributes].filter((val) => val);
+    try {
+      APIPostAuthy(SETUP_URL, { attributes: toSubmit }, (data: any) => {
+        console.log(data);
+      });
+      setisSetup(true);
+      loadAttributes();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -98,24 +102,19 @@ const Setup = () => {
       <div
         className={`bg-gradient-to-r from-cyan-500 to-blue-500 min-h-screen flex items-center justify-center`}
       >
-        <ActionButton
-          onClick={() => setFirstVisit(!firstVisit)}
-          buttonText="Flip State"
-          styleTags="absolute top-4 right-4"
-        ></ActionButton>
         <form className="my-24 container-xl max-w-4xl bg-white/50 hover:bg-white/60 transition-all p-6 rounded-lg shadow-md hover:-translate-y-1 duration-200 ease-linear">
           <div className="mb-6">
             <h2 className="text-3xl font-bold  text-center">
-              {firstVisit ? "Set Up Your Tracking" : "Edit Your Tracking"}
+              {isSetup ? "Set Up Your Tracking" : "Edit Your Tracking"}
             </h2>
             <i>
-              {firstVisit
+              {isSetup
                 ? "Welcome to Sunny! To begin tracking your days, please add the attributes you want to track. You can change these later, but it's best to set up correctly the first time to collect good data!"
                 : "While you can change these at any time, you will only have partial data if you start tracking new attributes after you have already started using Sunny. This may affect the quality of the correlations."}
             </i>
           </div>
 
-          {firstVisit ? (
+          {isSetup ? (
             <div></div>
           ) : (
             <div>
@@ -123,30 +122,41 @@ const Setup = () => {
                 <b>Currently Tracking:</b>
               </h2>
 
-              <div className="outline outline-1 outline-white py-1 px-2 my-2 rounded-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                {attributes.map((attribute) => {
+              <div className="outline outline-1 outline-white py-1 px-2 my-2 rounded-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-2">
+                {attributes.map((attribute, index) => {
                   return (
-                    <div className="my-4 w-100">
-                      <div className="p-2 bg-white/50 rounded-md inline w-100 mx-2">
-                        <img
-                          className="w-6 inline"
-                          src={`/icons/${
-                            attribute.type === "boolean"
-                              ? "true-false.png"
-                              : "numbers.png"
-                          }`}
-                          alt=""
-                        />
-                      </div>
-                      <b>{`${attribute.name}`}</b>
-                      <div className="inline w-2">
-                        <ActionButton
-                          onClick={() => {}}
-                          buttonText="-"
-                          // buttonImagePath="/icons/trash.png"
-                          imageStyle="object-cover"
-                          styleTags="text-center"
-                        ></ActionButton>
+                    <div className="my-1 w-full" key={index}>
+                      <div className="flex w-full bg-white/20 p-2 rounded-md">
+                        {/* Type icon */}
+                        <div className="flex items-center p-2 bg-white/50 rounded-md mr-2">
+                          <img
+                            className="w-5"
+                            src={`/icons/${
+                              attribute.type === "boolean"
+                                ? "true-false.png"
+                                : "numbers.png"
+                            }`}
+                            alt=""
+                          />
+                        </div>
+                        {/* Attr Name */}
+                        <div className="flex-grow flex items-center">
+                          <b className="text-sm">{attribute.name}</b>
+                        </div>
+                        {/* Delete */}
+                        <div className="">
+                          <ActionButton
+                            onClick={(e: Event) => {
+                              e.preventDefault();
+                              console.log(attributes);
+                              removeAttribute(attribute.name, attribute.type);
+                              console.log(attributes);
+                            }}
+                            buttonText="-"
+                            imageStyle="object-cover"
+                            styleTags="text-center"
+                          />
+                        </div>
                       </div>
                     </div>
                   );
@@ -159,88 +169,18 @@ const Setup = () => {
             <b>Add Attributes:</b>
           </h2>
 
-          {/* Common Attributes */}
           <div className="outline outline-1 outline-white/50 py-1 px-2 my-2 rounded-md">
-            <div className="my-4 ">
-              <h2 className="text-xl ">
-                <b>Common Attributes</b>
-              </h2>
-              <i>
-                These are provided as examples of common things people track
-              </i>
-              <br></br>
-              <CheckItem
-                label="Hours Slept"
-                checked={hoursSlept}
-                onClick={() => setHoursSlept(!hoursSlept)}
-              ></CheckItem>
-              <CheckItem
-                label="Miles Run"
-                checked={milesRun}
-                onClick={() => setMilesRun(!milesRun)}
-              ></CheckItem>
-
-              <CheckItem
-                label="Minutes Read"
-                checked={minutesRead}
-                onClick={() => setMinutesRead(!minutesRead)}
-              ></CheckItem>
-
-              <CheckItem
-                // name="gym"
-                // id="check-gym"
-                label="Went to Gym"
-                checked={wentToGym}
-                onClick={() => setWentToGym(!wentToGym)}
-              ></CheckItem>
-
-              <CheckItem
-                label="Drinks Had"
-                checked={drinksHad}
-                onClick={() => setDrinksHad(!drinksHad)}
-              ></CheckItem>
-            </div>
             {/* Custom tracking */}
-            <div className="mb-4">
-              <h2 className="text-xl bold">
-                <b>Custom Attributes</b>
-              </h2>
-              <div className="my-2">
-                <i>
-                  You can add as many additional attributes as you like. They
-                  can be either a number, or a true/false. You get best results
-                  when you record data for each of them every day.
-                </i>
-              </div>
-
-              <label
-                htmlFor="name"
-                className="block font-semibold text-gray-700 mb-2"
-              >
-                Attribute Name
-              </label>
-              <div className="flex">
-                <input
-                  type="text"
-                  id="name"
-                  className="rounded-lg px-4 w-full focus:outline-blue-500 focus:outline-2"
-                  placeholder="What do you want to track?"
-                  value={attributeName}
-                  onChange={(e) => setAttributeName(e.currentTarget.value)}
-                />
-                <ActionButton
-                  onClick={(e: React.MouseEvent<HTMLElement>) => {
-                    e.preventDefault();
-                    writeAttribute();
-                  }}
-                  buttonText="+"
-                  styleTags="w-12"
-                ></ActionButton>
-              </div>
+            <div className="my-2">
+              <i>
+                You can add as many additional attributes as you like. They can
+                be either a number, or a true/false. You get best results when
+                you record data for each of them every day.
+              </i>
             </div>
 
-            <div className="mb-6 flex center">
-              <div className="flex items-center">
+            <div className="flex flex-wrap gap-y-2 mb-2">
+              <div className="flex items-center w-24">
                 <RadioItem
                   name="option"
                   value="number"
@@ -251,7 +191,7 @@ const Setup = () => {
                   }}
                 ></RadioItem>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center w-32">
                 <RadioItem
                   name="option"
                   value="boolean"
@@ -261,6 +201,24 @@ const Setup = () => {
                     assignType(e);
                   }}
                 ></RadioItem>
+              </div>
+              <div className="flex-auto md:w-300 flex ">
+                <input
+                  type="text"
+                  id="name"
+                  className="rounded-lg px-4 focus:outline-blue-500 focus:outline-2 h-10 flex-auto"
+                  placeholder="What do you want to track?"
+                  value={attributeName}
+                  onChange={(e) => setAttributeName(e.currentTarget.value)}
+                />
+                <ActionButton
+                  onClick={(e: React.MouseEvent<HTMLElement>) => {
+                    e.preventDefault();
+                    writeAttribute();
+                  }}
+                  buttonText="Add"
+                  styleTags=""
+                ></ActionButton>
               </div>
             </div>
           </div>

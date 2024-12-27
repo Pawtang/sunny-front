@@ -5,7 +5,7 @@ const RadioItem: FunctionComponent<radioProps> = (props) => {
   const { name, value, label, onChange, isChecked } = props;
   return (
     <>
-      <label className="text-xl">
+      <label className="text-md">
         <input
           type="radio"
           name={name}

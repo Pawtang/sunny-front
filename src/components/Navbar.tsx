@@ -32,7 +32,7 @@ const Navbar: FunctionComponent = () => {
           </>
         )}
 
-        <p className="inline">{user ? user : "no user"}</p>
+        <p className="inline">{user?.name || "no user"}</p>
       </nav>
     </div>
   );

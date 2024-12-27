@@ -25,7 +25,7 @@ export interface attributeLibrary {
   [key: string]: number[];
 }
 
-interface userObject {
+export interface userObject {
   name: string | null;
   attributes: attributeObject[];
   isSetup: boolean;

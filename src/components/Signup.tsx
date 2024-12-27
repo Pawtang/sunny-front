@@ -195,17 +195,17 @@ const Signup = () => {
                     navigate("/");
                   }
                 );
-                // signup(
-                //   {
-                //     email,
-                //     name: `${firstName} ${lastName}`,
-                //     password,
-                //   },
-                //   (data: any) => {
-                //     setTokenAndUser(data.token, data.user.name);
-                //     navigate("/");
-                //   }
-                // );
+                signup(
+                  {
+                    email,
+                    name: `${firstName} ${lastName}`,
+                    password,
+                  },
+                  (data: any) => {
+                    setTokenAndUser(data.token, data.user.name);
+                    navigate("/");
+                  }
+                );
               }}
               buttonText="Submit"
               styleTags="w-96"

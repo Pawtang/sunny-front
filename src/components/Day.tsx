@@ -78,6 +78,7 @@ const Day: FunctionComponent<dayProps> = () => {
       } else {
         APIGetAuthy(SETUP_URL, (attributeData: Array<attributeObject>) => {
           const sortedData = sortAttributes(attributeData);
+          console.log("Attr data: ", attributeData);
           setAttributes(sortedData);
         });
       }
@@ -175,7 +176,6 @@ const Day: FunctionComponent<dayProps> = () => {
       ></Modal>
 
       <div className="container mx-auto">
-        {/* <p>{user ? user : "No user"}</p> */}
         <div
           className={`journal max-w-lg mx-auto shadow-sm hover:shadow-lg ${
             isEditing ? "" : ""
@@ -201,7 +201,7 @@ const Day: FunctionComponent<dayProps> = () => {
           <div className="relative float-left container mx-auto p-4 mt-4 ">
             <div className="mx-auto">
               <h1 className="text-3xl font-bold underline center ">
-                {`Hello, ${user?.split(" ")[0]}`}
+                {`Hello, ${user?.name?.split(" ")[0]}`}
               </h1>
 
               {today.diff(date, "day") === 0 ? (

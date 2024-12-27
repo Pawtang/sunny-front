@@ -70,7 +70,7 @@ const Login = () => {
                   { email, password },
                   (data: any) => {
                     console.log(data);
-                    setTokenAndUser(data.token, data.user.name);
+                    setTokenAndUser(data.token, data.user);
                     navigate("/");
                   }
                 );
