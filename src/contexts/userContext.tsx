@@ -11,6 +11,7 @@ interface userContext {
   // user: string | null;
   user: userObject | null;
   setTokenAndUser: (token: string, user: userObject) => void;
+  clearTokenAndUser: () => void;
   APIPost: Function;
   APIPostAuthy: Function;
   APIGetAuthy: Function;
@@ -21,6 +22,7 @@ const UserContext = React.createContext<userContext>({
   token: null,
   user: null,
   setTokenAndUser: DEFAULT_FUNCTION,
+  clearTokenAndUser: DEFAULT_FUNCTION,
   APIPost: DEFAULT_FUNCTION,
   APIPostAuthy: DEFAULT_FUNCTION,
   APIGetAuthy: DEFAULT_FUNCTION,
@@ -28,17 +30,26 @@ const UserContext = React.createContext<userContext>({
 });
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
-  // const [user, setUser] = useState<string | null>(null);
-  const [user, setUser] = useState<userObject | null>(null);
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem("jwt")
+  );
+  const [user, setUser] = useState<userObject | null>(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   const setTokenAndUser = (token: string, user: userObject) => {
     setToken(token);
     setUser(user);
+    localStorage.setItem("jwt", token);
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
-  const setLocalToken = (token: string) => {
-    localStorage.setItem("jwt", token);
+  const clearTokenAndUser = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
   };
 
   const APIGet = async (
@@ -96,21 +107,18 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     body: object,
     successCallback: Function
   ) => {
-    console.log("CALLED POST", token);
     APIPost(url, body, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
   const APIGetAuthy = async (url: string, successCallback: Function) => {
-    console.log("CALLED GET ", token);
     APIGet(url, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
   const APIDeleteAuthy = async (url: string, successCallback: Function) => {
-    console.log(token);
     APIDelete(url, successCallback, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -122,6 +130,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
         token,
         user,
         setTokenAndUser,
+        clearTokenAndUser,
         APIPost,
         APIPostAuthy,
         APIGetAuthy,
