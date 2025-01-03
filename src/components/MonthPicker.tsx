@@ -48,9 +48,10 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
   return (
     <>
       <div className="p-5 items-center ">
+        <div className="text-lg font-bold center">Select a Month and Year</div>
         <div className="columns-2 mt-8">
           {/* Months */}
-          <div className="overflow-scroll overflow-x-hidden flex justify-center max-h-96 border">
+          <div className="overflow-scroll overflow-x-hidden flex justify-center max-h-96 border border-gray-300 rounded-md">
             <ul>
               {months.map((month: string, index: number) => {
                 return (
@@ -61,7 +62,7 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
                           setStageMonth(index + 1);
                         }}
                         buttonText={month}
-                        styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
+                        styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 hover:outline-1 outline-gray-200 transition-all ${
                           stageMonth === index + 1 ? "!bg-blue-200" : ""
                         }`}
                       ></ActionButton>
@@ -72,7 +73,7 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
             </ul>
           </div>
           {/* Years */}
-          <div className="overflow-scroll overflow-x-hidden flex justify-center max-h-96 border">
+          <div className="overflow-scroll overflow-x-hidden flex justify-center max-h-96 border border-gray-300 rounded-md">
             <ul>
               {years.map((year: string, index: number) => {
                 return (
@@ -83,7 +84,7 @@ const MonthPicker: FunctionComponent<monthPickerProps> = (props) => {
                           setStageYear(parseInt(year));
                         }}
                         buttonText={year}
-                        styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 transition-all ${
+                        styleTags={`my-1 w-40 hover:outline hover:drop-shadow-md hover:-translate-y-0.5 hover:outline-1 outline-gray-200 transition-all ${
                           stageYear.toString() === year ? "!bg-blue-200" : ""
                         }`}
                       ></ActionButton>

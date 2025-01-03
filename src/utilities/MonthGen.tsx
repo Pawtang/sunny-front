@@ -1,17 +1,19 @@
 import dayjs, { Dayjs } from "dayjs";
 import { IDay } from "./types";
 
-const MonthGen = (days?: IDay[] | undefined) => {
-  const dayqty = dayjs().daysInMonth();
+const MonthGen = (month: number, year: number, days?: IDay[] | undefined) => {
+  const dateString = `${year}-${month}-${1}`;
+  const dayqty = dayjs(dateString).daysInMonth(); // fix this
+  const firstOfMonth = new Date(year, month - 1, 1);
+  const padding = firstOfMonth.getDay();
 
-  // Just an empty array, but in Typescript!
-  const month: {
+  const monthArray: {
     id: number;
     dayRating?: number;
   }[] = [];
 
   for (let i = 1; i <= dayqty; i++) {
-    month.push({
+    monthArray.push({
       id: i,
     });
   }
@@ -20,10 +22,13 @@ const MonthGen = (days?: IDay[] | undefined) => {
     for (let i = 1; i <= days.length; i++) {
       // -1 to deal with indexing differences
       const daynumber = dayjs(days[i - 1].date).date() - 1;
-      month[daynumber].dayRating = days[i - 1].dayRating;
+      monthArray[daynumber].dayRating = days[i - 1].dayRating;
     }
   }
-  return month;
+  const paddingArray = Array(padding).fill({ id: 0 });
+  const paddedMonth = paddingArray.concat(monthArray);
+  console.log(paddedMonth);
+  return paddedMonth;
 };
 
 export default MonthGen;

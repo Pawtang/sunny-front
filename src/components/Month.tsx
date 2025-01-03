@@ -28,7 +28,7 @@ const Month: FunctionComponent = () => {
 
   const loadMonth = async () => {
     try {
-      setMonth(MonthGen());
+      setMonth(MonthGen(selectedMonth, selectedYear));
       loadSelectedMonth();
     } catch (error) {
       console.error(error);
@@ -40,8 +40,8 @@ const Month: FunctionComponent = () => {
       APIGetAuthy(
         `${MONTH_URL}?month=${selectedMonth}&year=${selectedYear}`,
         (days: IDay[]) => {
-          console.log(days);
-          setMonth(MonthGen(days));
+          // console.log(days);
+          setMonth(MonthGen(selectedMonth, selectedYear, days));
         }
       );
     } catch (error) {
@@ -57,23 +57,29 @@ const Month: FunctionComponent = () => {
     loadSelectedMonth();
   }, [selectedMonth, selectedYear]);
 
+  const loadCurrentMonth = () => {
+    setSelectedMonth(today.month() + 1);
+    setSelectedYear(today.year());
+    loadSelectedMonth();
+  };
+
   const [time, setTime] = useState(12);
   const grad = generateGradient(time);
 
   return (
-    <div className="min-h-screen pb-6" style={{ background: grad }}>
+    <div className="min-h-screen pb-6 pt-4" style={{ background: grad }}>
       <div className="container-fluid nav z-50">
         {/* <Navbar></Navbar> */}
         <LinkButton
           linkTo="/"
           buttonText=""
           buttonImagePath="/icons/home.png"
-          styleTags="mt-4"
+          styleTags=""
         ></LinkButton>
         <LinkButton
           linkTo="/correlationreport"
           buttonImagePath="/icons/chart.png"
-          buttonText=""
+          buttonText=" Trends"
         ></LinkButton>
 
         <ActionButton
@@ -81,8 +87,14 @@ const Month: FunctionComponent = () => {
             setModalVisibility(!modalVisibility);
           }}
           buttonText="Month Select"
-          styleTags="z-50"
+          styleTags=""
           buttonImagePath="/icons/calendar.png"
+        ></ActionButton>
+        <ActionButton
+          buttonText="Today's Journal"
+          styleTags=""
+          buttonImagePath=""
+          onClick={loadCurrentMonth}
         ></ActionButton>
         <p className="inline">{user?.name || "No user"}</p>
       </div>
@@ -109,41 +121,62 @@ const Month: FunctionComponent = () => {
 
       <div className="container justify-content mx-auto my-4 sm:h-100 h-full">
         {/* Header */}
-        <div className="container justify-content mx-auto max-w-lg">
+        <div className="container justify-content mx-auto max-w-lg mt-24">
           <h1 className="text-2xl mx-auto text-center">
-            <b>
-              {today.isSame(
-                dayjs(`${selectedYear}-${selectedMonth}`, "YYYY-M"),
-                "month"
-              )
-                ? `Today is ${today.format("MMMM DD, YYYY")}`
-                : dayjs(`${selectedYear}, ${selectedMonth}`).format(
-                    "MMMM, YYYY"
-                  )}
-            </b>
+            <div className="">
+              <b>{`Hello, ${user?.name}`}</b>
+            </div>
+            <p className="font-lg">
+              <i>
+                {today.isSame(
+                  dayjs(`${selectedYear}-${selectedMonth}`, "YYYY-M"),
+                  "month"
+                )
+                  ? `Today is ${today.format("MMMM DD, YYYY")}`
+                  : dayjs(`${selectedYear}-${selectedMonth}`).format(
+                      "MMMM, YYYY"
+                    )}
+              </i>
+            </p>
           </h1>
-          {/* <h1 className="text-xl text-center">
-            {`There are ${monthCount} days in ${today.format("MMMM")}.`}
-            <br />
-            One box represents each day:
-          </h1> */}
         </div>
-        {/* Content */}
         <div
-          className={`mx-auto shadow-lg mt-10 container grid grid-cols-3 sm:grid-cols-7 place-content-center rounded bg-white/50 p-4 max-w-2xl `}
+          className={`mx-auto shadow-lg mt-10 container place-content-center rounded-lg bg-white/50 p-4 max-w-2xl `}
         >
-          {month &&
-            month.map((day) => (
-              <div id={day.id.toString()} key={day.id}>
-                <CalendarDay
-                  selectedMonth={selectedMonth}
-                  selectedYear={selectedYear}
-                  dayIndex={day.id}
-                  dayRating={day.dayRating}
-                  notes={day.notes}
-                ></CalendarDay>
-              </div>
-            ))}
+          <div className="flex place-content-evenly sm:visible collapse mx-3 gap-6">
+            <p className="flex-1 text-center font-bold">Sun</p>
+            <p className="flex-1 text-center font-bold">Mon</p>
+            <p className="flex-1 text-center font-bold">Tue</p>
+            <p className="flex-1 text-center font-bold">Wed</p>
+            <p className="flex-1 text-center font-bold">Thurs</p>
+            <p className="flex-1 text-center font-bold">Fri</p>
+            <p className="flex-1 text-center font-bold">Sat</p>
+          </div>
+
+          <div
+            className={`mx-autocontainer grid grid-cols-3 sm:grid-cols-7 place-content-center`}
+          >
+            {month &&
+              month.map((day, index) =>
+                day.id == 0 ? (
+                  // <div className="bg-gray-200 cursor-default relative sm:w-16 sm:h-16 h-12 transition-all m-4 rounded outline outline-1"></div>
+                  <div className=""></div>
+                ) : (
+                  <div
+                    id={day.id.toString()}
+                    key={"day-" + day.id + "-" + index}
+                  >
+                    <CalendarDay
+                      selectedMonth={selectedMonth}
+                      selectedYear={selectedYear}
+                      dayIndex={day.id}
+                      dayRating={day.dayRating}
+                      notes={day.notes}
+                    ></CalendarDay>
+                  </div>
+                )
+              )}
+          </div>
         </div>
       </div>
     </div>
