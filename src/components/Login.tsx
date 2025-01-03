@@ -10,7 +10,8 @@ const Login = () => {
   const [password, setPassword] = useState("ABC123abc!");
 
   const navigate = useNavigate();
-  const { setTokenAndUser } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { APIPost } = useContext(UserContext);
   const API_URL: string =
     process.env.REACT_APP_URL || "sunny-back-production.up.railway.app/";
@@ -70,15 +71,11 @@ const Login = () => {
                   { email, password },
                   (data: any) => {
                     console.log(data);
-                    setTokenAndUser(data.token, data.user);
+                    setToken(data.token);
+                    setUser(data.user);
                     navigate("/");
                   }
                 );
-
-                // login({ email, password }, (data: any) => {
-                //   setTokenAndUser(data.token, data.user.name);
-                //   navigate("/");
-                // });
               }}
               buttonText="Log In"
               styleTags="w-96 mt-4"

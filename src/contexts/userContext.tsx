@@ -1,16 +1,14 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import axios from "axios";
 import { userObject } from "../utilities/types";
-
-const DEFAULT_FUNCTION = () => {
-  console.error("WRONG FUNCTION");
-};
+import { stringify } from "querystring";
 
 interface userContext {
   token: string | null;
-  // user: string | null;
+  setToken: (token: string | null) => void;
   user: userObject | null;
-  setTokenAndUser: (token: string, user: userObject) => void;
+  setUser: (user: userObject | null) => void;
+  refreshUser: () => void;
   clearTokenAndUser: () => void;
   APIPost: Function;
   APIPostAuthy: Function;
@@ -18,32 +16,53 @@ interface userContext {
   APIDeleteAuthy: Function;
 }
 
+const API_URL: string =
+  process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
+const USER_URL = API_URL.concat("user");
+
 const UserContext = React.createContext<userContext>({
   token: null,
   user: null,
-  setTokenAndUser: DEFAULT_FUNCTION,
-  clearTokenAndUser: DEFAULT_FUNCTION,
-  APIPost: DEFAULT_FUNCTION,
-  APIPostAuthy: DEFAULT_FUNCTION,
-  APIGetAuthy: DEFAULT_FUNCTION,
-  APIDeleteAuthy: DEFAULT_FUNCTION,
+  setUser: () => {},
+  refreshUser: () => {},
+  setToken: () => {},
+  APIGetAuthy: () => {},
+  APIPostAuthy: () => {},
+  APIDeleteAuthy: () => {},
+  APIPost: () => {},
+  clearTokenAndUser: () => {},
 });
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(() =>
     localStorage.getItem("jwt")
   );
-  const [user, setUser] = useState<userObject | null>(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
 
-  const setTokenAndUser = (token: string, user: userObject) => {
-    setToken(token);
-    setUser(user);
-    localStorage.setItem("jwt", token);
-    localStorage.setItem("user", JSON.stringify(user));
-  };
+  const [user, setUser] = useState<userObject | null>(null);
+
+  useEffect(() => {
+    token && localStorage.setItem("jwt", token);
+    refreshUser();
+    console.log("Ran user refresh");
+  }, [token]);
+
+  // useEffect(() => {
+  //   const initializeUser = async () => {
+  //     if (token) {
+  //       try {
+  //         // Validate the token and fetch user data
+  //         await APIGetAuthy(`${USER_URL}`, (userData: any) => {
+  //           setUser(userData); // Update user state
+  //         });
+  //       } catch (error) {
+  //         console.error("Token validation failed:", error);
+  //         clearTokenAndUser(); // Clear invalid token and user data
+  //       }
+  //     }
+  //   };
+
+  //   initializeUser();
+  // }, [token]); // Runs on token change or on component mount
 
   const clearTokenAndUser = () => {
     setToken(null);
@@ -74,8 +93,6 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     successCallback: Function,
     headers: object
   ) => {
-    // console.log("url", url);
-    // console.log("body", body);
     try {
       await axios.post(url, body, headers).then((response) => {
         successCallback && successCallback(response.data);
@@ -124,12 +141,21 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const refreshUser = async () => {
+    // Call your API to get fresh user data
+    await APIGetAuthy(USER_URL, (userData: any) => {
+      setUser(userData);
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
         token,
         user,
-        setTokenAndUser,
+        setUser,
+        refreshUser,
+        setToken,
         clearTokenAndUser,
         APIPost,
         APIPostAuthy,

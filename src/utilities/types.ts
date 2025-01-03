@@ -49,6 +49,7 @@ export interface buttonProps {
   onClick: any;
   styleTags?: string;
   buttonType?: string;
+  disabled?: boolean;
   // stateSetter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

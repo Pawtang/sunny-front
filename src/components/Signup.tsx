@@ -20,7 +20,7 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const { setTokenAndUser } = useContext(UserContext);
+  const { setUser, setToken } = useContext(UserContext);
   const { APIPost } = useContext(UserContext);
   const API_URL: string =
     process.env.REACT_APP_URL || "sunny-back-production.up.railway.app";
@@ -191,7 +191,8 @@ const Signup = () => {
                   `${USER_URL}`,
                   { email, name: `${firstName} ${lastName}`, password },
                   (data: any) => {
-                    setTokenAndUser(data.token, data.user.name);
+                    setUser(data.user.name);
+                    setToken(data.token);
                     navigate("/");
                   }
                 );
@@ -202,7 +203,8 @@ const Signup = () => {
                     password,
                   },
                   (data: any) => {
-                    setTokenAndUser(data.token, data.user.name);
+                    setUser(data.user.name);
+                    setToken(data.token);
                     navigate("/");
                   }
                 );
