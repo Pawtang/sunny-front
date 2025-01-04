@@ -22,51 +22,96 @@ const pearsonCorrelation = (x: Array<number>, y: Array<number>) => {
   return (A / Math.sqrt(B * C)).toFixed(2);
 };
 
-export const DayCorrelation = (days: Array<dayObject>) => {};
-
 export const Correlation = (
   days: Array<dayObject>,
   attributes: Array<attributeObject>
 ) => {
   console.log(days, attributes);
-  const attributeLibrary: attributeLibrary = {};
-  const dayRatings: Array<number> = [];
 
+  // Create a library to store attribute values for each attribute name
+  const attributeLibrary: Record<string, number[]> = {};
+  const dayRatings: number[] = [];
+
+  // Initialize attribute library with empty arrays for each attribute name
   attributes.forEach((attr) => {
     if (attr.name) {
       attributeLibrary[attr.name] = [];
     }
   });
 
+  // Populate dayRatings and attributeLibrary
   days.forEach((day) => {
-    day.dayRating && dayRatings.push(day.dayRating);
-    day.attributes &&
-      day.attributes?.forEach((attr) => {
-        if (attr.name) {
-          if (!attributeLibrary[attr.name]) {
-            attributeLibrary[attr.name] = [];
-          }
-          attributeLibrary[attr.name].push(attr.value || 0);
-        }
-      });
+    if (day.dayRating !== undefined) {
+      dayRatings.push(day.dayRating);
+    }
+
+    attributes.forEach((attr) => {
+      if (attr.name) {
+        // Check if the day has the attribute and add the value or default to 0
+        const attributeValue =
+          day.attributes?.find((dayAttr) => dayAttr.name === attr.name)
+            ?.value || 0;
+        attributeLibrary[attr.name].push(attributeValue);
+      }
+    });
   });
 
-  console.log(attributeLibrary, dayRatings);
-
-  const calculateCorrelations = (library: attributeLibrary) => {
-    const results: scores[] = [];
-    for (const [name, attr] of Object.entries(library)) {
-      const attrArray = attr;
-      results.push({
-        name: name,
-        score: pearsonCorrelation(attrArray, dayRatings),
-      });
+  // Function to calculate correlations
+  const calculateCorrelations = (library: Record<string, number[]>) => {
+    const results: Array<{ name: string; score: string }> = [];
+    for (const [name, attrValues] of Object.entries(library)) {
+      // Calculate the correlation score for each attribute
+      const score = pearsonCorrelation(attrValues, dayRatings);
+      results.push({ name, score });
     }
     return results;
   };
 
   return calculateCorrelations(attributeLibrary);
 };
+// export const Correlation = (
+//   days: Array<dayObject>,
+//   attributes: Array<attributeObject>
+// ) => {
+//   console.log(days, attributes);
+//   const attributeLibrary: attributeLibrary = {};
+//   const dayRatings: Array<number> = [];
+
+//   attributes.forEach((attr) => {
+//     if (attr.name) {
+//       attributeLibrary[attr.name] = [];
+//     }
+//   });
+
+//   days.forEach((day) => {
+//     day.dayRating && dayRatings.push(day.dayRating);
+//     day.attributes &&
+//       day.attributes?.forEach((attr) => {
+//         if (attr.name) {
+//           if (!attributeLibrary[attr.name]) {
+//             attributeLibrary[attr.name] = [];
+//           }
+//           attributeLibrary[attr.name].push(attr.value || 0);
+//         }
+//       });
+//   });
+
+//   console.log(attributeLibrary, dayRatings);
+
+//   const calculateCorrelations = (library: attributeLibrary) => {
+//     const results: scores[] = [];
+//     for (const [name, attr] of Object.entries(library)) {
+//       const attrArray = attr;
+//       results.push({
+//         name: name,
+//         score: pearsonCorrelation(attrArray, dayRatings),
+//       });
+//     }
+//     return results;
+//   };
+
+//   return calculateCorrelations(attributeLibrary);
+// };
 
 // Assumptions:
 // 1. Attributes will always have a numeric score

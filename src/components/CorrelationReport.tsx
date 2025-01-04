@@ -162,8 +162,8 @@ const CorrelationReport: FunctionComponent = () => {
                   className="mx-auto my-6 border p-4 bg-white/30 hover:bg-white/70 hover:-translate-y-2 transition-all ease-out duration-200 rounded-lg "
                 >
                   <p className="mx-auto text-center">{`
-          ${score.name} : 
-          ${score.score}`}</p>
+          ${score.name}: 
+          ${score.score == "NaN" ? "No data" : score.score}`}</p>
 
                   <div className="w-48 border h-6 bg-gray-800 mx-auto rounded-md">
                     <div
