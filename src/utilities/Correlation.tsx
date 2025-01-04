@@ -22,10 +22,13 @@ const pearsonCorrelation = (x: Array<number>, y: Array<number>) => {
   return (A / Math.sqrt(B * C)).toFixed(2);
 };
 
+export const DayCorrelation = (days: Array<dayObject>) => {};
+
 export const Correlation = (
   days: Array<dayObject>,
   attributes: Array<attributeObject>
 ) => {
+  console.log(days, attributes);
   const attributeLibrary: attributeLibrary = {};
   const dayRatings: Array<number> = [];
 
@@ -48,7 +51,7 @@ export const Correlation = (
       });
   });
 
-  console.log(attributeLibrary);
+  console.log(attributeLibrary, dayRatings);
 
   const calculateCorrelations = (library: attributeLibrary) => {
     const results: scores[] = [];
