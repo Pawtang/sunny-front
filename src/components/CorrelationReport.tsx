@@ -32,6 +32,7 @@ const CorrelationReport: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Attribues", userAttributes);
     userDayData.length > 0 &&
       userAttributes.length > 0 &&
       setCorrelationArray(Correlation(userDayData, userAttributes));
@@ -93,6 +94,7 @@ const CorrelationReport: FunctionComponent = () => {
   };
 
   const strength = (n: string) => {
+    if (n === "NaN") return "Not enough data";
     const score = parseFloat(n);
     if (score < -0.5) return "Strongly negative";
     else if (score < -0.25) return "Negative";

@@ -2,6 +2,7 @@ import React, { useState, ReactNode, useEffect } from "react";
 import axios from "axios";
 import { userObject } from "../utilities/types";
 import { stringify } from "querystring";
+import { useNavigate } from "react-router-dom";
 
 interface userContext {
   token: string | null;
@@ -39,6 +40,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const [user, setUser] = useState<userObject | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     token && localStorage.setItem("jwt", token);
@@ -46,30 +48,19 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     console.log("Ran user refresh");
   }, [token]);
 
-  // useEffect(() => {
-  //   const initializeUser = async () => {
-  //     if (token) {
-  //       try {
-  //         // Validate the token and fetch user data
-  //         await APIGetAuthy(`${USER_URL}`, (userData: any) => {
-  //           setUser(userData); // Update user state
-  //         });
-  //       } catch (error) {
-  //         console.error("Token validation failed:", error);
-  //         clearTokenAndUser(); // Clear invalid token and user data
-  //       }
-  //     }
-  //   };
-
-  //   initializeUser();
-  // }, [token]); // Runs on token change or on component mount
-
   const clearTokenAndUser = () => {
     setToken(null);
     setUser(null);
     localStorage.removeItem("jwt");
     localStorage.removeItem("user");
   };
+
+  // Boot to home page if no active session
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, [token]);
 
   const APIGet = async (
     url: string,

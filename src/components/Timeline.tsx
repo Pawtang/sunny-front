@@ -30,7 +30,7 @@ const Timeline = (props: { userDayData: dayObject[] }) => {
     <div className="">
       <div
         className="flex flex-row place-content-center h-16 bg-gray-800/70 hover:bg-gray-700/70 
-      hover:scale-105 transition-all duration-200 ease-out w-[400px] p-3 rounded-xl mx-auto"
+      hover:scale-105 transition-all duration-200 ease-out w-[400px] p-3 rounded-xl mx-auto mb-8"
       >
         {scoresArray.length > 0 ? (
           userDayData.map((day, index: number) => {
@@ -48,8 +48,8 @@ const Timeline = (props: { userDayData: dayObject[] }) => {
                   linkDate && navigate(`/Day?date=${linkDate}`);
                 }}
               >
-                <span className="absolute top-12 scale-0 transition-all ease-out duration-100 w-100 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 italic bg-opacity-70 w-36">
-                  <p className="break-keep inline-block">
+                <span className="text-center mx-auto absolute top-12 scale-0 transition-all ease-out duration-100 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 italic bg-opacity-70 w-48">
+                  <p className="break-keep inline-block mx-auto text-center">
                     {date} quality: {score && score.toString()}
                   </p>
                 </span>
