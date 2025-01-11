@@ -7,20 +7,23 @@ import Setup from "./components/Setup";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import CorrelationReport from "./components/CorrelationReport";
-
+import { ToastContainer } from "react-toastify";
 import "./styles/App.css";
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/correlationreport" element={<CorrelationReport />} />
-      <Route path="/setup" element={<Setup />} />
-      <Route path="/day" element={<Day />} />
-      <Route path="/month" element={<Month />} />
-    </Routes>
+    <>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/correlationreport" element={<CorrelationReport />} />
+        <Route path="/setup" element={<Setup />} />
+        <Route path="/day" element={<Day />} />
+        <Route path="/month" element={<Month />} />
+      </Routes>
+    </>
   );
 };
 

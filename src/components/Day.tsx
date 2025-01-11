@@ -16,7 +16,7 @@ import { EmojiLibrary } from "../utilities/EmojiLibrary";
 import Modal from "./Modal";
 import ConfirmActionModal from "./ConfirmActionModal";
 import { UserContext } from "../contexts/userContext";
-
+import { displayMsg } from "../utilities/Toasts";
 // import { GradientOnMouseMove } from "../utilities/GradientOnMouseMove";
 const today = dayjs();
 dayjs.extend(customParseFormat);
@@ -106,7 +106,6 @@ const Day: FunctionComponent<dayProps> = () => {
           attributes,
           date: dayjs(date).format("YYYY-MM-DD"),
         };
-    console.log(dayToSubmit);
     try {
       APIPostAuthy(DAY_URL, dayToSubmit, (data: any) => {
         const { notes, dayRating } = data;
@@ -114,11 +113,12 @@ const Day: FunctionComponent<dayProps> = () => {
         setNotes(notes);
         setDayRating(dayRating);
         setIsEditing(false);
+        displayMsg("Changes saved");
       });
     } catch (error) {
       return error;
     }
-    navigate("/month");
+    // navigate("/month");
   };
 
   const handleDeleteDay = () => {

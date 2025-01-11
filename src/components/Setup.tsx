@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import CheckItem from "../elements/CheckItem";
 import RadioItem from "../elements/RadioItem";
 import { UserContext } from "../contexts/userContext";
+import { displayMsg } from "../utilities/Toasts";
 
 const Setup = () => {
   const { APIGetAuthy, APIPostAuthy, user } = useContext(UserContext);
@@ -56,8 +57,7 @@ const Setup = () => {
     const toSubmit = [...attributes].filter((val) => val);
     try {
       APIPostAuthy(SETUP_URL, { attributes: toSubmit }, (data: any) => {
-        console.log(data);
-        // refreshView(data);
+        displayMsg("Attributes saved!");
       });
     } catch (error) {
       console.error(error);
